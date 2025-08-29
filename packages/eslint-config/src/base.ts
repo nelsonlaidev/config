@@ -86,7 +86,8 @@ export const defineConfig = (options: Options): FlatConfigComposer => {
     n: 'node',
     'import-lite': 'import',
     'better-tailwindcss': 'tailwindcss',
-    '@eslint-community/eslint-comments': 'eslint-comments'
+    '@eslint-community/eslint-comments': 'eslint-comments',
+    '@next/next': 'next'
   })
 
   return composer
