@@ -1,6 +1,6 @@
 {
   "name": "@nelsonlaidev/prettier-config",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/prettier-config/README.md",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
