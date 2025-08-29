@@ -32,11 +32,11 @@
   "devDependencies": {
     "@nelsonlaidev/eslint-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
-    "@types/node": "^22.18.0",
-    "prettier": "^3.6.2",
-    "prettier-plugin-packagejson": "^2.5.19",
-    "prettier-plugin-tailwindcss": "^0.6.14",
-    "tsdown": "^0.14.2"
+    "@types/node": "catalog:dev",
+    "prettier": "catalog:dev",
+    "prettier-plugin-packagejson": "catalog:dev",
+    "prettier-plugin-tailwindcss": "catalog:dev",
+    "tsdown": "catalog:dev"
   },
   "peerDependencies": {
     "prettier": ">=3.6.0",

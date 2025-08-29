@@ -17,12 +17,12 @@
     "@nelsonlaidev/eslint-config": "workspace:*",
     "@nelsonlaidev/prettier-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
-    "@types/node": "^22.18.0",
-    "eslint": "^9.34.0",
-    "prettier": "^3.6.2",
-    "prettier-plugin-packagejson": "^2.5.19",
-    "turbo": "^2.5.6",
-    "typescript": "^5.9.2"
+    "@types/node": "catalog:dev",
+    "eslint": "catalog:dev",
+    "prettier": "catalog:dev",
+    "prettier-plugin-packagejson": "catalog:dev",
+    "turbo": "catalog:dev",
+    "typescript": "catalog:dev"
   },
   "packageManager": "pnpm@10.15.0",
   "engines": {
