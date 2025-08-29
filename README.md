@@ -19,7 +19,7 @@ npm i -D @nelsonlaidev/eslint-config
 A shared Prettier configuration to ensure consistent code formatting.
 
 ```bash
-npm i -D @nelsonlaidev/prettier-config
+npm i -D @nelsonlaidev/prettier-config prettier-plugin-packagejson
 ```
 
 ### [@nelsonlaidev/typescript-config](packages/typescript-config)

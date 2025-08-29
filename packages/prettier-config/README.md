@@ -2,7 +2,11 @@
 
 Personal Prettier configurations for Nelson Lai projects.
 
-## Prettier
+## Installation
+
+```bash
+npm i -D @nelsonlaidev/prettier-config prettier-plugin-packagejson
+```
 
 Create a `prettier.config.js` file with the following content:
 

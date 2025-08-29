@@ -10,7 +10,7 @@
  * - eslint-plugin-better-tailwindcss: incompatible types
  */
 declare module '@eslint-community/eslint-plugin-eslint-comments' {
-  import type { ESLint, ESLint, Linter, Linter } from 'eslint'
+  import type { ESLint, Linter } from 'eslint'
 
   const plugin: ESLint.Plugin & {
     configs: {

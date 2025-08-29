@@ -6,15 +6,15 @@ export const imports: Linter.Config[] = [
   {
     name: 'nelsonlaidev/imports/rules',
     plugins: {
-      import: importLitePlugin
+      'import-lite': importLitePlugin
     },
     rules: {
-      'import/consistent-type-specifier-style': ['error', 'top-level'],
-      'import/first': 'error',
-      'import/newline-after-import': ['error', { count: 1 }],
-      'import/no-duplicates': 'error',
-      'import/no-mutable-exports': 'error',
-      'import/no-named-default': 'error'
+      'import-lite/consistent-type-specifier-style': ['error', 'top-level'],
+      'import-lite/first': 'error',
+      'import-lite/newline-after-import': ['error', { count: 1 }],
+      'import-lite/no-duplicates': 'error',
+      'import-lite/no-mutable-exports': 'error',
+      'import-lite/no-named-default': 'error'
     }
   }
 ]

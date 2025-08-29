@@ -11,10 +11,10 @@ export const comments: Linter.Config[] = [
     rules: {
       ...commentsPlugin.configs.recommended.rules,
 
-      'eslint-comments/require-description': 'error',
-      'eslint-comments/no-unused-disable': 'error',
-      'eslint-comments/no-restricted-disable': 'error',
-      'eslint-comments/no-use': 'error'
+      '@eslint-community/eslint-comments/require-description': 'error',
+      '@eslint-community/eslint-comments/no-unused-disable': 'error',
+      '@eslint-community/eslint-comments/no-restricted-disable': 'error',
+      '@eslint-community/eslint-comments/no-use': 'error'
     }
   }
 ]

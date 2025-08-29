@@ -2,7 +2,11 @@
 
 Personal TypeScript configurations for Nelson Lai projects.
 
-## TypeScript
+## Installation
+
+```bash
+npm i -D @nelsonlaidev/typescript-config
+```
 
 Create a `tsconfig.json` file with the following content:
 

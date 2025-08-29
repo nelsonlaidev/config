@@ -6,7 +6,7 @@ export const nextjs: Linter.Config[] = [
   {
     name: 'nelsonlaidev/nextjs/rules',
     plugins: {
-      next: nextPlugin
+      '@next/next': nextPlugin
     },
     rules: {
       ...nextPlugin.configs.recommended.rules,
