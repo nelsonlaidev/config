@@ -15,7 +15,7 @@
     "format:write": "prettier --cache --write --list-different --ignore-path .gitignore --ignore-path .prettierignore .",
     "lint": "turbo lint",
     "prepare": "husky",
-    "release": "pnpm build && changeset publish",
+    "release": "changeset publish",
     "type-check": "turbo type-check",
     "version": "changeset version"
   },

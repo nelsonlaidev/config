@@ -15,3 +15,6 @@ runs:
     - name: Install dependencies
       shell: bash
       run: pnpm install
+
+    - name: Build packages
+      run: pnpm build
