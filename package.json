@@ -14,16 +14,29 @@
     "format:check": "prettier --cache --check --ignore-path .gitignore --ignore-path .prettierignore .",
     "format:write": "prettier --cache --write --list-different --ignore-path .gitignore --ignore-path .prettierignore .",
     "lint": "turbo lint",
+    "prepare": "husky",
     "type-check": "turbo type-check"
   },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix",
+    "**/*": [
+      "prettier --write --ignore-unknown",
+      "pnpm check:spelling"
+    ]
+  },
   "devDependencies": {
+    "@commitlint/cli": "catalog:dev",
+    "@commitlint/config-conventional": "catalog:dev",
     "@nelsonlaidev/eslint-config": "workspace:*",
     "@nelsonlaidev/prettier-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "catalog:dev",
     "cspell": "catalog:dev",
+    "czg": "catalog:dev",
     "eslint": "catalog:dev",
+    "husky": "catalog:dev",
     "knip": "catalog:dev",
+    "lint-staged": "catalog:dev",
     "prettier": "catalog:dev",
     "prettier-plugin-packagejson": "catalog:dev",
     "turbo": "catalog:dev",
