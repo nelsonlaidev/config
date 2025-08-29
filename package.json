@@ -15,8 +15,8 @@
   },
   "devDependencies": {
     "@nelsonlaidev/eslint-config": "workspace:*",
-    "@nelsonlaidev/prettier-config": "workspace:^",
-    "@nelsonlaidev/typescript-config": "workspace:^",
+    "@nelsonlaidev/prettier-config": "workspace:*",
+    "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "^22.18.0",
     "eslint": "^9.34.0",
     "prettier": "^3.6.2",
