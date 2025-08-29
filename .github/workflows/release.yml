@@ -13,6 +13,8 @@ jobs:
     if: ${{ github.repository == 'nelsonlaidev/config' && github.event.workflow_run.conclusion == 'success' }}
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
