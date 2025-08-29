@@ -34,7 +34,6 @@
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "catalog:dev",
     "prettier": "catalog:dev",
-    "prettier-plugin-packagejson": "catalog:dev",
     "prettier-plugin-tailwindcss": "catalog:dev",
     "tsdown": "catalog:dev"
   },

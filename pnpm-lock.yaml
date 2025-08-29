@@ -255,6 +255,10 @@ importers:
         version: 0.14.2(typescript@5.9.2)
 
   packages/prettier-config:
+    dependencies:
+      prettier-plugin-packagejson:
+        specifier: '>=2.5.0'
+        version: 2.5.19(prettier@3.6.2)
     devDependencies:
       '@nelsonlaidev/eslint-config':
         specifier: workspace:*
@@ -268,9 +272,6 @@ importers:
       prettier:
         specifier: catalog:dev
         version: 3.6.2
-      prettier-plugin-packagejson:
-        specifier: catalog:dev
-        version: 2.5.19(prettier@3.6.2)
       prettier-plugin-tailwindcss:
         specifier: catalog:dev
         version: 0.6.14(prettier@3.6.2)
