@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build",
+    "check:knip": "knip",
     "clean": "turbo run clean && rm -rf .turbo",
     "dev": "turbo run dev",
     "format:check": "prettier --cache --check --ignore-path .gitignore --ignore-path .prettierignore .",
@@ -19,6 +20,7 @@
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "catalog:dev",
     "eslint": "catalog:dev",
+    "knip": "catalog:dev",
     "prettier": "catalog:dev",
     "prettier-plugin-packagejson": "catalog:dev",
     "turbo": "catalog:dev",

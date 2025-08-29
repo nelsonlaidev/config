@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "packages"],
   "extends": "@nelsonlaidev/typescript-config/base.json",
-  "include": ["prettier.config.js"]
+  "include": ["**/*.ts", "prettier.config.js"]
 }
