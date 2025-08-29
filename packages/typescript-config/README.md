@@ -10,7 +10,7 @@ npm i -D @nelsonlaidev/typescript-config
 
 Create a `tsconfig.json` file with the following content:
 
-```json
+```jsonc
 {
   "extends": "@nelsonlaidev/typescript-config/base.json",
   "compilerOptions": {
