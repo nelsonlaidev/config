@@ -24,4 +24,4 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run Publish
-        run: pnpm dlx pkg-pr-new publish './packages/*' --compact
+        run: pnpm dlx pkg-pr-new publish --pnpm --compact './packages/*'
