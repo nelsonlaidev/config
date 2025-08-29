@@ -12,14 +12,14 @@ export const node: Linter.Config[] = [
       ...nodePlugin.configs['flat/recommended-module'].rules,
 
       // Handled by TypeScript
-      'node/no-missing-import': 'off',
-      'node/no-missing-require': 'off',
-      'node/no-unpublished-bin': 'off',
-      'node/no-unpublished-import': 'off',
-      'node/no-unpublished-require': 'off',
-      'node/no-unsupported-features/es-builtins': 'off',
-      'node/no-unsupported-features/es-syntax': 'off',
-      'node/no-unsupported-features/node-builtins': 'off'
+      'n/no-missing-import': 'off',
+      'n/no-missing-require': 'off',
+      'n/no-unpublished-bin': 'off',
+      'n/no-unpublished-import': 'off',
+      'n/no-unpublished-require': 'off',
+      'n/no-unsupported-features/es-builtins': 'off',
+      'n/no-unsupported-features/es-syntax': 'off',
+      'n/no-unsupported-features/node-builtins': 'off'
     }
   }
 ]

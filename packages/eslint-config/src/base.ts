@@ -1,4 +1,5 @@
-import { FlatConfigComposer } from 'eslint-flat-config-utils'
+import type { Linter } from 'eslint'
+
 import { isPackageExists } from 'local-pkg'
 
 import { command } from './configs/command'
@@ -65,7 +66,7 @@ export type Options = {
 const isReactInstalled = isPackageExists('react')
 const isNextjsInstalled = isPackageExists('next')
 
-export const defineConfig = (options: Options): FlatConfigComposer => {
+export const defineConfig = (options: Options): Linter.Config[] => {
   const configs = [
     ...gitignore,
     ...ignores(options.ignores ?? []),
@@ -111,16 +112,5 @@ export const defineConfig = (options: Options): FlatConfigComposer => {
   // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
   configs.push(...prettier)
 
-  let composer = new FlatConfigComposer()
-
-  composer = composer.append(configs)
-  composer = composer.renamePlugins({
-    n: 'node',
-    'import-lite': 'import',
-    'better-tailwindcss': 'tailwindcss',
-    '@eslint-community/eslint-comments': 'eslint-comments',
-    '@next/next': 'next'
-  })
-
-  return composer
+  return configs
 }
