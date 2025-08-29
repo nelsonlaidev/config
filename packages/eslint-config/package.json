@@ -13,8 +13,10 @@
   "license": "MIT",
   "author": "Nelson Lai <me@nelsonlai.me> (https://github.com/nelsonlaidev/)",
   "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "types": "./dist/index.d.ts"
+  },
   "files": [
     "dist"
   ],
