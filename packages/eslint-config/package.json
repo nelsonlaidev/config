@@ -21,7 +21,7 @@
   "scripts": {
     "build": "tsdown",
     "build:inspector": "eslint-config-inspector build --config ./eslint-inspector.config.ts",
-    "clean": "rm -rf .turbo dist",
+    "clean": "rm -rf .turbo dist .eslint-config-inspector",
     "dev": "tsdown --watch",
     "dev:inspector": "eslint-config-inspector --config eslint-inspector.config.ts",
     "lint": "eslint . --max-warnings 0",
