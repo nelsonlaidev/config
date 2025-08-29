@@ -4,5 +4,5 @@
   "ignorePaths": ["pnpm-lock.yaml"],
   "useGitignore": true,
   "version": "0.2",
-  "words": ["commitlint", "knip", "nelsonlaidev", "packagejson", "sonarjs", "tsdown", "vitest"]
+  "words": ["commitlint", "knip", "nelsonlaidev", "packagejson", "sonarjs", "sxzz", "tsdown", "vitest"]
 }
