@@ -1,16 +1,15 @@
 name: Release
 
 on:
-  workflow_run:
-    workflows: ['CI']
-    types: [completed]
-    branches: [main]
+  push:
+    branches:
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
-    if: ${{ github.repository == 'nelsonlaidev/config' && github.event.workflow_run.conclusion == 'success' }}
+    if: github.repository == 'nelsonlaidev/config'
     name: Release
     runs-on: ubuntu-latest
     permissions:
