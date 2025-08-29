@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - main
+  pull_request:
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
 
 jobs:
   eslint:
