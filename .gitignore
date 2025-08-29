@@ -1,0 +1,12 @@
+# Dependencies
+node_modules
+
+# Turbo
+.turbo
+
+# Build Outputs
+dist
+.eslint-config-inspector
+
+# Misc
+.DS_Store

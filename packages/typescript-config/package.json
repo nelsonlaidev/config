@@ -1,0 +1,23 @@
+{
+  "name": "@nelsonlaidev/typescript-config",
+  "version": "0.0.0",
+  "homepage": "https://github.com/nelsonlaidev/config/packages/typescript-config/README.md",
+  "bugs": {
+    "url": "https://github.com/nelsonlaidev/config/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nelsonlaidev/config.git",
+    "directory": "packages/typescript-config"
+  },
+  "license": "MIT",
+  "author": "Nelson Lai <me@nelsonlai.me> (https://github.com/nelsonlaidev/)",
+  "files": [
+    "./base.json",
+    "./nextjs.json",
+    "./react-library.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

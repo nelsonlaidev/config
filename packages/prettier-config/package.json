@@ -1,0 +1,47 @@
+{
+  "name": "@nelsonlaidev/prettier-config",
+  "version": "0.0.0",
+  "homepage": "https://github.com/nelsonlaidev/config/packages/prettier-config/README.md",
+  "bugs": {
+    "url": "https://github.com/nelsonlaidev/config/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nelsonlaidev/config.git",
+    "directory": "packages/prettier-config"
+  },
+  "license": "MIT",
+  "author": "Nelson Lai <me@nelsonlai.me> (https://github.com/nelsonlaidev/)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "clean": "rm -rf .turbo dist",
+    "dev": "tsdown --watch",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint --fix .",
+    "type-check": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --fix"
+  },
+  "devDependencies": {
+    "@nelsonlaidev/eslint-config": "workspace:*",
+    "@types/node": "^22.18.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-packagejson": "^2.5.19",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "tsdown": "^0.14.2"
+  },
+  "peerDependencies": {
+    "prettier": ">=3.6.0",
+    "prettier-plugin-packagejson": ">=2.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
