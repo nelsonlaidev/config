@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
   "dictionaries": ["npm"],
-  "files": ["**", ".vscode/**"],
+  "files": ["**", ".vscode/**", ".changeset/**"],
   "ignorePaths": ["pnpm-lock.yaml"],
   "useGitignore": true,
   "version": "0.2",
