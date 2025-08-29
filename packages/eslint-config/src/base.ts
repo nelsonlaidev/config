@@ -68,7 +68,7 @@ const isNextjsInstalled = isPackageExists('next')
 export const defineConfig = (options: Options): FlatConfigComposer => {
   const configs = [
     ...gitignore,
-    ...ignores(options.ignores),
+    ...ignores(options.ignores ?? []),
     ...javascript,
     ...sonarjs,
     ...importSort,
@@ -84,6 +84,9 @@ export const defineConfig = (options: Options): FlatConfigComposer => {
     ...regexp
   ]
 
+  const isNextjsEnabled = options.nextjs ?? isNextjsInstalled
+  const isReactEnabled = (options.react ?? isReactInstalled) || isNextjsEnabled
+
   if (options.vitestGlob) {
     configs.push(...vitest(options.vitestGlob))
   }
@@ -92,11 +95,11 @@ export const defineConfig = (options: Options): FlatConfigComposer => {
     configs.push(...playwright(options.playwrightGlob))
   }
 
-  if (options.react ?? isReactInstalled) {
+  if (isReactEnabled) {
     configs.push(...react)
   }
 
-  if (options.nextjs ?? isNextjsInstalled) {
+  if (isNextjsEnabled) {
     configs.push(...nextjs)
   }
 
