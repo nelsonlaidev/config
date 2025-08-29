@@ -5,20 +5,23 @@
   "author": "Nelson Lai <me@nelsonlai.me> (https://github.com/nelsonlaidev/)",
   "type": "module",
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo build",
+    "check": "turbo lint && turbo type-check && pnpm format:check && pnpm check:spelling && pnpm check:knip",
     "check:knip": "knip",
-    "clean": "turbo run clean && rm -rf .turbo",
-    "dev": "turbo run dev",
+    "check:spelling": "cspell -c cspell.json --no-progress --no-summary --no-must-find-files --unique",
+    "clean": "turbo clean && rm -rf .turbo",
+    "dev": "turbo dev",
     "format:check": "prettier --cache --check --ignore-path .gitignore --ignore-path .prettierignore .",
     "format:write": "prettier --cache --write --list-different --ignore-path .gitignore --ignore-path .prettierignore .",
-    "lint": "turbo run lint",
-    "type-check": "turbo run type-check"
+    "lint": "turbo lint",
+    "type-check": "turbo type-check"
   },
   "devDependencies": {
     "@nelsonlaidev/eslint-config": "workspace:*",
     "@nelsonlaidev/prettier-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "catalog:dev",
+    "cspell": "catalog:dev",
     "eslint": "catalog:dev",
     "knip": "catalog:dev",
     "prettier": "catalog:dev",

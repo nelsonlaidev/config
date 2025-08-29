@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "files": ["**", ".vscode/**"],
+  "ignorePaths": ["pnpm-lock.yaml"],
+  "useGitignore": true,
+  "version": "0.2",
+  "words": ["knip", "nelsonlaidev", "packagejson", "sonarjs", "tsdown", "vitest"]
+}
