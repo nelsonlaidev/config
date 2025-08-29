@@ -2,7 +2,11 @@
 
 Personal ESLint configurations for Nelson Lai projects.
 
-## ESLint
+## Installation
+
+```bash
+npm i -D @nelsonlaidev/eslint-config
+```
 
 Create an `eslint.config.ts` file with the following content:
 
