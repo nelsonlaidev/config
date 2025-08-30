@@ -30,7 +30,7 @@ const isNextjsInstalled = isPackageExists('next')
 export const defineConfig = (options: ConfigOptions): FlatConfig[] => {
   const configs = [
     ...gitignore(),
-    ...ignores(options.ignores ?? []),
+    ...ignores(options.ignores),
     ...javascript(),
     ...sonarjs(),
     ...importSort(),
