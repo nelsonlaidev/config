@@ -1,11 +1,13 @@
 import type { FlatConfig } from '../types'
 
+import process from 'node:process'
+
 import parser from '@typescript-eslint/parser'
 
 import { GLOB_TS, GLOB_TSX } from '../globs'
 import { typescriptPlugin } from '../plugins'
 
-export const typescript = (tsconfigRootDir: string): FlatConfig[] => [
+export const typescript = (tsconfigRootDir: string = process.cwd()): FlatConfig[] => [
   {
     name: 'nelsonlaidev/typescript/setup',
     files: [GLOB_TS, GLOB_TSX],
