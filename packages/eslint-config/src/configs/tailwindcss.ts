@@ -18,7 +18,7 @@ export const tailwindcss = (entryPoint: string): Linter.Config[] => [
       'better-tailwindcss/enforce-consistent-important-position': 'error'
     },
     settings: {
-      tailwindcss: {
+      'better-tailwindcss': {
         entryPoint
       }
     }
