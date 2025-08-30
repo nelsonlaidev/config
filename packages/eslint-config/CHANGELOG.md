@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 0.0.3
+
+### Patch Changes
+
+- e0ea602: Update package.json to match ESM-only style
+
 ## 0.0.2
 
 ### Patch Changes
