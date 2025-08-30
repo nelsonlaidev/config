@@ -9,17 +9,15 @@ export const node: Linter.Config[] = [
       n: nodePlugin
     },
     rules: {
-      ...nodePlugin.configs['flat/recommended-module'].rules,
-
-      // Handled by TypeScript
-      'n/no-missing-import': 'off',
-      'n/no-missing-require': 'off',
-      'n/no-unpublished-bin': 'off',
-      'n/no-unpublished-import': 'off',
-      'n/no-unpublished-require': 'off',
-      'n/no-unsupported-features/es-builtins': 'off',
-      'n/no-unsupported-features/es-syntax': 'off',
-      'n/no-unsupported-features/node-builtins': 'off'
+      'n/handle-callback-err': ['error', '^(err|error)$'],
+      'n/no-deprecated-api': 'error',
+      'n/no-exports-assign': 'error',
+      'n/no-new-require': 'error',
+      'n/no-path-concat': 'error',
+      'n/prefer-global/buffer': ['error', 'never'],
+      'n/prefer-global/process': ['error', 'never'],
+      'n/prefer-promises/fs': 'error',
+      'n/process-exit-as-throw': 'error'
     }
   }
 ]
