@@ -9,7 +9,6 @@ export const imports: Linter.Config[] = [
       'import-lite': importLitePlugin
     },
     rules: {
-      'import-lite/consistent-type-specifier-style': ['error', 'top-level'],
       'import-lite/first': 'error',
       'import-lite/newline-after-import': ['error', { count: 1 }],
       'import-lite/no-duplicates': 'error',
