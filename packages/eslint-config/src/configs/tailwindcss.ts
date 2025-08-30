@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { tailwindcssPlugin } from '../plugins'
 
-export const tailwindcss = (entryPoint: string): Linter.Config[] => [
+export const tailwindcss = (entryPoint: string): FlatConfig[] => [
   {
     name: 'nelsonlaidev/tailwindcss/rules',
     plugins: {

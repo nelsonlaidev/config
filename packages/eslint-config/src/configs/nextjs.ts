@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { nextPlugin } from '../plugins'
 
-export const nextjs: Linter.Config[] = [
+export const nextjs = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/nextjs/rules',
     plugins: {

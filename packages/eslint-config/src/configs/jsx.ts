@@ -1,9 +1,9 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { GLOB_JSX, GLOB_TSX } from '../globs'
 import { jsxA11yPlugin } from '../plugins'
 
-export const jsx: Linter.Config[] = [
+export const jsx = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/jsx/setup',
     files: [GLOB_JSX, GLOB_TSX],

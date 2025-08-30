@@ -1,11 +1,11 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import parser from '@typescript-eslint/parser'
 
 import { GLOB_TS, GLOB_TSX } from '../globs'
 import { typescriptPlugin } from '../plugins'
 
-export const typescript = (tsconfigRootDir: string): Linter.Config[] => [
+export const typescript = (tsconfigRootDir: string): FlatConfig[] => [
   {
     name: 'nelsonlaidev/typescript/setup',
     files: [GLOB_TS, GLOB_TSX],

@@ -1,9 +1,9 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { GLOB_SRC } from '../globs'
 import { reactHooksPlugin, reactPlugin, reactRefreshPlugin } from '../plugins'
 
-export const react = (isNextjsEnabled: boolean): Linter.Config[] => [
+export const react = (isNextjsEnabled: boolean): FlatConfig[] => [
   {
     name: 'nelsonlaidev/react/rules',
     files: [GLOB_SRC],

@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { vitestPlugin } from '../plugins'
 
-export const vitest = (glob: string): Linter.Config[] => [
+export const vitest = (glob: string): FlatConfig[] => [
   {
     name: 'nelsonlaidev/vitest/rules',
     files: [glob],

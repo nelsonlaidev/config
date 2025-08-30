@@ -1,10 +1,10 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import globals from 'globals'
 
 import { playwrightPlugin } from '../plugins'
 
-export const playwright = (glob: string): Linter.Config[] => [
+export const playwright = (glob: string): FlatConfig[] => [
   {
     name: 'nelsonlaidev/playwright/setup',
     languageOptions: {

@@ -1,11 +1,11 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import eslint from '@eslint/js'
 import globals from 'globals'
 
 import { unusedImportsPlugin } from '../plugins'
 
-export const javascript: Linter.Config[] = [
+export const javascript = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/javascript/setup',
     languageOptions: {

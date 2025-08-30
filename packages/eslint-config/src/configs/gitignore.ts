@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import gitignorePlugin from 'eslint-config-flat-gitignore'
 
-export const gitignore: Linter.Config[] = [
+export const gitignore = (): FlatConfig[] => [
   gitignorePlugin({
     name: 'nelsonlaidev/gitignore'
   })

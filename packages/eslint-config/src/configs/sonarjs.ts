@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { sonarjsPlugin } from '../plugins'
 
-export const sonarjs: Linter.Config[] = [
+export const sonarjs = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/sonarjs/rules',
     plugins: {

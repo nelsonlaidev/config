@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { deMorganPlugin } from '../plugins'
 
-export const deMorgan: Linter.Config[] = [
+export const deMorgan = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/de-morgan/rules',
     plugins: {

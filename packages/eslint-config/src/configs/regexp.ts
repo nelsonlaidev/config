@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { regexpPlugin } from '../plugins'
 
-export const regexp: Linter.Config[] = [
+export const regexp = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/regexp/rules',
     plugins: {

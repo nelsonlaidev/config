@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
 import { importSortPlugin } from '../plugins'
 
-export const importSort: Linter.Config[] = [
+export const importSort = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/import-sort/rules',
     plugins: {

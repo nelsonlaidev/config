@@ -1,6 +1,6 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig } from '../types'
 
-export const ignores = (userIgnores: string[]): Linter.Config[] => [
+export const ignores = (userIgnores: string[] = []): FlatConfig[] => [
   {
     name: 'nelsonlaidev/ignores',
     ignores: [...userIgnores]
