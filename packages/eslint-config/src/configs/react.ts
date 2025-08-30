@@ -3,7 +3,7 @@ import type { Linter } from 'eslint'
 import { GLOB_SRC } from '../globs'
 import { reactHooksPlugin, reactPlugin, reactRefreshPlugin } from '../plugins'
 
-export const react: Linter.Config[] = [
+export const react = (isNextjsEnabled: boolean): Linter.Config[] => [
   {
     name: 'nelsonlaidev/react/rules',
     files: [GLOB_SRC],
@@ -15,7 +15,21 @@ export const react: Linter.Config[] = [
     rules: {
       ...reactPlugin.configs.all.rules,
       ...reactHooksPlugin.configs['recommended-latest'].rules,
-      ...reactRefreshPlugin.configs.recommended.rules
+      ...reactRefreshPlugin.configs.recommended.rules,
+
+      '@eslint-react/naming-convention/filename': ['error', 'kebab-case'],
+
+      'react-refresh/only-export-components': [
+        'error',
+        {
+          allowExportNames: isNextjsEnabled
+            ? ['runtime', 'metadata', 'viewport', 'generateStaticParams', 'generateMetadata', 'generateViewport']
+            : []
+        }
+      ],
+
+      // Unnecessary
+      '@eslint-react/avoid-shorthand-fragment': 'off'
     }
   }
 ]

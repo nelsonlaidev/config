@@ -97,7 +97,7 @@ export const defineConfig = (options: Options): Linter.Config[] => {
   }
 
   if (isReactEnabled) {
-    configs.push(...react)
+    configs.push(...react(isNextjsEnabled))
   }
 
   if (isNextjsEnabled) {
