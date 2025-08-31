@@ -11,7 +11,9 @@ export const unicorn = (overrides?: RuleOverrides): FlatConfig[] => [
     rules: {
       ...unicornPlugin.configs.recommended.rules,
 
+      // Too opinionated
       'unicorn/prevent-abbreviations': 'off',
+      'unicorn/no-null': 'off',
 
       ...overrides
     }
