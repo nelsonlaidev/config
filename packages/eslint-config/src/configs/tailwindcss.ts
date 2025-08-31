@@ -1,8 +1,8 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import { tailwindcssPlugin } from '../plugins'
 
-export const tailwindcss = (entryPoint: string): FlatConfig[] => [
+export const tailwindcss = (entryPoint: string, overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/tailwindcss/rules',
     plugins: {
@@ -17,7 +17,9 @@ export const tailwindcss = (entryPoint: string): FlatConfig[] => [
       'better-tailwindcss/no-deprecated-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
       'better-tailwindcss/no-unnecessary-whitespace': 'error',
-      'better-tailwindcss/no-unregistered-classes': 'error'
+      'better-tailwindcss/no-unregistered-classes': 'error',
+
+      ...overrides
     },
     settings: {
       'better-tailwindcss': {

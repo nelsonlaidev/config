@@ -1,9 +1,9 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import { GLOB_JSX, GLOB_TSX } from '../globs'
 import { jsxA11yPlugin } from '../plugins'
 
-export const jsx = (): FlatConfig[] => [
+export const jsx = (overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/jsx/setup',
     files: [GLOB_JSX, GLOB_TSX],
@@ -27,7 +27,9 @@ export const jsx = (): FlatConfig[] => [
       'jsx-a11y/anchor-ambiguous-text': 'error',
       'jsx-a11y/lang': 'error',
       'jsx-a11y/no-aria-hidden-on-focusable': 'error',
-      'jsx-a11y/prefer-tag-over-role': 'error'
+      'jsx-a11y/prefer-tag-over-role': 'error',
+
+      ...overrides
     },
     settings: {
       'jsx-a11y': {

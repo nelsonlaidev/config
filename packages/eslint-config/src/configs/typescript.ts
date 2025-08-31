@@ -1,4 +1,4 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import process from 'node:process'
 
@@ -7,7 +7,7 @@ import parser from '@typescript-eslint/parser'
 import { GLOB_TS, GLOB_TSX } from '../globs'
 import { typescriptPlugin } from '../plugins'
 
-export const typescript = (tsconfigRootDir: string = process.cwd()): FlatConfig[] => [
+export const typescript = (tsconfigRootDir: string = process.cwd(), overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/typescript/setup',
     files: [GLOB_TS, GLOB_TSX],
@@ -42,7 +42,9 @@ export const typescript = (tsconfigRootDir: string = process.cwd()): FlatConfig[
         }
       ],
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type']
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+
+      ...overrides
     }
   }
 ]

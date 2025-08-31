@@ -1,9 +1,9 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import { GLOB_SRC } from '../globs'
 import { reactHooksPlugin, reactPlugin, reactRefreshPlugin } from '../plugins'
 
-export const react = (isNextjsEnabled: boolean): FlatConfig[] => [
+export const react = (isNextjsEnabled: boolean, overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/react/rules',
     files: [GLOB_SRC],
@@ -29,7 +29,9 @@ export const react = (isNextjsEnabled: boolean): FlatConfig[] => [
       ],
 
       // Unnecessary
-      '@eslint-react/avoid-shorthand-fragment': 'off'
+      '@eslint-react/avoid-shorthand-fragment': 'off',
+
+      ...overrides
     }
   }
 ]

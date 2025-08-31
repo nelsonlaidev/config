@@ -1,8 +1,8 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import { importLitePlugin } from '../plugins'
 
-export const imports = (): FlatConfig[] => [
+export const imports = (overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/imports/rules',
     plugins: {
@@ -13,7 +13,9 @@ export const imports = (): FlatConfig[] => [
       'import-lite/newline-after-import': ['error', { count: 1 }],
       'import-lite/no-duplicates': 'error',
       'import-lite/no-mutable-exports': 'error',
-      'import-lite/no-named-default': 'error'
+      'import-lite/no-named-default': 'error',
+
+      ...overrides
     }
   }
 ]

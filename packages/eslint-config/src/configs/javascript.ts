@@ -1,11 +1,11 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import eslint from '@eslint/js'
 import globals from 'globals'
 
 import { unusedImportsPlugin } from '../plugins'
 
-export const javascript = (): FlatConfig[] => [
+export const javascript = (overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/javascript/setup',
     languageOptions: {
@@ -54,7 +54,9 @@ export const javascript = (): FlatConfig[] => [
           args: 'after-used',
           argsIgnorePattern: '^_'
         }
-      ]
+      ],
+
+      ...overrides
     }
   }
 ]

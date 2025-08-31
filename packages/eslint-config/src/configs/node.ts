@@ -1,8 +1,8 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import { nodePlugin } from '../plugins'
 
-export const node = (): FlatConfig[] => [
+export const node = (overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/node/rules',
     plugins: {
@@ -17,7 +17,9 @@ export const node = (): FlatConfig[] => [
       'n/prefer-global/buffer': ['error', 'never'],
       'n/prefer-global/process': ['error', 'never'],
       'n/prefer-promises/fs': 'error',
-      'n/process-exit-as-throw': 'error'
+      'n/process-exit-as-throw': 'error',
+
+      ...overrides
     }
   }
 ]

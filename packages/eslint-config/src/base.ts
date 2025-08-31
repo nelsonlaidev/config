@@ -27,51 +27,53 @@ import { vitest } from './configs/vitest'
 const isReactInstalled = isPackageExists('react')
 const isNextjsInstalled = isPackageExists('next')
 
-export const defineConfig = (options: ConfigOptions): FlatConfig[] => {
+export const defineConfig = (options: ConfigOptions = {}): FlatConfig[] => {
+  const { overrides = {} } = options
+
   const configs = [
     ...gitignore(),
-    ...ignores(options.ignores),
-    ...javascript(),
-    ...sonarjs(),
-    ...importSort(),
-    ...deMorgan(),
-    ...comments(),
-    ...node(),
-    ...jsdoc(),
-    ...imports(),
+    ...ignores(options.ignores ?? []),
+    ...javascript(overrides.javascript),
+    ...sonarjs(overrides.sonarjs),
+    ...importSort(overrides.importSort),
+    ...deMorgan(overrides.deMorgan),
+    ...comments(overrides.comments),
+    ...node(overrides.node),
+    ...jsdoc(overrides.jsdoc),
+    ...imports(overrides.imports),
     ...command(),
-    ...unicorn(),
-    ...jsx(),
-    ...typescript(options.tsconfigRootDir),
-    ...regexp()
+    ...unicorn(overrides.unicorn),
+    ...jsx(overrides.jsx),
+    ...typescript(options.tsconfigRootDir, overrides.typescript),
+    ...regexp(overrides.regexp)
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled
   const isReactEnabled = (options.react ?? isReactInstalled) || isNextjsEnabled
 
   if (options.vitestGlob) {
-    configs.push(...vitest(options.vitestGlob))
+    configs.push(...vitest(options.vitestGlob, overrides.vitest))
   }
 
   if (options.playwrightGlob) {
-    configs.push(...playwright(options.playwrightGlob))
+    configs.push(...playwright(options.playwrightGlob, overrides.playwright))
   }
 
   if (isReactEnabled) {
-    configs.push(...react(isNextjsEnabled))
+    configs.push(...react(isNextjsEnabled, overrides.react))
   }
 
   if (isNextjsEnabled) {
-    configs.push(...nextjs())
+    configs.push(...nextjs(overrides.nextjs))
   }
 
   if (options.tailwindEntryPoint) {
-    configs.push(...tailwindcss(options.tailwindEntryPoint))
+    configs.push(...tailwindcss(options.tailwindEntryPoint, overrides.tailwindcss))
   }
 
   // Must be added as the last item
   // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
-  configs.push(...prettier())
+  configs.push(...prettier(overrides.prettier))
 
   return configs
 }
