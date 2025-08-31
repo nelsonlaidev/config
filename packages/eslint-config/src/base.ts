@@ -60,7 +60,7 @@ export const defineConfig = (options: ConfigOptions = {}): FlatConfig[] => {
   }
 
   if (isReactEnabled) {
-    configs.push(...react(isNextjsEnabled, overrides.react))
+    configs.push(...react(overrides.react))
   }
 
   if (isNextjsEnabled) {
