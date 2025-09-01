@@ -42,7 +42,6 @@ export const typescript = (tsconfigRootDir: string = process.cwd(), overrides?: 
         }
       ],
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
 
       // Too opinionated
@@ -50,6 +49,8 @@ export const typescript = (tsconfigRootDir: string = process.cwd(), overrides?: 
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
+
+      '@typescript-eslint/consistent-type-definitions': 'off',
 
       ...overrides
     }
