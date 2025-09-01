@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import { unicornPlugin } from '../plugins'
 
-export const unicorn: Linter.Config[] = [
+export const unicorn = (overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/unicorn/rules',
     plugins: {
@@ -11,7 +11,11 @@ export const unicorn: Linter.Config[] = [
     rules: {
       ...unicornPlugin.configs.recommended.rules,
 
-      'unicorn/prevent-abbreviations': 'off'
+      // Too opinionated
+      'unicorn/prevent-abbreviations': 'off',
+      'unicorn/no-null': 'off',
+
+      ...overrides
     }
   }
 ]

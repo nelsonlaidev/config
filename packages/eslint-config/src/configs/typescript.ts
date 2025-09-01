@@ -1,11 +1,13 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig, RuleOverrides } from '../types'
+
+import process from 'node:process'
 
 import parser from '@typescript-eslint/parser'
 
 import { GLOB_TS, GLOB_TSX } from '../globs'
 import { typescriptPlugin } from '../plugins'
 
-export const typescript = (tsconfigRootDir: string): Linter.Config[] => [
+export const typescript = (tsconfigRootDir: string = process.cwd(), overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/typescript/setup',
     files: [GLOB_TS, GLOB_TSX],
@@ -40,7 +42,17 @@ export const typescript = (tsconfigRootDir: string): Linter.Config[] => [
         }
       ],
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
-      '@typescript-eslint/consistent-type-definitions': ['error', 'type']
+      '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
+
+      // Too opinionated
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+
+      '@typescript-eslint/consistent-type-definitions': 'off',
+
+      ...overrides
     }
   }
 ]

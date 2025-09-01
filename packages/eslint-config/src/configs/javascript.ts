@@ -1,11 +1,11 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import eslint from '@eslint/js'
 import globals from 'globals'
 
 import { unusedImportsPlugin } from '../plugins'
 
-export const javascript: Linter.Config[] = [
+export const javascript = (overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/javascript/setup',
     languageOptions: {
@@ -54,7 +54,9 @@ export const javascript: Linter.Config[] = [
           args: 'after-used',
           argsIgnorePattern: '^_'
         }
-      ]
+      ],
+
+      ...overrides
     }
   }
 ]

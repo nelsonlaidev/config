@@ -1,4 +1,4 @@
-import type { Linter } from 'eslint'
+import type { ConfigOptions, FlatConfig } from './types'
 
 import { isPackageExists } from 'local-pkg'
 
@@ -24,93 +24,56 @@ import { typescript } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 
-/**
- * ESLint configuration options.
- */
-export type Options = {
-  /**
-   * The absolute or relative path to the root directory that contains
-   * the `tsconfig.json`. Used to resolve TypeScript configuration.
-   */
-  tsconfigRootDir: string
-  /**
-   * Enable additional linting rules optimized for React projects.
-   */
-  react?: boolean
-  /**
-   * Enable additional linting rules optimized for Next.js projects.
-   * Automatically implies React linting as well.
-   */
-  nextjs?: boolean
-  /**
-   * Path to the main entry file of your Tailwind CSS setup.
-   * Enabling this also turns on ESLint rules related to Tailwind CSS.
-   */
-  tailwindEntryPoint?: string
-  /**
-   * Glob patterns that match your Vitest test files.
-   * When provided, ESLint rules for Vitest will be enabled.
-   */
-  vitestGlob?: string
-  /**
-   * Glob patterns that match your Playwright test files.
-   * When provided, ESLint rules for Playwright will be enabled.
-   */
-  playwrightGlob?: string
-  /**
-   * A list of file paths or glob patterns to be ignored by ESLint.
-   */
-  ignores?: string[]
-}
-
 const isReactInstalled = isPackageExists('react')
 const isNextjsInstalled = isPackageExists('next')
 
-export const defineConfig = (options: Options): Linter.Config[] => {
+export const defineConfig = (options: ConfigOptions = {}): FlatConfig[] => {
+  const { overrides = {} } = options
+
   const configs = [
-    ...gitignore,
+    ...gitignore(),
     ...ignores(options.ignores ?? []),
-    ...javascript,
-    ...sonarjs,
-    ...importSort,
-    ...deMorgan,
-    ...comments,
-    ...node,
-    ...jsdoc,
-    ...imports,
-    ...command,
-    ...unicorn,
-    ...jsx,
-    ...typescript(options.tsconfigRootDir),
-    ...regexp
+    ...javascript(overrides.javascript),
+    ...sonarjs(overrides.sonarjs),
+    ...importSort(overrides.importSort),
+    ...deMorgan(overrides.deMorgan),
+    ...comments(overrides.comments),
+    ...node(overrides.node),
+    ...jsdoc(overrides.jsdoc),
+    ...imports(overrides.imports),
+    ...command(),
+    ...unicorn(overrides.unicorn),
+    ...jsx(overrides.jsx),
+    ...typescript(options.tsconfigRootDir, overrides.typescript),
+    ...regexp(overrides.regexp)
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled
   const isReactEnabled = (options.react ?? isReactInstalled) || isNextjsEnabled
 
   if (options.vitestGlob) {
-    configs.push(...vitest(options.vitestGlob))
+    configs.push(...vitest(options.vitestGlob, overrides.vitest))
   }
 
   if (options.playwrightGlob) {
-    configs.push(...playwright(options.playwrightGlob))
+    configs.push(...playwright(options.playwrightGlob, overrides.playwright))
   }
 
   if (isReactEnabled) {
-    configs.push(...react)
+    configs.push(...react(overrides.react))
   }
 
   if (isNextjsEnabled) {
-    configs.push(...nextjs)
+    configs.push(...nextjs(overrides.nextjs))
   }
 
   if (options.tailwindEntryPoint) {
-    configs.push(...tailwindcss(options.tailwindEntryPoint))
+    configs.push(...tailwindcss(options.tailwindEntryPoint, overrides.tailwindcss))
   }
 
   // Must be added as the last item
   // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
-  configs.push(...prettier)
+  configs.push(...prettier(overrides.prettier))
 
   return configs
 }

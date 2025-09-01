@@ -1,8 +1,8 @@
-import type { Linter } from 'eslint'
+import type { FlatConfig, RuleOverrides } from '../types'
 
 import { nextPlugin } from '../plugins'
 
-export const nextjs: Linter.Config[] = [
+export const nextjs = (overrides?: RuleOverrides): FlatConfig[] => [
   {
     name: 'nelsonlaidev/nextjs/rules',
     plugins: {
@@ -10,7 +10,9 @@ export const nextjs: Linter.Config[] = [
     },
     rules: {
       ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs['core-web-vitals'].rules
+      ...nextPlugin.configs['core-web-vitals'].rules,
+
+      ...overrides
     }
   }
 ]
