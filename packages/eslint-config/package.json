@@ -11,7 +11,7 @@
     "directory": "packages/eslint-config"
   },
   "license": "MIT",
-  "author": "Nelson Lai <me@nelsonlai.me> (https://github.com/nelsonlaidev/)",
+  "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
   "type": "module",
   "exports": {
     "import": "./dist/index.js",
