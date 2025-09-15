@@ -27,7 +27,7 @@ import { vitest } from './configs/vitest'
 const isReactInstalled = isPackageExists('react')
 const isNextjsInstalled = isPackageExists('next')
 
-export const defineConfig = (options: ConfigOptions = {}): FlatConfig[] => {
+export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatConfig[]): FlatConfig[] => {
   const { overrides = {} } = options
 
   const configs = [
@@ -73,7 +73,7 @@ export const defineConfig = (options: ConfigOptions = {}): FlatConfig[] => {
 
   // Must be added as the last item
   // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
-  configs.push(...prettier(overrides.prettier))
+  configs.push(...userConfigs, ...prettier(overrides.prettier))
 
   return configs
 }
