@@ -71,9 +71,12 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     configs.push(...tailwindcss(options.tailwindEntryPoint, overrides.tailwindcss))
   }
 
+  configs.push(...userConfigs)
+
   // Must be added as the last item
   // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
-  configs.push(...userConfigs, ...prettier(overrides.prettier))
+  // eslint-disable-next-line unicorn/prefer-single-call -- For better readability
+  configs.push(...prettier(overrides.prettier))
 
   return configs
 }
