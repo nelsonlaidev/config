@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 1.1.0
+
+### Minor Changes
+
+- 8e4c4e9: Allow adding user configurations
+
 ## 1.0.0
 
 ### Major Changes
