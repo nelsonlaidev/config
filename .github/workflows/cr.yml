@@ -1,7 +1,6 @@
 name: Continuous Release
 
 on:
-  push:
   pull_request:
 
 concurrency:
