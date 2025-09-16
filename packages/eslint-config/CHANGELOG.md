@@ -1,5 +1,15 @@
 # @nelsonlaidev/eslint-config
 
+## 2.0.0
+
+### Major Changes
+
+- 5c376ed: Remove `eslint-plugin-jsdoc`
+
+### Minor Changes
+
+- 9270103: Add `@stylistic/eslint-plugin` plugin and rules
+
 ## 1.1.0
 
 ### Minor Changes
