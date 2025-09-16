@@ -64,6 +64,7 @@ export type Overrides = {
   nextjs?: RuleOverrides
   tailwindcss?: RuleOverrides
   prettier?: RuleOverrides
+  stylistic?: RuleOverrides
 }
 
 export type FlatConfig = Linter.Config

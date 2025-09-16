@@ -19,6 +19,7 @@ import { prettier } from './configs/prettier'
 import { react } from './configs/react'
 import { regexp } from './configs/regexp'
 import { sonarjs } from './configs/sonarjs'
+import { stylistic } from './configs/stylistic'
 import { tailwindcss } from './configs/tailwindcss'
 import { typescript } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
@@ -45,7 +46,8 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...unicorn(overrides.unicorn),
     ...jsx(overrides.jsx),
     ...typescript(options.tsconfigRootDir, overrides.typescript),
-    ...regexp(overrides.regexp)
+    ...regexp(overrides.regexp),
+    ...stylistic(overrides.stylistic)
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled
@@ -73,8 +75,10 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
 
   configs.push(...userConfigs)
 
-  // Must be added as the last item
-  // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
+  /*
+   * Must be added as the last item
+   * https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
+   */
   // eslint-disable-next-line unicorn/prefer-single-call -- For better readability
   configs.push(...prettier(overrides.prettier))
 
