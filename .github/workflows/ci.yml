@@ -22,7 +22,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
 
-      - name: Setup
+      - name: Configure environment
         uses: ./.github/actions/setup
 
       - name: Run ESLint
@@ -35,7 +35,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
 
-      - name: Setup
+      - name: Configure environment
         uses: ./.github/actions/setup
 
       - name: Run type check
@@ -48,7 +48,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
 
-      - name: Setup
+      - name: Configure environment
         uses: ./.github/actions/setup
 
       - name: Run Prettier format check
@@ -61,7 +61,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
 
-      - name: Setup
+      - name: Configure environment
         uses: ./.github/actions/setup
 
       - name: Run spelling check
@@ -74,7 +74,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
 
-      - name: Setup
+      - name: Configure environment
         uses: ./.github/actions/setup
 
       - name: Run Knip
