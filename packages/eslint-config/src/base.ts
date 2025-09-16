@@ -10,7 +10,6 @@ import { ignores } from './configs/ignores'
 import { importSort } from './configs/import-sort'
 import { imports } from './configs/imports'
 import { javascript } from './configs/javascript'
-import { jsdoc } from './configs/jsdoc'
 import { jsx } from './configs/jsx'
 import { nextjs } from './configs/nextjs'
 import { node } from './configs/node'
@@ -40,7 +39,6 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...deMorgan(overrides.deMorgan),
     ...comments(overrides.comments),
     ...node(overrides.node),
-    ...jsdoc(overrides.jsdoc),
     ...imports(overrides.imports),
     ...command(),
     ...unicorn(overrides.unicorn),

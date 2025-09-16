@@ -52,7 +52,6 @@ export type Overrides = {
   deMorgan?: RuleOverrides
   comments?: RuleOverrides
   node?: RuleOverrides
-  jsdoc?: RuleOverrides
   imports?: RuleOverrides
   unicorn?: RuleOverrides
   jsx?: RuleOverrides
