@@ -15,7 +15,13 @@ export const react = (overrides?: RuleOverrides): FlatConfig[] => [
       ...reactPlugin.configs.all.rules,
       ...reactHooksPlugin.configs['recommended-latest'].rules,
 
-      '@eslint-react/naming-convention/filename': ['error', 'kebab-case'],
+      '@eslint-react/naming-convention/filename': [
+        'error',
+        {
+          rule: 'kebab-case',
+          excepts: ['index', String.raw`/^_/`, String.raw`/^\$/`, String.raw`/^[0-9]+$/`, String.raw`/^\[[^\]]+\]$/`]
+        }
+      ],
 
       // Unnecessary
       '@eslint-react/avoid-shorthand-boolean': 'off',
