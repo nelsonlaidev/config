@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.0.2
+
+### Patch Changes
+
+- fcd5816: Allow eslint-disable and eslint-enable ESLint comments
+
 ## 2.0.1
 
 ### Patch Changes
