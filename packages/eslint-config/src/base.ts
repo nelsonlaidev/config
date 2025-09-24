@@ -73,10 +73,8 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
 
   configs.push(...userConfigs)
 
-  /*
-   * Must be added as the last item
-   * https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
-   */
+  // Must be added as the last item
+  // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
   // eslint-disable-next-line unicorn/prefer-single-call -- For better readability
   configs.push(...prettier(overrides.prettier))
 

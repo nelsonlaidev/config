@@ -9,7 +9,7 @@ export const stylistic = (overrides?: RuleOverrides): FlatConfig[] => [
       '@stylistic': stylisticPlugin
     },
     rules: {
-      '@stylistic/multiline-comment-style': 'error',
+      '@stylistic/multiline-comment-style': ['error', 'separate-lines'],
 
       ...overrides
     }
