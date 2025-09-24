@@ -40,10 +40,8 @@ export const javascript = (overrides?: RuleOverrides): FlatConfig[] => [
     rules: {
       ...eslint.configs.recommended.rules,
 
-      /*
-       * Recommended to disable
-       * https://github.com/sweepline/eslint-plugin-unused-imports?tab=readme-ov-file#usage
-       */
+      // Recommended to disable
+      // https://github.com/sweepline/eslint-plugin-unused-imports?tab=readme-ov-file#usage
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
 
