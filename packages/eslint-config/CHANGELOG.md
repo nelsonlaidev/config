@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.0.3
+
+### Patch Changes
+
+- 4355b1d: Always use separate lines for multiline comments
+
 ## 2.0.2
 
 ### Patch Changes
