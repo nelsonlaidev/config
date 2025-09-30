@@ -1,5 +1,13 @@
 # @nelsonlaidev/eslint-config
 
+## 2.0.4
+
+### Patch Changes
+
+- b4cd720: Disable some sonarjs rules due to the performance issue
+  - sonarjs/deprecation
+  - sonarjs/arguments-order
+
 ## 2.0.3
 
 ### Patch Changes
