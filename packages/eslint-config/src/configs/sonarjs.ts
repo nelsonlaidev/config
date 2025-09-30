@@ -14,6 +14,8 @@ export const sonarjs = (overrides?: RuleOverrides): FlatConfig[] => [
       // Disable due to poor performance
       // https://community.sonarsource.com/t/eslint-plugin-sonarjs-performance-issues-on-large-codebase/138392
       'sonarjs/no-commented-code': 'off',
+      'sonarjs/deprecation': 'off',
+      'sonarjs/arguments-order': 'off',
 
       ...overrides
     }
