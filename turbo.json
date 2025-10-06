@@ -3,16 +3,12 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "type-check": {
-      "dependsOn": ["^type-check"]
-    },
+    "lint": {},
+    "lint:fix": {},
+    "type-check": {},
     "clean": {
       "cache": false
     },
