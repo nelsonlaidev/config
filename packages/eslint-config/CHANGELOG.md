@@ -1,5 +1,13 @@
 # @nelsonlaidev/eslint-config
 
+## 2.1.0
+
+### Minor Changes
+
+- 33e94d4: Enable the following rules:
+  - @typescript-eslint/consistent-type-exports: error
+  - @typescript-eslint/no-import-type-side-effects: error
+
 ## 2.0.4
 
 ### Patch Changes
