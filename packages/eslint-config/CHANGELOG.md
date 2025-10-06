@@ -1,5 +1,12 @@
 # @nelsonlaidev/eslint-config
 
+## 2.1.1
+
+### Patch Changes
+
+- ab57eac: Disable unnecessary rule:
+  - `@next/next/no-html-link-for-pages`
+
 ## 2.1.0
 
 ### Minor Changes
