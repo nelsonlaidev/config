@@ -64,6 +64,7 @@ export type Overrides = {
   tailwindcss?: RuleOverrides
   prettier?: RuleOverrides
   stylistic?: RuleOverrides
+  zod?: RuleOverrides
 }
 
 export type FlatConfig = Linter.Config

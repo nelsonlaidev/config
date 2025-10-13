@@ -23,6 +23,7 @@ import { tailwindcss } from './configs/tailwindcss'
 import { typescript } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
+import { zod } from './configs/zod'
 
 const isReactInstalled = isPackageExists('react')
 const isNextjsInstalled = isPackageExists('next')
@@ -45,7 +46,8 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...jsx(overrides.jsx),
     ...typescript(options.tsconfigRootDir, overrides.typescript),
     ...regexp(overrides.regexp),
-    ...stylistic(overrides.stylistic)
+    ...stylistic(overrides.stylistic),
+    ...zod(overrides.zod)
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled

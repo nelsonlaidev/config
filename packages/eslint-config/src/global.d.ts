@@ -7,6 +7,8 @@
 // - @vitest/eslint-plugin: incompatible types
 // - @eslint-react/eslint-plugin: incompatible types
 // - eslint-plugin-better-tailwindcss: incompatible types
+// - @typescript-eslint/eslint-plugin: incompatible types
+// - eslint-plugin-import-zod: incompatible types
 declare module '@eslint-community/eslint-plugin-eslint-comments' {
   import type { ESLint, Linter } from 'eslint'
 
@@ -102,6 +104,18 @@ declare module '@typescript-eslint/eslint-plugin' {
       }
       'strict-type-checked': Linter.Config
       'stylistic-type-checked': Linter.Config
+    }
+  }
+
+  export default plugin
+}
+
+declare module 'eslint-plugin-import-zod' {
+  import type { ESLint, Linter } from 'eslint'
+
+  const plugin: ESLint.Plugin & {
+    configs: {
+      recommended: Linter.Config[]
     }
   }
 
