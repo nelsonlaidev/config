@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.2.0
+
+### Minor Changes
+
+- 33315cf: Add `eslint-plugin-import-zod` ESLint plugin
+
 ## 2.1.1
 
 ### Patch Changes
