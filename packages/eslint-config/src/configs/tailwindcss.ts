@@ -23,7 +23,19 @@ export const tailwindcss = (entryPoint: string, overrides?: RuleOverrides): Flat
     },
     settings: {
       'better-tailwindcss': {
-        entryPoint
+        entryPoint,
+        callees: [
+          [
+            'cva',
+            [
+              { match: 'strings' },
+              {
+                match: 'objectValues',
+                pathPattern: '^base$'
+              }
+            ]
+          ]
+        ]
       }
     }
   }

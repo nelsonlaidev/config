@@ -3,8 +3,8 @@ version: '0.2'
 useGitignore: true
 files:
   - '**'
-  - '.*'
-  - '.*/**'
+  - .*
+  - .*/**
   - '!.git/**'
 ignorePaths:
   - pnpm-lock.yaml
@@ -15,6 +15,7 @@ dictionaries:
   - html
   - css
 words:
+  - callees
   - nelsonlaidev
   - sonarjs
   - sxzz
