@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.3.1
+
+### Patch Changes
+
+- 4f616d7: Bump @next/eslint-plugin-next
+
 ## 2.3.0
 
 ### Minor Changes
