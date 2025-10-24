@@ -9,7 +9,6 @@ export const nextjs = (overrides?: RuleOverrides): FlatConfig[] => [
       '@next/next': nextPlugin
     },
     rules: {
-      ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs['core-web-vitals'].rules,
 
       // Unnecessary
