@@ -24,8 +24,6 @@ export const react = (overrides?: RuleOverrides): FlatConfig[] => [
       ],
 
       // Unnecessary
-      '@eslint-react/avoid-shorthand-boolean': 'off',
-      '@eslint-react/avoid-shorthand-fragment': 'off',
       '@eslint-react/no-complex-conditional-rendering': 'off',
       '@eslint-react/no-array-index-key': 'off',
 
