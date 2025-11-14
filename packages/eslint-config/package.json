@@ -1,6 +1,6 @@
 {
   "name": "@nelsonlaidev/eslint-config",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/eslint-config/README.md",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"

@@ -1,5 +1,11 @@
 # @nelsonlaidev/prettier-config
 
+## 0.1.1
+
+### Patch Changes
+
+- f6e2d37: Update export file extensions to .mjs and .d.mts
+
 ## 0.1.0
 
 ### Minor Changes
