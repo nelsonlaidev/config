@@ -9,6 +9,7 @@
 // - eslint-plugin-better-tailwindcss: incompatible types
 // - @typescript-eslint/eslint-plugin: incompatible types
 // - eslint-plugin-import-zod: incompatible types
+// - eslint-plugin-react-hooks: incompatible types
 declare module '@eslint-community/eslint-plugin-eslint-comments' {
   import type { ESLint, Linter } from 'eslint'
 
@@ -116,6 +117,19 @@ declare module 'eslint-plugin-import-zod' {
   const plugin: ESLint.Plugin & {
     configs: {
       recommended: Linter.Config[]
+    }
+  }
+
+  export default plugin
+}
+
+declare module 'eslint-plugin-react-hooks' {
+  import type { ESLint, Linter } from 'eslint'
+
+  const plugin: ESLint.Plugin & {
+    configs: {
+      recommended: Linter.Config
+      'recommended-latest': Linter.Config
     }
   }
 
