@@ -14,8 +14,8 @@
   "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
   "type": "module",
   "exports": {
-    "import": "./dist/index.js",
-    "types": "./dist/index.d.ts"
+    "import": "./dist/index.mjs",
+    "types": "./dist/index.d.mts"
   },
   "files": [
     "dist"
