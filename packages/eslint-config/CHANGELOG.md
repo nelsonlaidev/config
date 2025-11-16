@@ -1,5 +1,23 @@
 # @nelsonlaidev/eslint-config
 
+## 2.3.3
+
+### Patch Changes
+
+- 19b13f7: Disable the following rules:
+
+  ## React
+  - @eslint-react/naming-convention/use-state
+  - @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
+  - react-hooks/set-state-in-effect
+  - react-hooks/static-components
+
+  ## SonarJS
+  - sonarjs/pseudo-random
+
+  ## Unicorn
+  - unicorn/no-document-cookie
+
 ## 2.3.2
 
 ### Patch Changes
