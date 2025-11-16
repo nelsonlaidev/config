@@ -4,7 +4,7 @@
 
 ### Major Changes
 
-- 4089f83: - Enhanced `nextjs.json` with explicit compiler options for better Next.js compatibility:
+- 4089f83: Enhance `nextjs.json` with explicit compiler options for better Next.js compatibility:
   - Set `target` to `ES2017` for broader browser support
   - Added `lib` array with `ESNext`, `DOM`, and `DOM.Iterable`
   - Explicitly configured `module` as `ESNext` and `moduleResolution` as `Bundler`
