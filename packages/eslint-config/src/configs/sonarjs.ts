@@ -17,6 +17,9 @@ export const sonarjs = (overrides?: RuleOverrides): FlatConfig[] => [
       'sonarjs/deprecation': 'off',
       'sonarjs/arguments-order': 'off',
 
+      // Unnecessary
+      'sonarjs/pseudo-random': 'off',
+
       ...overrides
     }
   }

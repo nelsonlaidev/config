@@ -15,6 +15,9 @@ export const unicorn = (overrides?: RuleOverrides): FlatConfig[] => [
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-null': 'off',
 
+      // Unnecessary
+      'unicorn/no-document-cookie': 'off',
+
       ...overrides
     }
   }

@@ -26,6 +26,10 @@ export const react = (overrides?: RuleOverrides): FlatConfig[] => [
       // Unnecessary
       '@eslint-react/no-complex-conditional-rendering': 'off',
       '@eslint-react/no-array-index-key': 'off',
+      '@eslint-react/naming-convention/use-state': 'off',
+      '@eslint-react/hooks-extra/no-direct-set-state-in-use-effect': 'off',
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/static-components': 'off',
 
       ...overrides
     }
