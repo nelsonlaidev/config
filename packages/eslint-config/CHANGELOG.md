@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.4.0
+
+### Minor Changes
+
+- 927446d: Prepare for Tanstack Start
+
 ## 2.3.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @nelsonlaidev/typescript-config
 
+## 1.1.0
+
+### Minor Changes
+
+- 927446d: Add Tanstack Start preset
+
 ## 1.0.0
 
 ### Major Changes
