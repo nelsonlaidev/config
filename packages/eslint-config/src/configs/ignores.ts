@@ -3,6 +3,6 @@ import type { FlatConfig } from '../types'
 export const ignores = (userIgnores: string[] = []): FlatConfig[] => [
   {
     name: 'nelsonlaidev/ignores',
-    ignores: [...userIgnores]
+    ignores: ['**/routeTree.gen.ts', ...userIgnores]
   }
 ]

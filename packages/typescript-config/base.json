@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": false,
     "isolatedModules": true,
-    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleDetection": "force",
     "moduleResolution": "Bundler",
@@ -32,6 +32,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "verbatimModuleSyntax": true,
     "target": "ESNext"
   },
   "display": "Default"
