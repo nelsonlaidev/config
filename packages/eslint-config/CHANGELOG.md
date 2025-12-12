@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.4.1
+
+### Patch Changes
+
+- 44c92da: Disable sonarjs/function-return-type rule as it's unnecessary
+
 ## 2.4.0
 
 ### Minor Changes
