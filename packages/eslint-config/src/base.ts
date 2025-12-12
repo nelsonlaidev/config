@@ -33,7 +33,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
 
   const configs = [
     ...gitignore(),
-    ...ignores(options.ignores ?? []),
+    ...ignores(options.ignores),
     ...javascript(overrides.javascript),
     ...sonarjs(overrides.sonarjs),
     ...importSort(overrides.importSort),
