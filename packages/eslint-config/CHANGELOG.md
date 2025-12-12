@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.4.2
+
+### Patch Changes
+
+- 0423a5c: Configure @typescript-eslint/only-throw-error rule for tanstack
+
 ## 2.4.1
 
 ### Patch Changes
