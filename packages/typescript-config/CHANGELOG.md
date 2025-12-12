@@ -1,5 +1,11 @@
 # @nelsonlaidev/typescript-config
 
+## 1.1.1
+
+### Patch Changes
+
+- f404c7b: Enable incremental. Disable declaration, declarationMap.
+
 ## 1.1.0
 
 ### Minor Changes
