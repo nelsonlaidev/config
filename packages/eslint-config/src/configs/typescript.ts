@@ -45,6 +45,18 @@ export const typescript = (tsconfigRootDir: string = process.cwd(), overrides?: 
       '@typescript-eslint/no-import-type-side-effects': 'error',
       '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
       '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
+      '@typescript-eslint/only-throw-error': [
+        'error',
+        {
+          allow: [
+            {
+              from: 'package',
+              package: '@tanstack/router-core',
+              name: 'Redirect'
+            }
+          ]
+        }
+      ],
 
       // Too opinionated
       '@typescript-eslint/no-floating-promises': 'off',
