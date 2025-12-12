@@ -15,7 +15,8 @@
   "files": [
     "./base.json",
     "./nextjs.json",
-    "./react-library.json"
+    "./react-library.json",
+    "./tanstack-start.json"
   ],
   "publishConfig": {
     "access": "public"
