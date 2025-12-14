@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.4.3
+
+### Patch Changes
+
+- a1e8c76: Configure @typescript-eslint/no-empty-object-type to allow interfaces with single extends
+
 ## 2.4.2
 
 ### Patch Changes
