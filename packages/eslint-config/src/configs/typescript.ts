@@ -57,6 +57,7 @@ export const typescript = (tsconfigRootDir: string = process.cwd(), overrides?: 
           ]
         }
       ],
+      '@typescript-eslint/no-empty-object-type': ['error', { allowInterfaces: 'with-single-extends' }],
 
       // Too opinionated
       '@typescript-eslint/no-floating-promises': 'off',
