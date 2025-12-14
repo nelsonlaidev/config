@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 2.4.4
+
+### Patch Changes
+
+- 61cfd4f: Disable unicorn/prefer-string-raw
+
 ## 2.4.3
 
 ### Patch Changes
