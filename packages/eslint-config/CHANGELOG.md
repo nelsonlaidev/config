@@ -1,5 +1,14 @@
 # @nelsonlaidev/eslint-config
 
+## 2.4.5
+
+### Patch Changes
+
+- 7aa9826: Disable the following rules:
+  - jsx-a11y/anchor-ambiguous-text
+  - jsx-a11y/prefer-tag-over-role
+  - sonarjs/prefer-read-only-props
+
 ## 2.4.4
 
 ### Patch Changes
