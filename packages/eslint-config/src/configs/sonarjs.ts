@@ -20,6 +20,7 @@ export const sonarjs = (overrides?: RuleOverrides): FlatConfig[] => [
       // Unnecessary
       'sonarjs/pseudo-random': 'off',
       'sonarjs/function-return-type': 'off',
+      'sonarjs/prefer-read-only-props': 'off',
 
       ...overrides
     }

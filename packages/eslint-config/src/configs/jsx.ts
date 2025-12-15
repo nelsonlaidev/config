@@ -24,10 +24,8 @@ export const jsx = (overrides?: RuleOverrides): FlatConfig[] => [
     rules: {
       ...jsxA11yPlugin.flatConfigs.strict.rules,
 
-      'jsx-a11y/anchor-ambiguous-text': 'error',
       'jsx-a11y/lang': 'error',
       'jsx-a11y/no-aria-hidden-on-focusable': 'error',
-      'jsx-a11y/prefer-tag-over-role': 'error',
 
       ...overrides
     },
