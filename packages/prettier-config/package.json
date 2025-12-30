@@ -24,12 +24,9 @@
     "build": "tsdown",
     "clean": "rm -rf .turbo dist",
     "dev": "tsdown --watch",
-    "lint": "eslint . --max-warnings 0",
-    "lint:fix": "eslint --fix .",
-    "type-check": "tsc --noEmit"
-  },
-  "lint-staged": {
-    "*.ts": "eslint --fix"
+    "lint": "eslint --max-warnings 0 .",
+    "lint:fix": "eslint --fix --max-warnings 0 .",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@nelsonlaidev/eslint-config": "workspace:*",

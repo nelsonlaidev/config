@@ -26,12 +26,9 @@
     "clean": "rm -rf .turbo dist .eslint-config-inspector",
     "dev": "tsdown --watch",
     "dev:inspector": "eslint-config-inspector --config eslint-inspector.config.ts",
-    "lint": "eslint . --max-warnings 0",
-    "lint:fix": "eslint --fix .",
-    "type-check": "tsc --noEmit"
-  },
-  "lint-staged": {
-    "*.ts": "eslint --fix"
+    "lint": "eslint --max-warnings 0 .",
+    "lint:fix": "eslint --fix --max-warnings 0 .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.5.0",

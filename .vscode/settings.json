@@ -1,7 +1,4 @@
 {
-  "cSpell.diagnosticLevel": "Warning",
-  "cSpell.enabled": true,
-
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
@@ -9,9 +6,6 @@
 
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-
-  "eslint.runtime": "node",
-  "eslint.workingDirectories": [{ "mode": "auto" }],
 
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.preferTypeOnlyAutoImports": true,

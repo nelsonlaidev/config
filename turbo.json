@@ -8,7 +8,7 @@
     },
     "lint": {},
     "lint:fix": {},
-    "type-check": {},
+    "typecheck": {},
     "clean": {
       "cache": false
     },
