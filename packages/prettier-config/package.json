@@ -34,9 +34,9 @@
   "devDependencies": {
     "@nelsonlaidev/eslint-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
-    "@types/node": "^24.10.1",
-    "prettier": "^3.6.2",
-    "tsdown": "^0.16.4"
+    "@types/node": "^24.10.4",
+    "prettier": "^3.7.4",
+    "tsdown": "^0.18.3"
   },
   "peerDependencies": {
     "prettier": ">=3.6.0",
