@@ -26,8 +26,8 @@
     "clean": "rm -rf .turbo dist .eslint-config-inspector",
     "dev": "tsdown --watch",
     "dev:inspector": "eslint-config-inspector --config eslint-inspector.config.ts",
-    "lint": "eslint . --max-warnings 0",
-    "lint:fix": "eslint --fix .",
+    "lint": "eslint --max-warnings 0 .",
+    "lint:fix": "eslint --fix --max-warnings 0 .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

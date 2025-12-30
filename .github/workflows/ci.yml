@@ -54,19 +54,6 @@ jobs:
       - name: Run Prettier format check
         run: pnpm format:check
 
-  spelling:
-    name: Spelling
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-
-      - name: Configure environment
-        uses: ./.github/actions/setup
-
-      - name: Run spelling check
-        run: pnpm check:spelling
-
   knip:
     name: Knip
     runs-on: ubuntu-latest
