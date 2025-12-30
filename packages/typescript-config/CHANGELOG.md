@@ -1,5 +1,11 @@
 # @nelsonlaidev/typescript-config
 
+## 1.2.0
+
+### Minor Changes
+
+- 4e8d21c: Add library preset for non-compiled packages
+
 ## 1.1.1
 
 ### Patch Changes
