@@ -38,8 +38,8 @@ jobs:
       - name: Configure environment
         uses: ./.github/actions/setup
 
-      - name: Run type check
-        run: pnpm type-check
+      - name: Run typecheck
+        run: pnpm typecheck
 
   prettier:
     name: Prettier
@@ -78,4 +78,4 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run Knip
-        run: pnpm check:knip
+        run: pnpm knip

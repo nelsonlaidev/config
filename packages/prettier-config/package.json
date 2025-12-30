@@ -26,10 +26,7 @@
     "dev": "tsdown --watch",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint --fix .",
-    "type-check": "tsc --noEmit"
-  },
-  "lint-staged": {
-    "*.ts": "eslint --fix"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@nelsonlaidev/eslint-config": "workspace:*",
