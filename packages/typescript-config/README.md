@@ -24,5 +24,7 @@ Create a `tsconfig.json` file with the following content:
 You can also use predefined presets for your configuration.
 
 - `@nelsonlaidev/typescript-config/base.json`
-- `@nelsonlaidev/typescript-config/next.json`
+- `@nelsonlaidev/typescript-config/library.json`
+- `@nelsonlaidev/typescript-config/nextjs.json`
 - `@nelsonlaidev/typescript-config/react-library.json`
+- `@nelsonlaidev/typescript-config/tanstack-start.json`
