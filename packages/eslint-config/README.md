@@ -22,9 +22,10 @@ export default defineConfig({
 
 ```ts
 type Options = {
-  // Required
+  // Optional
   // The root directory of the TypeScript configuration
-  tsconfigRootDir: string
+  // Defaults to process.cwd() if not specified
+  tsconfigRootDir?: string
   // Optional
   // Enable React specific linting rules
   react?: boolean
@@ -43,5 +44,28 @@ type Options = {
   // Optional
   // Specify files to ignore
   ignores?: string[]
+  // Optional
+  // Override specific ESLint rules for each plugin
+  overrides?: {
+    javascript?: Record<string, any>
+    sonarjs?: Record<string, any>
+    importSort?: Record<string, any>
+    deMorgan?: Record<string, any>
+    comments?: Record<string, any>
+    node?: Record<string, any>
+    imports?: Record<string, any>
+    unicorn?: Record<string, any>
+    jsx?: Record<string, any>
+    typescript?: Record<string, any>
+    regexp?: Record<string, any>
+    vitest?: Record<string, any>
+    playwright?: Record<string, any>
+    react?: Record<string, any>
+    nextjs?: Record<string, any>
+    tailwindcss?: Record<string, any>
+    prettier?: Record<string, any>
+    stylistic?: Record<string, any>
+    zod?: Record<string, any>
+  }
 }
 ```

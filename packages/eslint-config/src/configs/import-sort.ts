@@ -13,7 +13,8 @@ export const importSort = (overrides?: RuleOverrides): FlatConfig[] => [
         'error',
         {
           groups: [
-            // Type imports
+            // Type imports (imports ending with \u0000 are type-only imports)
+            // The \u0000 character is used internally by the import-sort plugin to mark type imports
             [
               String.raw`^.*\u0000$`,
               String.raw`^node:.*\u0000$`,
