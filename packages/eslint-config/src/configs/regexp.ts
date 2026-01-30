@@ -9,7 +9,7 @@ export const regexp = (overrides?: RuleOverrides): FlatConfig[] => [
       regexp: regexpPlugin
     },
     rules: {
-      ...regexpPlugin.configs['flat/recommended'].rules,
+      ...regexpPlugin.configs.recommended.rules,
 
       ...overrides
     }
