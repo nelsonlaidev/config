@@ -1,27 +1,11 @@
 // This declaration file defines the missing/incompatible types for ESLint plugins.
 // Note: only the types I needed are defined.
 //
-// - eslint-plugin-eslint-comments: missing types
 // - eslint-plugin-jsx-a11y: missing types
-// - @next/eslint-plugin-next: incompatible types
-// - @vitest/eslint-plugin: incompatible types
 // - @eslint-react/eslint-plugin: incompatible types
-// - eslint-plugin-better-tailwindcss: incompatible types
 // - @typescript-eslint/eslint-plugin: incompatible types
-// - eslint-plugin-import-zod: incompatible types
 // - eslint-plugin-react-hooks: incompatible types
-declare module '@eslint-community/eslint-plugin-eslint-comments' {
-  import type { ESLint, Linter } from 'eslint'
-
-  const plugin: ESLint.Plugin & {
-    configs: {
-      recommended: Linter.Config
-    }
-  }
-
-  export default plugin
-}
-
+// - eslint-plugin-sonarjs: incompatible types
 declare module 'eslint-plugin-jsx-a11y' {
   import type { ESLint, Linter } from 'eslint'
 
@@ -39,49 +23,12 @@ declare module 'eslint-plugin-jsx-a11y' {
   export default plugin
 }
 
-declare module '@next/eslint-plugin-next' {
-  import type { ESLint, Linter } from 'eslint'
-
-  const plugin: ESLint.Plugin & {
-    configs: {
-      recommended: Linter.Config
-      'core-web-vitals': Linter.Config
-    }
-  }
-
-  export default plugin
-}
-
-declare module '@vitest/eslint-plugin' {
-  import type { ESLint, Linter } from 'eslint'
-
-  const plugin: ESLint.Plugin & {
-    configs: {
-      recommended: Linter.Config
-    }
-  }
-
-  export default plugin
-}
-
 declare module '@eslint-react/eslint-plugin' {
   import type { ESLint, Linter } from 'eslint'
 
   const plugin: ESLint.Plugin & {
     configs: {
       all: Linter.Config
-    }
-  }
-
-  export default plugin
-}
-
-declare module 'eslint-plugin-better-tailwindcss' {
-  import type { ESLint, Linter } from 'eslint'
-
-  const plugin: ESLint.Plugin & {
-    configs: {
-      'recommended-error': Linter.Config
     }
   }
 
@@ -111,18 +58,6 @@ declare module '@typescript-eslint/eslint-plugin' {
   export default plugin
 }
 
-declare module 'eslint-plugin-import-zod' {
-  import type { ESLint, Linter } from 'eslint'
-
-  const plugin: ESLint.Plugin & {
-    configs: {
-      recommended: Linter.Config[]
-    }
-  }
-
-  export default plugin
-}
-
 declare module 'eslint-plugin-react-hooks' {
   import type { ESLint, Linter } from 'eslint'
 
@@ -130,6 +65,18 @@ declare module 'eslint-plugin-react-hooks' {
     configs: {
       recommended: Linter.Config
       'recommended-latest': Linter.Config
+    }
+  }
+
+  export default plugin
+}
+
+declare module 'eslint-plugin-sonarjs' {
+  import type { ESLint, Linter } from 'eslint'
+
+  const plugin: ESLint.Plugin & {
+    configs: {
+      recommended: Linter.Config
     }
   }
 
