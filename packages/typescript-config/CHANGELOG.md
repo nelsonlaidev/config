@@ -1,5 +1,12 @@
 # @nelsonlaidev/typescript-config
 
+## 1.2.1
+
+### Patch Changes
+
+- 4aef416: - Fix preset name `next.json` → `nextjs.json`
+  - Add missing presets: `library.json` and `tanstack-start.json`
+
 ## 1.2.0
 
 ### Minor Changes
