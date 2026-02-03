@@ -29,8 +29,16 @@ type Options = {
   // Enable Next.js specific linting rules
   nextjs?: boolean
   // Optional
-  // Specify the entry point for Tailwind CSS (also enable ESLint rules for tailwindcss)
-  tailwindEntryPoint?: string
+  // Configure Tailwind CSS ESLint rules
+  tailwindcss?: {
+    // Path to the main entry point of your Tailwind CSS setup
+    entryPoint?: string
+    // Path to your tailwind.config.ts file
+    tailwindConfig?: string
+    // Path to your tsconfig.json file
+    tsconfig?: string
+    // Additional rule options...
+  }
   // Optional
   // Specify glob patterns for Vitest (also enable ESLint rules for vitest)
   vitestGlob?: string

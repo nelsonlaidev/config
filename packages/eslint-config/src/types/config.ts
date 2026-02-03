@@ -1,3 +1,4 @@
+import type { TailwindCSSOptions } from './tailwindcss'
 import type { Linter } from 'eslint'
 
 /**
@@ -15,11 +16,11 @@ export type ConfigOptions = {
    */
   nextjs?: boolean
   /**
-   * Path to the main entry point of your Tailwind CSS setup.
+   * Tailwind CSS configuration options.
    *
-   * Enabling this also turns on ESLint rules related to Tailwind CSS.
+   * Providing this object (with any of its options) automatically enables ESLint rules related to Tailwind CSS.
    */
-  tailwindEntryPoint?: string
+  tailwindcss?: TailwindCSSOptions
   /**
    * Glob patterns for your Vitest test files.
    *

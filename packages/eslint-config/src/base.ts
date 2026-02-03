@@ -67,8 +67,8 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     configs.push(...nextjs())
   }
 
-  if (options.tailwindEntryPoint) {
-    configs.push(...tailwindcss(options.tailwindEntryPoint))
+  if (options.tailwindcss) {
+    configs.push(...tailwindcss(options.tailwindcss))
   }
 
   configs.push(...userConfigs)

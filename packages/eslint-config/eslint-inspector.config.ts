@@ -13,7 +13,9 @@ import { GLOB_SRC_EXT } from './src/globs'
 export default defineConfig({
   react: true,
   nextjs: true,
-  tailwindEntryPoint: './fake/globals.css',
+  tailwind: {
+    entryPoint: './fake/globals.css'
+  },
   vitestGlob: `**/*.test.${GLOB_SRC_EXT}`,
   playwrightGlob: `**/e2e/**/*.test.${GLOB_SRC_EXT}`
 })
