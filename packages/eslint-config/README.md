@@ -23,10 +23,6 @@ export default defineConfig({
 ```ts
 type Options = {
   // Optional
-  // The root directory of the TypeScript configuration
-  // Defaults to process.cwd() if not specified
-  tsconfigRootDir?: string
-  // Optional
   // Enable React specific linting rules
   react?: boolean
   // Optional

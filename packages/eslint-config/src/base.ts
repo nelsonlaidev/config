@@ -1,7 +1,5 @@
 import type { ConfigOptions, FlatConfig } from './types'
 
-import process from 'node:process'
-
 import { isPackageExists } from 'local-pkg'
 
 import { command } from './configs/command'
@@ -44,7 +42,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...command(),
     ...unicorn(),
     ...jsx(),
-    ...typescript(options.tsconfigRootDir ?? process.cwd()),
+    ...typescript(),
     ...regexp(),
     ...stylistic(),
     ...zod()

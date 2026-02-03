@@ -5,15 +5,14 @@ import parser from '@typescript-eslint/parser'
 import { GLOB_TS, GLOB_TSX } from '../globs'
 import { typescriptPlugin } from '../plugins'
 
-export const typescript = (tsconfigRootDir: string): FlatConfig[] => [
+export const typescript = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/typescript/setup',
-    files: [GLOB_TS, GLOB_TSX],
     languageOptions: {
       parser,
       parserOptions: {
         projectService: true,
-        tsconfigRootDir
+        tsconfigRootDir: process.cwd()
       },
       sourceType: 'module'
     },

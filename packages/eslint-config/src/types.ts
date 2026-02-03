@@ -5,11 +5,6 @@ import type { Linter } from 'eslint'
  */
 export type ConfigOptions = {
   /**
-   * The absolute or relative path to the root directory that contains
-   * the `tsconfig.json`. Used to resolve TypeScript configuration.
-   */
-  tsconfigRootDir?: string
-  /**
    * Enable additional ESLint rules optimized for React projects.
    */
   react?: boolean
