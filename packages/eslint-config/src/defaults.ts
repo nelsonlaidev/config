@@ -7,8 +7,10 @@ import type {
   NoUnnecessaryWhitespaceOptions
 } from './types'
 
+export const DEFAULT_ROOT_FONT_SIZE = 16
+
 export const CANONICAL_CLASSES_DEFAULT_OPTIONS: CanonicalClassesOptions = {
-  rootFontSize: 16,
+  rootFontSize: DEFAULT_ROOT_FONT_SIZE,
   collapse: true,
   logical: true
 }

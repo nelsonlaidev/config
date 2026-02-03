@@ -1,4 +1,4 @@
-import type { FlatConfig, JsxOptions } from '../types'
+import type { FlatConfig, JsxA11yOptions, JsxOptions } from '../types'
 
 import { GLOB_JSX, GLOB_TSX } from '../globs'
 import { jsxA11yPlugin } from '../plugins'
@@ -38,7 +38,7 @@ export const jsx = (options: JsxOptions): FlatConfig[] => [
           Link: 'a',
           ...options.a11y?.components
         }
-      }
+      } satisfies JsxA11yOptions
     }
   }
 ]

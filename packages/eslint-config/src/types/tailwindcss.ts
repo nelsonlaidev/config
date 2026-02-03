@@ -167,6 +167,8 @@ export type TailwindCSSOptions = {
   detectComponentClasses?: boolean
   /**
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#rootfontsize) for more details.
+   *
+   * @default 16
    */
   rootFontSize?: number
   /**

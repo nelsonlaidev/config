@@ -11,6 +11,7 @@ import {
   CANONICAL_CLASSES_DEFAULT_OPTIONS,
   CONSISTENT_CLASS_ORDER_DEFAULT_OPTIONS,
   CONSISTENT_LINE_WRAPPING_DEFAULT_OPTIONS,
+  DEFAULT_ROOT_FONT_SIZE,
   NO_RESTRICTED_CLASSES_DEFAULT_OPTIONS,
   NO_UNKNOWN_CLASSES_DEFAULT_OPTIONS,
   NO_UNNECESSARY_WHITESPACE_DEFAULT_OPTIONS
@@ -84,6 +85,7 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
       settings: {
         'better-tailwindcss': {
           ...options,
+          rootFontSize: options.rootFontSize ?? DEFAULT_ROOT_FONT_SIZE,
           attributes: [...getDefaultAttributes(), ...(options.attributes ?? [])],
           callees: [...getDefaultCallees(), ...(options.callees ?? [])],
           variables: [...getDefaultVariables(), ...(options.variables ?? [])],
