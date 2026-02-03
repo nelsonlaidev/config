@@ -1,9 +1,9 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import { GLOB_SRC } from '../globs'
 import { reactHooksPlugin, reactPlugin } from '../plugins'
 
-export const react = (overrides?: RuleOverrides): FlatConfig[] => [
+export const react = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/react/rules',
     files: [GLOB_SRC],
@@ -29,9 +29,7 @@ export const react = (overrides?: RuleOverrides): FlatConfig[] => [
       '@eslint-react/naming-convention/use-state': 'off',
       '@eslint-react/hooks-extra/no-direct-set-state-in-use-effect': 'off',
       'react-hooks/set-state-in-effect': 'off',
-      'react-hooks/static-components': 'off',
-
-      ...overrides
+      'react-hooks/static-components': 'off'
     }
   }
 ]

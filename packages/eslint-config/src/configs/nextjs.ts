@@ -1,8 +1,8 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import { nextPlugin } from '../plugins'
 
-export const nextjs = (overrides?: RuleOverrides): FlatConfig[] => [
+export const nextjs = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/nextjs/rules',
     plugins: {
@@ -12,9 +12,7 @@ export const nextjs = (overrides?: RuleOverrides): FlatConfig[] => [
       ...nextPlugin.configs['core-web-vitals'].rules,
 
       // Unnecessary
-      '@next/next/no-html-link-for-pages': 'off',
-
-      ...overrides
+      '@next/next/no-html-link-for-pages': 'off'
     }
   }
 ]

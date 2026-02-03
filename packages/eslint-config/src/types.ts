@@ -37,34 +37,6 @@ export type ConfigOptions = {
    * A list of file paths or glob patterns that ESLint should ignore.
    */
   ignores?: string[]
-  /**
-   * Override specific ESLint rules for each plugin.
-   */
-  overrides?: Overrides
-}
-
-export type RuleOverrides = Linter.Config['rules']
-
-export type Overrides = {
-  javascript?: RuleOverrides
-  sonarjs?: RuleOverrides
-  importSort?: RuleOverrides
-  deMorgan?: RuleOverrides
-  comments?: RuleOverrides
-  node?: RuleOverrides
-  imports?: RuleOverrides
-  unicorn?: RuleOverrides
-  jsx?: RuleOverrides
-  typescript?: RuleOverrides
-  regexp?: RuleOverrides
-  vitest?: RuleOverrides
-  playwright?: RuleOverrides
-  react?: RuleOverrides
-  nextjs?: RuleOverrides
-  tailwindcss?: RuleOverrides
-  prettier?: RuleOverrides
-  stylistic?: RuleOverrides
-  zod?: RuleOverrides
 }
 
 export type FlatConfig = Linter.Config

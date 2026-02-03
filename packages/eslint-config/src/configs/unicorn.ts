@@ -1,8 +1,8 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import { unicornPlugin } from '../plugins'
 
-export const unicorn = (overrides?: RuleOverrides): FlatConfig[] => [
+export const unicorn = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/unicorn/rules',
     plugins: {
@@ -17,9 +17,7 @@ export const unicorn = (overrides?: RuleOverrides): FlatConfig[] => [
 
       // Unnecessary
       'unicorn/no-document-cookie': 'off',
-      'unicorn/prefer-string-raw': 'off',
-
-      ...overrides
+      'unicorn/prefer-string-raw': 'off'
     }
   }
 ]

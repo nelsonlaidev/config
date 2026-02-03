@@ -1,10 +1,10 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import globals from 'globals'
 
 import { playwrightPlugin } from '../plugins'
 
-export const playwright = (glob: string, overrides?: RuleOverrides): FlatConfig[] => [
+export const playwright = (glob: string): FlatConfig[] => [
   {
     name: 'nelsonlaidev/playwright/setup',
     languageOptions: {
@@ -18,9 +18,7 @@ export const playwright = (glob: string, overrides?: RuleOverrides): FlatConfig[
       playwright: playwrightPlugin
     },
     rules: {
-      ...playwrightPlugin.configs.recommended.rules,
-
-      ...overrides
+      ...playwrightPlugin.configs.recommended.rules
     }
   }
 ]

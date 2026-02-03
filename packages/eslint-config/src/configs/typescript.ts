@@ -1,11 +1,11 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import parser from '@typescript-eslint/parser'
 
 import { GLOB_TS, GLOB_TSX } from '../globs'
 import { typescriptPlugin } from '../plugins'
 
-export const typescript = (tsconfigRootDir: string, overrides?: RuleOverrides): FlatConfig[] => [
+export const typescript = (tsconfigRootDir: string): FlatConfig[] => [
   {
     name: 'nelsonlaidev/typescript/setup',
     files: [GLOB_TS, GLOB_TSX],
@@ -63,9 +63,7 @@ export const typescript = (tsconfigRootDir: string, overrides?: RuleOverrides): 
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
 
-      '@typescript-eslint/consistent-type-definitions': 'off',
-
-      ...overrides
+      '@typescript-eslint/consistent-type-definitions': 'off'
     }
   }
 ]

@@ -1,8 +1,8 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import { importSortPlugin } from '../plugins'
 
-export const importSort = (overrides?: RuleOverrides): FlatConfig[] => [
+export const importSort = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/import-sort/rules',
     plugins: {
@@ -43,9 +43,7 @@ export const importSort = (overrides?: RuleOverrides): FlatConfig[] => [
           ]
         }
       ],
-      'import-sort/exports': 'error',
-
-      ...overrides
+      'import-sort/exports': 'error'
     }
   }
 ]

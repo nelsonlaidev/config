@@ -1,8 +1,8 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import { commentsPlugin } from '../plugins'
 
-export const comments = (overrides?: RuleOverrides): FlatConfig[] => [
+export const comments = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/eslint-comments/rules',
     plugins: {
@@ -17,9 +17,7 @@ export const comments = (overrides?: RuleOverrides): FlatConfig[] => [
       '@eslint-community/eslint-comments/no-use': [
         'error',
         { allow: ['eslint-disable-next-line', 'eslint-disable', 'eslint-enable'] }
-      ],
-
-      ...overrides
+      ]
     }
   }
 ]
