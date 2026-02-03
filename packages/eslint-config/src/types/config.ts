@@ -1,5 +1,7 @@
 import type { JsxOptions } from './jsx'
+import type { PlaywrightOptions } from './playwright'
 import type { TailwindCSSOptions } from './tailwindcss'
+import type { VitestOptions } from './vitest'
 import type { Linter } from 'eslint'
 
 /**
@@ -27,17 +29,17 @@ export type ConfigOptions = {
    */
   jsx?: JsxOptions
   /**
-   * Glob patterns for your Vitest test files.
+   * Vitest configuration options.
    *
-   * When provided, ESLint rules for Vitest will be enabled.
+   * Providing this object (with any of its options) automatically enables ESLint rules related to Vitest.
    */
-  vitestGlob?: string
+  vitest?: VitestOptions
   /**
-   * Glob patterns for your Playwright test files.
+   * Playwright configuration options.
    *
-   * When provided, ESLint rules for Playwright will be enabled.
+   * Providing this object (with any of its options) automatically enables ESLint rules related to Playwright.
    */
-  playwrightGlob?: string
+  playwright?: PlaywrightOptions
   /**
    * A list of file paths or glob patterns that ESLint should ignore.
    */

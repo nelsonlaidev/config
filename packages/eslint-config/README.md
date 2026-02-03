@@ -58,11 +58,17 @@ type Options = {
     }
   }
   // Optional
-  // Specify glob patterns for Vitest (also enable ESLint rules for vitest)
-  vitestGlob?: string
+  // Configure Vitest (also enable ESLint rules for vitest)
+  vitest?: {
+    // Specify files/globs for Vitest
+    files: Array<string | string[]>
+  }
   // Optional
-  // Specify glob patterns for Playwright (also enable ESLint rules for playwright)
-  playwrightGlob?: string
+  // Configure Playwright (also enable ESLint rules for playwright)
+  playwright?: {
+    // Specify files/globs for Playwright
+    files: Array<string | string[]>
+  }
   // Optional
   // Specify files to ignore
   ignores?: string[]

@@ -16,6 +16,10 @@ export default defineConfig({
   tailwindcss: {
     entryPoint: './fake/globals.css'
   },
-  vitestGlob: `**/*.test.${GLOB_SRC_EXT}`,
-  playwrightGlob: `**/e2e/**/*.test.${GLOB_SRC_EXT}`
+  vitest: {
+    files: [`**/*.test.${GLOB_SRC_EXT}`]
+  },
+  playwright: {
+    files: [`**/e2e/**/*.test.${GLOB_SRC_EXT}`]
+  }
 })

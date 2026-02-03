@@ -51,12 +51,12 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled
   const isReactEnabled = (options.react ?? isReactInstalled) || isNextjsEnabled
 
-  if (options.vitestGlob) {
-    configs.push(...vitest(options.vitestGlob))
+  if (options.vitest) {
+    configs.push(...vitest(options.vitest))
   }
 
-  if (options.playwrightGlob) {
-    configs.push(...playwright(options.playwrightGlob))
+  if (options.playwright) {
+    configs.push(...playwright(options.playwright))
   }
 
   if (isReactEnabled) {

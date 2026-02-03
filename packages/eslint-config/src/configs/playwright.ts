@@ -1,10 +1,10 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, PlaywrightOptions } from '../types'
 
 import globals from 'globals'
 
 import { playwrightPlugin } from '../plugins'
 
-export const playwright = (glob: string): FlatConfig[] => [
+export const playwright = (options: PlaywrightOptions): FlatConfig[] => [
   {
     name: 'nelsonlaidev/playwright/setup',
     languageOptions: {
@@ -13,7 +13,7 @@ export const playwright = (glob: string): FlatConfig[] => [
   },
   {
     name: 'nelsonlaidev/playwright/rules',
-    files: [glob],
+    files: options.files,
     plugins: {
       playwright: playwrightPlugin
     },
