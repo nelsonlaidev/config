@@ -1,3 +1,4 @@
+import type { JsxOptions } from './jsx'
 import type { TailwindCSSOptions } from './tailwindcss'
 import type { Linter } from 'eslint'
 
@@ -21,6 +22,10 @@ export type ConfigOptions = {
    * Providing this object (with any of its options) automatically enables ESLint rules related to Tailwind CSS.
    */
   tailwindcss?: TailwindCSSOptions
+  /**
+   * JSX configuration options.
+   */
+  jsx?: JsxOptions
   /**
    * Glob patterns for your Vitest test files.
    *

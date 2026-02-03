@@ -40,6 +40,24 @@ type Options = {
     // Additional rule options...
   }
   // Optional
+  // Configure JSX and accessibility linting rules
+  jsx?: {
+    // jsx-a11y plugin options
+    a11y?: {
+      // Custom component to native element mappings
+      // Example: { Button: 'button', Link: 'a' }
+      components?: Record<string, string>
+      // Custom attribute mappings
+      attributes?: {
+        for?: string[]
+      }
+      // Polymorphic component prop name (e.g., 'as' or 'component')
+      polymorphicPropName?: string
+      // List of allowed polymorphic component types
+      polymorphicAllowList?: string[]
+    }
+  }
+  // Optional
   // Specify glob patterns for Vitest (also enable ESLint rules for vitest)
   vitestGlob?: string
   // Optional

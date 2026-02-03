@@ -1,9 +1,9 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, JsxOptions } from '../types'
 
 import { GLOB_JSX, GLOB_TSX } from '../globs'
 import { jsxA11yPlugin } from '../plugins'
 
-export const jsx = (): FlatConfig[] => [
+export const jsx = (options: JsxOptions): FlatConfig[] => [
   {
     name: 'nelsonlaidev/jsx/setup',
     files: [GLOB_JSX, GLOB_TSX],
@@ -29,12 +29,14 @@ export const jsx = (): FlatConfig[] => [
     },
     settings: {
       'jsx-a11y': {
+        ...options.a11y,
         components: {
           Button: 'button',
           Image: 'img',
           Input: 'input',
           Textarea: 'textarea',
-          Link: 'a'
+          Link: 'a',
+          ...options.a11y?.components
         }
       }
     }
