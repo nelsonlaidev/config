@@ -22,7 +22,7 @@ export const jsx = (options: JsxOptions): FlatConfig[] => [
       'jsx-a11y': jsxA11yPlugin
     },
     rules: {
-      ...jsxA11yPlugin.flatConfigs.strict.rules,
+      ...jsxA11yPlugin.flatConfigs.recommended.rules,
 
       'jsx-a11y/lang': 'error',
       'jsx-a11y/no-aria-hidden-on-focusable': 'error'
