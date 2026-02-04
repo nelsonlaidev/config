@@ -1,7 +1,6 @@
 import type {
   CanonicalClassesOptions,
   ConsistentClassOrderOptions,
-  ConsistentLineWrappingOptions,
   ExpectExpectOptions,
   MaxNestedDescribeOptions,
   MissingPlaywrightAwaitOptions,
@@ -29,16 +28,6 @@ export const CONSISTENT_CLASS_ORDER_DEFAULT_OPTIONS: ConsistentClassOrderOptions
   componentClassPosition: 'start',
   unknownClassOrder: 'preserve',
   unknownClassPosition: 'start'
-}
-
-export const CONSISTENT_LINE_WRAPPING_DEFAULT_OPTIONS: ConsistentLineWrappingOptions = {
-  printWidth: 120,
-  classesPerLine: 0,
-  group: 'newLine',
-  preferSingleLine: false,
-  indent: 2,
-  lineBreakStyle: 'unix',
-  strictness: 'strict'
 }
 
 export const NO_RESTRICTED_CLASSES_DEFAULT_OPTIONS: NoRestrictedClassesOptions = {

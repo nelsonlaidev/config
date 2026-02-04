@@ -62,51 +62,6 @@ export type ConsistentClassOrderOptions = {
   unknownClassPosition?: 'start' | 'end'
 }
 
-export type ConsistentLineWrappingOptions = {
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md#printWidth) for more details.
-   *
-   * @default 120
-   */
-  printWidth?: number
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md#classesPerLine) for more details.
-   *
-   * @default 0
-   */
-  classesPerLine?: number
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md#group) for more details.
-   *
-   * @default 'newLine'
-   */
-  group?: 'emptyLine' | 'never' | 'newLine'
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md#preferSingleLine) for more details.
-   *
-   * @default false
-   */
-  preferSingleLine?: boolean
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md#indent) for more details.
-   *
-   * @default 2
-   */
-  indent?: number | 'tab'
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md#lineBreakStyle) for more details.
-   *
-   * @default 'unix'
-   */
-  lineBreakStyle?: 'windows' | 'unix'
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md#strictness) for more details.
-   *
-   * @default 'strict'
-   */
-  strictness?: 'strict' | 'loose'
-}
-
 export type NoRestrictedClassesOptions = {
   /**
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-restricted-classes.md#restrict) for more details.
@@ -199,10 +154,6 @@ export type TailwindCSSOptions = {
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-class-order.md) for more details.
    */
   consistentClassOrder?: ConsistentClassOrderOptions
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md) for more details.
-   */
-  consistentLineWrapping?: ConsistentLineWrappingOptions
   /**
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-restricted-classes.md) for more details.
    */

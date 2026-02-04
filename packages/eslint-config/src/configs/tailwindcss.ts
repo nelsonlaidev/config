@@ -10,7 +10,6 @@ import {
 import {
   CANONICAL_CLASSES_DEFAULT_OPTIONS,
   CONSISTENT_CLASS_ORDER_DEFAULT_OPTIONS,
-  CONSISTENT_LINE_WRAPPING_DEFAULT_OPTIONS,
   DEFAULT_ROOT_FONT_SIZE,
   NO_RESTRICTED_CLASSES_DEFAULT_OPTIONS,
   NO_UNKNOWN_CLASSES_DEFAULT_OPTIONS,
@@ -46,13 +45,6 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
           {
             ...CONSISTENT_CLASS_ORDER_DEFAULT_OPTIONS,
             ...options.consistentClassOrder
-          }
-        ],
-        'better-tailwindcss/enforce-consistent-line-wrapping': [
-          'error',
-          {
-            ...CONSISTENT_LINE_WRAPPING_DEFAULT_OPTIONS,
-            ...options.consistentLineWrapping
           }
         ],
         'better-tailwindcss/no-conflicting-classes': 'error',
