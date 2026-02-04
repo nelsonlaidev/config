@@ -6,7 +6,6 @@
 //
 // The glob patterns and options defined here are examples and should not be
 // considered as recommended patterns for production use.
-
 import { defineConfig } from './src/base'
 import { GLOB_SRC_EXT } from './src/globs'
 

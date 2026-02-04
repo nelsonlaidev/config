@@ -68,6 +68,44 @@ type Options = {
   playwright?: {
     // Specify files/globs for Playwright
     files: Array<string | string[]>
+    // Alias globals for Playwright's test runner functions
+    globalAliases?: {
+      test?: string[]
+      expect?: string[]
+    }
+    // Custom messages used by Playwright plugin rules
+    messages?: Record<string, string | undefined>
+    // Rule options
+    expectExpect?: {
+      assertFunctionNames?: string[]
+      assertFunctionPatterns?: string[]
+    }
+    maxNestedDescribe?: {
+      max?: number
+    }
+    missingPlaywrightAwait?: {
+      customMatchers?: string[]
+    }
+    noSkippedTest?: {
+      allowConditional?: boolean
+    }
+    validExpect?: {
+      minArgs?: number
+      maxArgs?: number
+    }
+    validTitle?: {
+      ignoreSpaces?: boolean
+      ignoreTypeOfStepName?: boolean
+      ignoreTypeOfTestName?: boolean
+      ignoreTypeOfDescribeName?: boolean
+      disallowedWords?: string[]
+      mustNotMatch?: Partial<Record<'describe' | 'test', string>> | string
+      mustMatch?: Partial<Record<'describe' | 'test', string>> | string
+    }
+    validTestTags?: {
+      allowedTags?: (string | RegExp)[]
+      disallowedTags?: (string | RegExp)[]
+    }
   }
   // Optional
   // Specify files to ignore
