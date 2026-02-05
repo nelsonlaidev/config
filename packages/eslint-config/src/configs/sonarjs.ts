@@ -1,8 +1,8 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import { sonarjsPlugin } from '../plugins'
 
-export const sonarjs = (overrides?: RuleOverrides): FlatConfig[] => [
+export const sonarjs = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/sonarjs/rules',
     plugins: {
@@ -20,9 +20,7 @@ export const sonarjs = (overrides?: RuleOverrides): FlatConfig[] => [
       // Unnecessary
       'sonarjs/pseudo-random': 'off',
       'sonarjs/function-return-type': 'off',
-      'sonarjs/prefer-read-only-props': 'off',
-
-      ...overrides
+      'sonarjs/prefer-read-only-props': 'off'
     }
   }
 ]

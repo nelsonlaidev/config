@@ -1,17 +1,15 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import { regexpPlugin } from '../plugins'
 
-export const regexp = (overrides?: RuleOverrides): FlatConfig[] => [
+export const regexp = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/regexp/rules',
     plugins: {
       regexp: regexpPlugin
     },
     rules: {
-      ...regexpPlugin.configs.recommended.rules,
-
-      ...overrides
+      ...regexpPlugin.configs.recommended.rules
     }
   }
 ]

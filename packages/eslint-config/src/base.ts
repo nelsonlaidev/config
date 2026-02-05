@@ -1,7 +1,5 @@
 import type { ConfigOptions, FlatConfig } from './types'
 
-import process from 'node:process'
-
 import { isPackageExists } from 'local-pkg'
 
 import { command } from './configs/command'
@@ -31,48 +29,46 @@ const isReactInstalled = isPackageExists('react')
 const isNextjsInstalled = isPackageExists('next')
 
 export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatConfig[]): FlatConfig[] => {
-  const { overrides = {} } = options
-
   const configs = [
     ...gitignore(),
     ...ignores(options.ignores),
-    ...javascript(overrides.javascript),
-    ...sonarjs(overrides.sonarjs),
-    ...importSort(overrides.importSort),
-    ...deMorgan(overrides.deMorgan),
-    ...comments(overrides.comments),
-    ...node(overrides.node),
-    ...imports(overrides.imports),
+    ...javascript(),
+    ...sonarjs(),
+    ...importSort(),
+    ...deMorgan(),
+    ...comments(),
+    ...node(),
+    ...imports(),
     ...command(),
-    ...unicorn(overrides.unicorn),
-    ...jsx(overrides.jsx),
-    ...typescript(options.tsconfigRootDir ?? process.cwd(), overrides.typescript),
-    ...regexp(overrides.regexp),
-    ...stylistic(overrides.stylistic),
-    ...zod(overrides.zod)
+    ...unicorn(),
+    ...jsx(options.jsx ?? {}),
+    ...typescript(),
+    ...regexp(),
+    ...stylistic(),
+    ...zod()
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled
   const isReactEnabled = (options.react ?? isReactInstalled) || isNextjsEnabled
 
-  if (options.vitestGlob) {
-    configs.push(...vitest(options.vitestGlob, overrides.vitest))
+  if (options.vitest) {
+    configs.push(...vitest(options.vitest))
   }
 
-  if (options.playwrightGlob) {
-    configs.push(...playwright(options.playwrightGlob, overrides.playwright))
+  if (options.playwright) {
+    configs.push(...playwright(options.playwright))
   }
 
   if (isReactEnabled) {
-    configs.push(...react(overrides.react))
+    configs.push(...react())
   }
 
   if (isNextjsEnabled) {
-    configs.push(...nextjs(overrides.nextjs))
+    configs.push(...nextjs())
   }
 
-  if (options.tailwindEntryPoint) {
-    configs.push(...tailwindcss(options.tailwindEntryPoint, overrides.tailwindcss))
+  if (options.tailwindcss) {
+    configs.push(...tailwindcss(options.tailwindcss))
   }
 
   configs.push(...userConfigs)
@@ -80,7 +76,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
   // Must be added as the last item
   // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
   // eslint-disable-next-line unicorn/prefer-single-call -- For better readability
-  configs.push(...prettier(overrides.prettier))
+  configs.push(...prettier())
 
   return configs
 }

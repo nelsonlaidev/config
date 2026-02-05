@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "useGitignore": true,
+  "enableGlobDot": true,
+  "enabledFileTypes": {
+    "*": true
+  },
+  "ignoreRandomStrings": true,
+  "allowCompoundWords": true,
+  "dictionaries": ["npm"],
+  "ignorePaths": ["pnpm-lock.yaml", ".git"],
+  "words": ["nelsonlaidev", "sonarjs", "sxzz"]
+}

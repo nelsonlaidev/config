@@ -1,18 +1,16 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig, VitestOptions } from '../types'
 
 import { vitestPlugin } from '../plugins'
 
-export const vitest = (glob: string, overrides?: RuleOverrides): FlatConfig[] => [
+export const vitest = (options: VitestOptions): FlatConfig[] => [
   {
     name: 'nelsonlaidev/vitest/rules',
-    files: [glob],
+    files: options.files,
     plugins: {
       vitest: vitestPlugin
     },
     rules: {
-      ...vitestPlugin.configs.recommended.rules,
-
-      ...overrides
+      ...vitestPlugin.configs.recommended.rules
     }
   }
 ]

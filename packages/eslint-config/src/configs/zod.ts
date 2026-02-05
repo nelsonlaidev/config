@@ -1,17 +1,15 @@
-import type { FlatConfig, RuleOverrides } from '../types'
+import type { FlatConfig } from '../types'
 
 import { importZodPlugin } from '../plugins'
 
-export const zod = (overrides?: RuleOverrides): FlatConfig[] => [
+export const zod = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/zod/rules',
     plugins: {
       'import-zod': importZodPlugin
     },
     rules: {
-      'import-zod/prefer-zod-namespace': 'error',
-
-      ...overrides
+      'import-zod/prefer-zod-namespace': 'error'
     }
   }
 ]

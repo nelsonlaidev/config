@@ -3,7 +3,7 @@
 //
 // - eslint-plugin-jsx-a11y: missing types
 // - @eslint-react/eslint-plugin: incompatible types
-// - @typescript-eslint/eslint-plugin: incompatible types
+// - @typescript-eslint/eslint-plugin: missing types
 // - eslint-plugin-react-hooks: incompatible types
 // - eslint-plugin-sonarjs: incompatible types
 declare module 'eslint-plugin-jsx-a11y' {
@@ -42,7 +42,7 @@ declare module '@typescript-eslint/eslint-plugin' {
     configs: {
       'eslint-recommended': {
         // Defined
-        // https://github.com/typescript-eslint/typescript-eslint/blob/264ca2fad49a298a2963de83746f8e8044229a3b/packages/eslint-plugin/src/configs/eslint-recommended-raw.ts
+        // https://github.com/typescript-eslint/typescript-eslint/blob/8a95834bb5fd818cc049390e4cb57196717a011f/packages/eslint-plugin/src/configs/eslintrc/eslint-recommended.ts
         overrides: [
           {
             files: string[]
