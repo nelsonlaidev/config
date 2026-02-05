@@ -1,5 +1,135 @@
 # @nelsonlaidev/eslint-config
 
+## 3.0.0
+
+### Major Changes
+
+- e0457bb: Refactor Tailwind CSS configuration to support more customization options.
+
+  The `tailwindEntryPoint` option has been replaced with a more flexible `tailwindcss` object that accepts comprehensive configuration options:
+
+  ```ts
+  // Before
+  export default defineConfig({
+    tailwindEntryPoint: './src/globals.css'
+  })
+
+  // After
+  export default defineConfig({
+    tailwindcss: {
+      entryPoint: './src/globals.css',
+      tailwindConfig: './tailwind.config.ts',
+      tsconfig: './tsconfig.json',
+      canonicalClasses: { logical: true },
+      consistentClassOrder: { order: 'official' },
+      consistentLineWrapping: { printWidth: 120 },
+      noUnknownClasses: { ignore: [] },
+      noRestrictedClasses: { restrict: [] },
+      noUnnecessaryWhitespace: { allowMultiline: true }
+    }
+  })
+  ```
+
+  All Tailwind CSS rule options are now individually configurable with sensible defaults applied automatically.
+
+- e0457bb: Remove `overrides` configuration option from ESLint config
+
+  The `overrides` option has been removed. Users should now pass custom ESLint configurations directly via the spread parameter in `defineConfig()`:
+
+  ```ts
+  // Before
+  export default defineConfig({
+    overrides: {
+      typescript: { '@typescript-eslint/no-explicit-any': 'off' }
+    }
+  })
+
+  // After
+  export default defineConfig(
+    {},
+    {
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off'
+      }
+    }
+  )
+  ```
+
+- e0457bb: Remove `tsconfigRootDir` configuration option
+
+  The `tsconfigRootDir` option has been removed from the configuration API. The TypeScript configuration now automatically uses `process.cwd()` as the root directory. Users no longer need to specify this option.
+
+  ```ts
+  // Before
+  export default defineConfig({
+    tsconfigRootDir: import.meta.dirname
+  })
+
+  // After
+  export default defineConfig()
+  ```
+
+- e0457bb: Replace vitest/playwright glob options with option objects passed to their config helpers.
+
+  ```ts
+  // Before
+  export default defineConfig({
+    vitestGlob: 'tests/**/*.test.{ts,tsx}',
+    playwrightGlob: 'e2e/**/*.spec.{ts,tsx}'
+  })
+
+  // After
+  export default defineConfig({
+    vitest: {
+      files: 'tests/**/*.test.{ts,tsx}'
+    },
+    playwright: {
+      files: 'e2e/**/*.spec.{ts,tsx}'
+    }
+  })
+  ```
+
+### Minor Changes
+
+- e0457bb: Add JSX configuration options for customizing accessibility linting rules.
+
+  You can now customize JSX accessibility settings through the new `jsx` configuration option:
+
+  ```ts
+  // Example usage
+  export default defineConfig({
+    jsx: {
+      a11y: {
+        // Map custom components to native elements
+        components: {
+          Button: 'button',
+          CustomLink: 'a',
+          CustomImage: 'img'
+        },
+        // Configure polymorphic components
+        polymorphicPropName: 'as',
+        polymorphicAllowList: ['div', 'span']
+      }
+    }
+  })
+  ```
+
+  This allows you to configure jsx-a11y plugin settings including:
+  - Custom component to native element mappings
+  - Custom attribute mappings
+  - Polymorphic component configuration
+
+- e0457bb: Add Playwright rule option types and defaults for expect-expect, max-nested-describe, missing-playwright-await, no-skipped-test, valid-expect, valid-title, and valid-test-tags.
+
+### Patch Changes
+
+- e0457bb: Improve type safety with satisfies operator and add missing default value documentation
+- e0457bb: Change JSX a11y rules from strict to recommended preset.
+
+  The JSX configuration now uses `jsxA11yPlugin.flatConfigs.recommended.rules` instead of `jsxA11yPlugin.flatConfigs.strict.rules`, providing a more balanced set of accessibility rules while maintaining essential checks.
+
+- e0457bb: Update JSDoc documentation
+
 ## 2.5.1
 
 ### Patch Changes
