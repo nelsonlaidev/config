@@ -41,6 +41,13 @@ export type ConfigOptions = {
    */
   playwright?: PlaywrightOptions
   /**
+   * Enable eslint-plugin-prettier rules.
+   *
+   * Defaults to enabling only when Prettier is installed.
+   * Set to true/false to override.
+   */
+  prettier?: boolean
+  /**
    * A list of file paths or glob patterns that ESLint should ignore.
    */
   ignores?: string[]

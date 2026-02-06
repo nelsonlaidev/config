@@ -108,6 +108,11 @@ type Options = {
     }
   }
   // Optional
+  // Enable eslint-plugin-prettier rules
+  // Defaults to enabling only when Prettier is installed
+  // Set to true/false to override
+  prettier?: boolean
+  // Optional
   // Specify files to ignore
   ignores?: string[]
 }

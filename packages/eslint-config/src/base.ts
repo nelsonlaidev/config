@@ -27,6 +27,7 @@ import { zod } from './configs/zod'
 
 const isReactInstalled = isPackageExists('react')
 const isNextjsInstalled = isPackageExists('next')
+const isPrettierInstalled = isPackageExists('prettier')
 
 export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatConfig[]): FlatConfig[] => {
   const configs = [
@@ -50,6 +51,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled
   const isReactEnabled = (options.react ?? isReactInstalled) || isNextjsEnabled
+  const isPrettierEnabled = options.prettier ?? isPrettierInstalled
 
   if (options.vitest) {
     configs.push(...vitest(options.vitest))
@@ -73,10 +75,11 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
 
   configs.push(...userConfigs)
 
-  // Must be added as the last item
-  // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
-  // eslint-disable-next-line unicorn/prefer-single-call -- For better readability
-  configs.push(...prettier())
+  if (isPrettierEnabled) {
+    // Must be added as the last item
+    // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
+    configs.push(...prettier())
+  }
 
   return configs
 }
