@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 3.0.1
+
+### Patch Changes
+
+- 7e684c7: Add a `prettier` option to disable the Prettier ESLint plugin and auto-enable it only when Prettier is installed.
+
 ## 3.0.0
 
 ### Major Changes
