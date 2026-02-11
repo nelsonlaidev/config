@@ -1,5 +1,11 @@
 # @nelsonlaidev/prettier-config
 
+## 0.2.0
+
+### Minor Changes
+
+- 819935c: Change `trailingComma` from `none` to `all` for better code formatting consistency
+
 ## 0.1.1
 
 ### Patch Changes
