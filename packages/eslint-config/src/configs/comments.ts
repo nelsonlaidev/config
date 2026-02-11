@@ -11,13 +11,7 @@ export const comments = (): FlatConfig[] => [
     rules: {
       ...commentsPlugin.configs.recommended.rules,
 
-      '@eslint-community/eslint-comments/require-description': 'error',
-      '@eslint-community/eslint-comments/no-unused-disable': 'error',
-      '@eslint-community/eslint-comments/no-restricted-disable': 'error',
-      '@eslint-community/eslint-comments/no-use': [
-        'error',
-        { allow: ['eslint-disable-next-line', 'eslint-disable', 'eslint-enable'] }
-      ]
+      '@eslint-community/eslint-comments/no-unused-disable': 'error'
     }
   }
 ]
