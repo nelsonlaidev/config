@@ -6,10 +6,10 @@ export const deMorgan = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/de-morgan/rules',
     plugins: {
-      'de-morgan': deMorganPlugin
+      'de-morgan': deMorganPlugin,
     },
     rules: {
-      ...deMorganPlugin.configs.recommended.rules
-    }
-  }
+      ...deMorganPlugin.configs.recommended.rules,
+    },
+  },
 ]

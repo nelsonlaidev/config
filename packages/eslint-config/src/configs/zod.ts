@@ -6,10 +6,10 @@ export const zod = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/zod/rules',
     plugins: {
-      'import-zod': importZodPlugin
+      'import-zod': importZodPlugin,
     },
     rules: {
-      'import-zod/prefer-zod-namespace': 'error'
-    }
-  }
+      'import-zod/prefer-zod-namespace': 'error',
+    },
+  },
 ]

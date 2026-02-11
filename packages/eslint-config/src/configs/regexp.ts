@@ -6,10 +6,10 @@ export const regexp = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/regexp/rules',
     plugins: {
-      regexp: regexpPlugin
+      regexp: regexpPlugin,
     },
     rules: {
-      ...regexpPlugin.configs.recommended.rules
-    }
-  }
+      ...regexpPlugin.configs.recommended.rules,
+    },
+  },
 ]

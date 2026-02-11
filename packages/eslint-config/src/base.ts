@@ -46,7 +46,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...typescript(),
     ...regexp(),
     ...stylistic(),
-    ...zod()
+    ...zod(),
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled

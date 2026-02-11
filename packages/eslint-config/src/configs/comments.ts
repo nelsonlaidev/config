@@ -6,7 +6,7 @@ export const comments = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/eslint-comments/rules',
     plugins: {
-      '@eslint-community/eslint-comments': commentsPlugin
+      '@eslint-community/eslint-comments': commentsPlugin,
     },
     rules: {
       ...commentsPlugin.configs.recommended.rules,
@@ -16,8 +16,8 @@ export const comments = (): FlatConfig[] => [
       '@eslint-community/eslint-comments/no-restricted-disable': 'error',
       '@eslint-community/eslint-comments/no-use': [
         'error',
-        { allow: ['eslint-disable-next-line', 'eslint-disable', 'eslint-enable'] }
-      ]
-    }
-  }
+        { allow: ['eslint-disable-next-line', 'eslint-disable', 'eslint-enable'] },
+      ],
+    },
+  },
 ]

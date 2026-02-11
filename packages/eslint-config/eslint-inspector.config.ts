@@ -13,12 +13,12 @@ export default defineConfig({
   react: true,
   nextjs: true,
   tailwindcss: {
-    entryPoint: './fake/globals.css'
+    entryPoint: './fake/globals.css',
   },
   vitest: {
-    files: [`**/*.test.${GLOB_SRC_EXT}`]
+    files: [`**/*.test.${GLOB_SRC_EXT}`],
   },
   playwright: {
-    files: [`**/e2e/**/*.test.${GLOB_SRC_EXT}`]
-  }
+    files: [`**/e2e/**/*.test.${GLOB_SRC_EXT}`],
+  },
 })

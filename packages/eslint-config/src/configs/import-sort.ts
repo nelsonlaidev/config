@@ -6,7 +6,7 @@ export const importSort = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/import-sort/rules',
     plugins: {
-      'import-sort': importSortPlugin
+      'import-sort': importSortPlugin,
     },
     rules: {
       'import-sort/imports': [
@@ -20,7 +20,7 @@ export const importSort = (): FlatConfig[] => [
               String.raw`^node:.*\u0000$`,
               String.raw`^@?\w.*\u0000$`,
               String.raw`^\.\..*\u0000$`,
-              String.raw`^\..*\u0000$`
+              String.raw`^\..*\u0000$`,
             ],
 
             // Side effect imports (e.g., `import 'some-module'`)
@@ -39,11 +39,11 @@ export const importSort = (): FlatConfig[] => [
             [String.raw`^\.\.`],
 
             // Current directory relative imports (e.g., `import something from './utils'`)
-            [String.raw`^\.`]
-          ]
-        }
+            [String.raw`^\.`],
+          ],
+        },
       ],
-      'import-sort/exports': 'error'
-    }
-  }
+      'import-sort/exports': 'error',
+    },
+  },
 ]

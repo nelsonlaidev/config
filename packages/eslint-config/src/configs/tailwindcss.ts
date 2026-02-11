@@ -4,7 +4,7 @@ import {
   getDefaultAttributes,
   getDefaultCallees,
   getDefaultTags,
-  getDefaultVariables
+  getDefaultVariables,
 } from 'eslint-plugin-better-tailwindcss/api/defaults'
 
 import {
@@ -13,7 +13,7 @@ import {
   DEFAULT_ROOT_FONT_SIZE,
   NO_RESTRICTED_CLASSES_DEFAULT_OPTIONS,
   NO_UNKNOWN_CLASSES_DEFAULT_OPTIONS,
-  NO_UNNECESSARY_WHITESPACE_DEFAULT_OPTIONS
+  NO_UNNECESSARY_WHITESPACE_DEFAULT_OPTIONS,
 } from '../defaults'
 import { tailwindcssPlugin } from '../plugins'
 
@@ -24,15 +24,15 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
     {
       name: 'nelsonlaidev/tailwindcss/rules',
       plugins: {
-        'better-tailwindcss': tailwindcssPlugin
+        'better-tailwindcss': tailwindcssPlugin,
       },
       rules: {
         'better-tailwindcss/enforce-canonical-classes': [
           'error',
           {
             ...CANONICAL_CLASSES_DEFAULT_OPTIONS,
-            ...options.canonicalClasses
-          }
+            ...options.canonicalClasses,
+          },
         ],
         // The below rules are recommended to be disabled to avoid duplicate reports
         // when the canonical classes rule is enabled
@@ -44,8 +44,8 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
           'error',
           {
             ...CONSISTENT_CLASS_ORDER_DEFAULT_OPTIONS,
-            ...options.consistentClassOrder
-          }
+            ...options.consistentClassOrder,
+          },
         ],
         'better-tailwindcss/no-conflicting-classes': 'error',
         'better-tailwindcss/no-deprecated-classes': 'error',
@@ -55,24 +55,24 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
           {
             ...NO_RESTRICTED_CLASSES_DEFAULT_OPTIONS,
             ...options.noRestrictedClasses,
-            restrict: [...(options.noRestrictedClasses?.restrict ?? [])]
-          }
+            restrict: [...(options.noRestrictedClasses?.restrict ?? [])],
+          },
         ],
         'better-tailwindcss/no-unknown-classes': [
           'error',
           {
             ...NO_UNKNOWN_CLASSES_DEFAULT_OPTIONS,
             ...options.noUnknownClasses,
-            ignore: [...(options.noUnknownClasses?.ignore ?? [])]
-          }
+            ignore: [...(options.noUnknownClasses?.ignore ?? [])],
+          },
         ],
         'better-tailwindcss/no-unnecessary-whitespace': [
           'error',
           {
             ...NO_UNNECESSARY_WHITESPACE_DEFAULT_OPTIONS,
-            ...options.noUnnecessaryWhitespace
-          }
-        ]
+            ...options.noUnnecessaryWhitespace,
+          },
+        ],
       },
       settings: {
         'better-tailwindcss': {
@@ -81,9 +81,9 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
           attributes: [...getDefaultAttributes(), ...(options.attributes ?? [])],
           callees: [...getDefaultCallees(), ...(options.callees ?? [])],
           variables: [...getDefaultVariables(), ...(options.variables ?? [])],
-          tags: [...getDefaultTags(), ...(options.tags ?? [])]
-        } satisfies TailwindCSSOptions
-      }
-    }
+          tags: [...getDefaultTags(), ...(options.tags ?? [])],
+        } satisfies TailwindCSSOptions,
+      },
+    },
   ]
 }

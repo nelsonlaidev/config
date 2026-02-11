@@ -12,13 +12,13 @@ export const typescript = (): FlatConfig[] => [
       parser,
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: process.cwd()
+        tsconfigRootDir: process.cwd(),
       },
-      sourceType: 'module'
+      sourceType: 'module',
     },
     plugins: {
-      '@typescript-eslint': typescriptPlugin
-    }
+      '@typescript-eslint': typescriptPlugin,
+    },
   },
   {
     name: 'nelsonlaidev/typescript/rules',
@@ -35,8 +35,8 @@ export const typescript = (): FlatConfig[] => [
         'error',
         {
           prefer: 'type-imports',
-          fixStyle: 'inline-type-imports'
-        }
+          fixStyle: 'inline-type-imports',
+        },
       ],
       '@typescript-eslint/consistent-type-exports': ['error', { fixMixedExportsWithInlineTypeSpecifier: true }],
       '@typescript-eslint/no-import-type-side-effects': 'error',
@@ -49,10 +49,10 @@ export const typescript = (): FlatConfig[] => [
             {
               from: 'package',
               package: '@tanstack/router-core',
-              name: 'Redirect'
-            }
-          ]
-        }
+              name: 'Redirect',
+            },
+          ],
+        },
       ],
       '@typescript-eslint/no-empty-object-type': ['error', { allowInterfaces: 'with-single-extends' }],
 
@@ -62,7 +62,7 @@ export const typescript = (): FlatConfig[] => [
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
 
-      '@typescript-eslint/consistent-type-definitions': 'off'
-    }
-  }
+      '@typescript-eslint/consistent-type-definitions': 'off',
+    },
+  },
 ]

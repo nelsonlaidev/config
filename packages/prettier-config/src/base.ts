@@ -13,6 +13,6 @@ export const defineConfig = (config: Config = {}): Config => {
     endOfLine: 'lf',
     plugins: ['prettier-plugin-packagejson', ...plugins],
     printWidth: 120,
-    ...rest
+    ...rest,
   }
 }
