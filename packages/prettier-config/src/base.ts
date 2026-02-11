@@ -9,7 +9,7 @@ export const defineConfig = (config: Config = {}): Config => {
     jsxSingleQuote: true,
     tabWidth: 2,
     semi: false,
-    trailingComma: 'none',
+    trailingComma: 'all',
     endOfLine: 'lf',
     plugins: ['prettier-plugin-packagejson', ...plugins],
     printWidth: 120,
