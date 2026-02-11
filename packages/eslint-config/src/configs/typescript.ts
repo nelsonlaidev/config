@@ -12,13 +12,13 @@ export const typescript = (): FlatConfig[] => [
       parser,
       parserOptions: {
         projectService: true,
-        tsconfigRootDir: process.cwd()
+        tsconfigRootDir: process.cwd(),
       },
-      sourceType: 'module'
+      sourceType: 'module',
     },
     plugins: {
-      '@typescript-eslint': typescriptPlugin
-    }
+      '@typescript-eslint': typescriptPlugin,
+    },
   },
   {
     name: 'nelsonlaidev/typescript/rules',

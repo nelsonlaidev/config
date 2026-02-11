@@ -6,13 +6,13 @@ export const nextjs = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/nextjs/rules',
     plugins: {
-      '@next/next': nextPlugin
+      '@next/next': nextPlugin,
     },
     rules: {
       ...nextPlugin.configs['core-web-vitals'].rules,
 
       // Unnecessary
-      '@next/next/no-html-link-for-pages': 'off'
-    }
-  }
+      '@next/next/no-html-link-for-pages': 'off',
+    },
+  },
 ]

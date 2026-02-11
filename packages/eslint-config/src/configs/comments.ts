@@ -6,7 +6,7 @@ export const comments = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/eslint-comments/rules',
     plugins: {
-      '@eslint-community/eslint-comments': commentsPlugin
+      '@eslint-community/eslint-comments': commentsPlugin,
     },
     rules: {
       ...commentsPlugin.configs.recommended.rules,

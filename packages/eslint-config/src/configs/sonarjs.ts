@@ -6,7 +6,7 @@ export const sonarjs = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/sonarjs/rules',
     plugins: {
-      sonarjs: sonarjsPlugin
+      sonarjs: sonarjsPlugin,
     },
     rules: {
       ...sonarjsPlugin.configs.recommended.rules,
@@ -20,7 +20,7 @@ export const sonarjs = (): FlatConfig[] => [
       // Unnecessary
       'sonarjs/pseudo-random': 'off',
       'sonarjs/function-return-type': 'off',
-      'sonarjs/prefer-read-only-props': 'off'
-    }
-  }
+      'sonarjs/prefer-read-only-props': 'off',
+    },
+  },
 ]

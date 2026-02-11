@@ -16,26 +16,26 @@ export const javascript = (): FlatConfig[] => [
         ...globals.node,
         document: 'readonly',
         navigator: 'readonly',
-        window: 'readonly'
+        window: 'readonly',
       },
       parserOptions: {
         ecmaFeatures: {
-          jsx: true
+          jsx: true,
         },
         ecmaVersion: 2022,
-        sourceType: 'module'
+        sourceType: 'module',
       },
-      sourceType: 'module'
+      sourceType: 'module',
     },
     linterOptions: {
       reportUnusedDisableDirectives: 'error',
-      reportUnusedInlineConfigs: 'error'
-    }
+      reportUnusedInlineConfigs: 'error',
+    },
   },
   {
     name: 'nelsonlaidev/javascript/rules',
     plugins: {
-      'unused-imports': unusedImportsPlugin
+      'unused-imports': unusedImportsPlugin,
     },
     rules: {
       ...eslint.configs.recommended.rules,
@@ -130,9 +130,9 @@ export const javascript = (): FlatConfig[] => [
           vars: 'all',
           varsIgnorePattern: '^_',
           args: 'after-used',
-          argsIgnorePattern: '^_'
-        }
-      ]
-    }
-  }
+          argsIgnorePattern: '^_',
+        },
+      ],
+    },
+  },
 ]
