@@ -53,4 +53,16 @@ export const typescript = (): FlatConfig[] => [
       '@typescript-eslint/no-non-null-assertion': 'off',
     },
   },
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      // We sometimes need to use `interface` in declaration files,
+      // especially when we want to extend from a type from another package,
+      // and that type is an interface.
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      // Similar to the above rule, interfaces support index signatures only when
+      // we define object types with them.
+      '@typescript-eslint/consistent-indexed-object-style': 'off',
+    },
+  },
 ]
