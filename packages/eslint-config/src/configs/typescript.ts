@@ -28,6 +28,13 @@ export const typescript = (): FlatConfig[] => [
       ...typescriptPlugin.configs['strict-type-checked'].rules,
       ...typescriptPlugin.configs['stylistic-type-checked'].rules,
 
+      '@typescript-eslint/no-restricted-types': 'error',
+      '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
+      '@typescript-eslint/no-useless-empty-export': 'error',
+      '@typescript-eslint/prefer-enum-initializers': 'error',
+      '@typescript-eslint/promise-function-async': 'error',
+      '@typescript-eslint/require-array-sort-compare': 'error',
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
       '@typescript-eslint/class-methods-use-this': 'error',
       '@typescript-eslint/default-param-last': 'error',
       '@typescript-eslint/no-loop-func': 'error',
