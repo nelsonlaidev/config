@@ -68,8 +68,6 @@ export const javascript = (): FlatConfig[] => [
       'no-extra-bind': 'error',
       'no-extra-label': 'error',
       'no-implicit-coercion': 'error',
-      'no-inner-declarations': 'error',
-      'no-iterator': 'error',
       'no-label-var': 'error',
       'no-labels': 'error',
       'no-lone-blocks': 'error',
@@ -83,7 +81,6 @@ export const javascript = (): FlatConfig[] => [
       'no-param-reassign': 'error',
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       'no-promise-executor-return': 'error',
-      'no-proto': 'error',
       'no-restricted-globals': 'error',
       'no-return-assign': 'error',
       'no-script-url': 'error',
@@ -115,7 +112,6 @@ export const javascript = (): FlatConfig[] => [
       radix: 'error',
       'symbol-description': 'error',
       'unicode-bom': 'error',
-      'vars-on-top': 'error',
       yoda: 'error',
 
       // Recommended to disable
