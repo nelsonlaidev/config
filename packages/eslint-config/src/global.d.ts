@@ -47,7 +47,7 @@ declare module '@typescript-eslint/eslint-plugin' {
           {
             files: string[]
             rules: Linter.RulesRecord
-          }
+          },
         ]
       }
       'strict-type-checked': Linter.Config

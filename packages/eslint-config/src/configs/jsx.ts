@@ -10,22 +10,22 @@ export const jsx = (options: JsxOptions): FlatConfig[] => [
     languageOptions: {
       parserOptions: {
         ecmaFeatures: {
-          jsx: true
-        }
-      }
-    }
+          jsx: true,
+        },
+      },
+    },
   },
   {
     name: 'nelsonlaidev/jsx/rules',
     files: [GLOB_JSX, GLOB_TSX],
     plugins: {
-      'jsx-a11y': jsxA11yPlugin
+      'jsx-a11y': jsxA11yPlugin,
     },
     rules: {
       ...jsxA11yPlugin.flatConfigs.recommended.rules,
 
       'jsx-a11y/lang': 'error',
-      'jsx-a11y/no-aria-hidden-on-focusable': 'error'
+      'jsx-a11y/no-aria-hidden-on-focusable': 'error',
     },
     settings: {
       'jsx-a11y': {
@@ -36,9 +36,9 @@ export const jsx = (options: JsxOptions): FlatConfig[] => [
           Input: 'input',
           Textarea: 'textarea',
           Link: 'a',
-          ...options.a11y?.components
-        }
-      } satisfies JsxA11yOptions
-    }
-  }
+          ...options.a11y?.components,
+        },
+      } satisfies JsxA11yOptions,
+    },
+  },
 ]

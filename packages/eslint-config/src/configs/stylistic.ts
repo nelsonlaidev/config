@@ -6,10 +6,10 @@ export const stylistic = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/stylistic/rules',
     plugins: {
-      '@stylistic': stylisticPlugin
+      '@stylistic': stylisticPlugin,
     },
     rules: {
-      '@stylistic/multiline-comment-style': ['error', 'separate-lines']
-    }
-  }
+      '@stylistic/multiline-comment-style': ['error', 'separate-lines'],
+    },
+  },
 ]

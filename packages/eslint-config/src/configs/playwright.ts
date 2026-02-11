@@ -9,7 +9,7 @@ import {
   NO_SKIPPED_TEST_DEFAULT_OPTIONS,
   VALID_EXPECT_DEFAULT_OPTIONS,
   VALID_TEST_TAGS_DEFAULT_OPTIONS,
-  VALID_TITLE_DEFAULT_OPTIONS
+  VALID_TITLE_DEFAULT_OPTIONS,
 } from '../defaults'
 import { playwrightPlugin } from '../plugins'
 
@@ -17,20 +17,20 @@ export const playwright = (options: PlaywrightOptions): FlatConfig[] => [
   {
     name: 'nelsonlaidev/playwright/setup',
     languageOptions: {
-      globals: globals['shared-node-browser']
-    }
+      globals: globals['shared-node-browser'],
+    },
   },
   {
     name: 'nelsonlaidev/playwright/rules',
     files: options.files,
     plugins: {
-      playwright: playwrightPlugin
+      playwright: playwrightPlugin,
     },
     settings: {
       playwright: {
         globalAliases: options.globalAliases,
-        messages: options.messages
-      }
+        messages: options.messages,
+      },
     },
     rules: {
       ...playwrightPlugin.configs.recommended.rules,
@@ -40,45 +40,45 @@ export const playwright = (options: PlaywrightOptions): FlatConfig[] => [
           ...EXPECT_EXPECT_DEFAULT_OPTIONS,
           ...options.expectExpect,
           assertFunctionNames: [...(options.expectExpect?.assertFunctionNames ?? [])],
-          assertFunctionPatterns: [...(options.expectExpect?.assertFunctionPatterns ?? [])]
-        }
+          assertFunctionPatterns: [...(options.expectExpect?.assertFunctionPatterns ?? [])],
+        },
       ],
       'playwright/max-nested-describe': [
         'error',
         {
           ...MAX_NESTED_DESCRIBE_DEFAULT_OPTIONS,
-          ...options.maxNestedDescribe
-        }
+          ...options.maxNestedDescribe,
+        },
       ],
       'playwright/missing-playwright-await': [
         'error',
         {
           ...MISSING_PLAYWRIGHT_AWAIT_DEFAULT_OPTIONS,
           ...options.missingPlaywrightAwait,
-          customMatchers: [...(options.missingPlaywrightAwait?.customMatchers ?? [])]
-        }
+          customMatchers: [...(options.missingPlaywrightAwait?.customMatchers ?? [])],
+        },
       ],
       'playwright/no-skipped-test': [
         'error',
         {
           ...NO_SKIPPED_TEST_DEFAULT_OPTIONS,
-          ...options.noSkippedTest
-        }
+          ...options.noSkippedTest,
+        },
       ],
       'playwright/valid-expect': [
         'error',
         {
           ...VALID_EXPECT_DEFAULT_OPTIONS,
-          ...options.validExpect
-        }
+          ...options.validExpect,
+        },
       ],
       'playwright/valid-title': [
         'error',
         {
           ...VALID_TITLE_DEFAULT_OPTIONS,
           ...options.validTitle,
-          disallowedWords: [...(options.validTitle?.disallowedWords ?? [])]
-        }
+          disallowedWords: [...(options.validTitle?.disallowedWords ?? [])],
+        },
       ],
       'playwright/valid-test-tags': [
         'error',
@@ -86,9 +86,9 @@ export const playwright = (options: PlaywrightOptions): FlatConfig[] => [
           ...VALID_TEST_TAGS_DEFAULT_OPTIONS,
           ...options.validTestTags,
           allowedTags: [...(options.validTestTags?.allowedTags ?? [])],
-          disallowedTags: [...(options.validTestTags?.disallowedTags ?? [])]
-        }
-      ]
-    }
-  }
+          disallowedTags: [...(options.validTestTags?.disallowedTags ?? [])],
+        },
+      ],
+    },
+  },
 ]

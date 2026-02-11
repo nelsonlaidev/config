@@ -6,7 +6,7 @@ export const unicorn = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/unicorn/rules',
     plugins: {
-      unicorn: unicornPlugin
+      unicorn: unicornPlugin,
     },
     rules: {
       ...unicornPlugin.configs.recommended.rules,
@@ -17,7 +17,7 @@ export const unicorn = (): FlatConfig[] => [
 
       // Unnecessary
       'unicorn/no-document-cookie': 'off',
-      'unicorn/prefer-string-raw': 'off'
-    }
-  }
+      'unicorn/prefer-string-raw': 'off',
+    },
+  },
 ]

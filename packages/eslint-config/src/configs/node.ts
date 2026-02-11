@@ -6,7 +6,7 @@ export const node = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/node/rules',
     plugins: {
-      n: nodePlugin
+      n: nodePlugin,
     },
     rules: {
       'n/handle-callback-err': ['error', '^(err|error)$'],
@@ -15,7 +15,7 @@ export const node = (): FlatConfig[] => [
       'n/no-new-require': 'error',
       'n/no-path-concat': 'error',
       'n/prefer-promises/fs': 'error',
-      'n/process-exit-as-throw': 'error'
-    }
-  }
+      'n/process-exit-as-throw': 'error',
+    },
+  },
 ]

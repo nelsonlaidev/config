@@ -10,7 +10,7 @@ import type {
   NoUnnecessaryWhitespaceOptions,
   ValidExpectOptions,
   ValidTestTagsOptions,
-  ValidTitleOptions
+  ValidTitleOptions,
 } from './types'
 
 export const DEFAULT_ROOT_FONT_SIZE = 16
@@ -18,7 +18,7 @@ export const DEFAULT_ROOT_FONT_SIZE = 16
 export const CANONICAL_CLASSES_DEFAULT_OPTIONS: CanonicalClassesOptions = {
   rootFontSize: DEFAULT_ROOT_FONT_SIZE,
   collapse: true,
-  logical: true
+  logical: true,
 }
 
 export const CONSISTENT_CLASS_ORDER_DEFAULT_OPTIONS: ConsistentClassOrderOptions = {
@@ -27,42 +27,42 @@ export const CONSISTENT_CLASS_ORDER_DEFAULT_OPTIONS: ConsistentClassOrderOptions
   componentClassOrder: 'preserve',
   componentClassPosition: 'start',
   unknownClassOrder: 'preserve',
-  unknownClassPosition: 'start'
+  unknownClassPosition: 'start',
 }
 
 export const NO_RESTRICTED_CLASSES_DEFAULT_OPTIONS: NoRestrictedClassesOptions = {
-  restrict: []
+  restrict: [],
 }
 
 export const NO_UNKNOWN_CLASSES_DEFAULT_OPTIONS: NoUnknownClassesOptions = {
   ignore: [],
-  detectComponentClasses: false
+  detectComponentClasses: false,
 }
 
 export const NO_UNNECESSARY_WHITESPACE_DEFAULT_OPTIONS: NoUnnecessaryWhitespaceOptions = {
-  allowMultiline: true
+  allowMultiline: true,
 }
 
 export const EXPECT_EXPECT_DEFAULT_OPTIONS: ExpectExpectOptions = {
   assertFunctionNames: [],
-  assertFunctionPatterns: []
+  assertFunctionPatterns: [],
 }
 
 export const MAX_NESTED_DESCRIBE_DEFAULT_OPTIONS: MaxNestedDescribeOptions = {
-  max: 5
+  max: 5,
 }
 
 export const MISSING_PLAYWRIGHT_AWAIT_DEFAULT_OPTIONS: MissingPlaywrightAwaitOptions = {
-  customMatchers: []
+  customMatchers: [],
 }
 
 export const NO_SKIPPED_TEST_DEFAULT_OPTIONS: NoSkippedTestOptions = {
-  allowConditional: false
+  allowConditional: false,
 }
 
 export const VALID_EXPECT_DEFAULT_OPTIONS: ValidExpectOptions = {
   minArgs: 1,
-  maxArgs: 2
+  maxArgs: 2,
 }
 
 export const VALID_TITLE_DEFAULT_OPTIONS: ValidTitleOptions = {
@@ -72,10 +72,10 @@ export const VALID_TITLE_DEFAULT_OPTIONS: ValidTitleOptions = {
   ignoreTypeOfDescribeName: false,
   disallowedWords: [],
   mustNotMatch: {},
-  mustMatch: {}
+  mustMatch: {},
 }
 
 export const VALID_TEST_TAGS_DEFAULT_OPTIONS: ValidTestTagsOptions = {
   allowedTags: [],
-  disallowedTags: []
+  disallowedTags: [],
 }

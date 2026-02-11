@@ -6,10 +6,10 @@ export const prettier = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/prettier/rules',
     plugins: {
-      prettier: prettierPlugin
+      prettier: prettierPlugin,
     },
     rules: {
-      ...prettierPluginRecommended.rules
-    }
-  }
+      ...prettierPluginRecommended.rules,
+    },
+  },
 ]

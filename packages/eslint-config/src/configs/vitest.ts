@@ -7,10 +7,10 @@ export const vitest = (options: VitestOptions): FlatConfig[] => [
     name: 'nelsonlaidev/vitest/rules',
     files: options.files,
     plugins: {
-      vitest: vitestPlugin
+      vitest: vitestPlugin,
     },
     rules: {
-      ...vitestPlugin.configs.recommended.rules
-    }
-  }
+      ...vitestPlugin.configs.recommended.rules,
+    },
+  },
 ]

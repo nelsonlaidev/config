@@ -9,7 +9,7 @@ export const react = (): FlatConfig[] => [
     files: [GLOB_SRC],
     plugins: {
       ...reactPlugin.configs.all.plugins,
-      'react-hooks': reactHooksPlugin
+      'react-hooks': reactHooksPlugin,
     },
     rules: {
       ...reactPlugin.configs.all.rules,
@@ -19,8 +19,8 @@ export const react = (): FlatConfig[] => [
         'error',
         {
           rule: 'kebab-case',
-          excepts: ['index', String.raw`/^_/`, String.raw`/^\$/`, String.raw`/^[0-9]+$/`, String.raw`/^\[[^\]]+\]$/`]
-        }
+          excepts: ['index', String.raw`/^_/`, String.raw`/^\$/`, String.raw`/^[0-9]+$/`, String.raw`/^\[[^\]]+\]$/`],
+        },
       ],
 
       // Unnecessary
@@ -29,7 +29,7 @@ export const react = (): FlatConfig[] => [
       '@eslint-react/naming-convention/use-state': 'off',
       '@eslint-react/hooks-extra/no-direct-set-state-in-use-effect': 'off',
       'react-hooks/set-state-in-effect': 'off',
-      'react-hooks/static-components': 'off'
-    }
-  }
+      'react-hooks/static-components': 'off',
+    },
+  },
 ]

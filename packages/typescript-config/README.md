@@ -15,7 +15,7 @@ Create a `tsconfig.json` file with the following content:
   "extends": "@nelsonlaidev/typescript-config/base.json",
   "compilerOptions": {
     // Custom TypeScript configuration options
-  }
+  },
 }
 ```
 
