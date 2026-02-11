@@ -104,8 +104,8 @@ export const javascript = (): FlatConfig[] => [
         'error',
         {
           VariableDeclarator: { array: false, object: true },
-          AssignmentExpression: { array: false, object: false }
-        }
+          AssignmentExpression: { array: false, object: false },
+        },
       ],
       'prefer-exponentiation-operator': 'error',
       'prefer-numeric-literals': 'error',

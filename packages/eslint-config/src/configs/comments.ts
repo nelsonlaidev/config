@@ -11,7 +11,7 @@ export const comments = (): FlatConfig[] => [
     rules: {
       ...commentsPlugin.configs.recommended.rules,
 
-      '@eslint-community/eslint-comments/no-unused-disable': 'error'
-    }
-  }
+      '@eslint-community/eslint-comments/no-unused-disable': 'error',
+    },
+  },
 ]

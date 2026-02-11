@@ -42,7 +42,7 @@ export const typescript = (): FlatConfig[] => [
       '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
       '@typescript-eslint/only-throw-error': [
         'error',
-        { allow: [{ from: 'package', package: '@tanstack/router-core', name: 'Redirect' }] }
+        { allow: [{ from: 'package', package: '@tanstack/router-core', name: 'Redirect' }] },
       ],
       '@typescript-eslint/no-empty-object-type': ['error', { allowInterfaces: 'with-single-extends' }],
 
@@ -50,7 +50,7 @@ export const typescript = (): FlatConfig[] => [
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off'
-    }
-  }
+      '@typescript-eslint/no-non-null-assertion': 'off',
+    },
+  },
 ]
