@@ -10,7 +10,17 @@ export const vitest = (options: VitestOptions): FlatConfig[] => [
       vitest: vitestPlugin,
     },
     rules: {
-      ...vitestPlugin.configs.recommended.rules,
+      ...vitestPlugin.configs.all.rules,
+    },
+    settings: {
+      vitest: {
+        typecheck: true,
+      },
+    },
+    languageOptions: {
+      globals: {
+        ...vitestPlugin.environments.env.globals,
+      },
     },
   },
 ]
