@@ -8,7 +8,7 @@ import { deMorgan } from './configs/de-morgan'
 import { gitignore } from './configs/gitignore'
 import { ignores } from './configs/ignores'
 import { importSort } from './configs/import-sort'
-import { imports } from './configs/imports'
+import { importX } from './configs/import-x'
 import { javascript } from './configs/javascript'
 import { jsx } from './configs/jsx'
 import { nextjs } from './configs/nextjs'
@@ -40,7 +40,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...deMorgan(),
     ...comments(),
     ...node(),
-    ...imports(),
+    ...importX(),
     ...command(),
     ...unicorn(),
     ...jsx(options.jsx ?? {}),
