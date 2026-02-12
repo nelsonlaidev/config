@@ -16,6 +16,10 @@ export const vitest = (options: VitestOptions): FlatConfig[] => [
       'vitest/max-expects': 'off',
 
       'vitest/consistent-test-it': ['error', { fn: 'test' }],
+      'vitest/prefer-mock-return-shorthand': 'error',
+      'vitest/prefer-to-be-falsy': 'error',
+      'vitest/prefer-to-be-truthy': 'error',
+      'vitest/warn-todo': 'error',
     },
     settings: {
       vitest: {
