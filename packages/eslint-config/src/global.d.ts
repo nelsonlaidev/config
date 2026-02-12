@@ -2,6 +2,7 @@
 // Note: only the types I needed are defined.
 //
 // - eslint-plugin-jsx-a11y: missing types
+// - eslint-plugin-promise: missing types
 // - @eslint-react/eslint-plugin: incompatible types
 // - @typescript-eslint/eslint-plugin: missing types
 // - eslint-plugin-react-hooks: incompatible types
@@ -17,6 +18,19 @@ declare module 'eslint-plugin-jsx-a11y' {
     flatConfigs: {
       recommended: Linter.Config
       strict: Linter.Config
+    }
+  }
+
+  export default plugin
+}
+
+declare module 'eslint-plugin-promise' {
+  import type { ESLint, Linter } from 'eslint'
+
+  const plugin: ESLint.Plugin & {
+    configs: {
+      recommended: Linter.Config
+      'flat/recommended': Linter.Config
     }
   }
 

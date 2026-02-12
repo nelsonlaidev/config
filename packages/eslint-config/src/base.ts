@@ -15,6 +15,7 @@ import { nextjs } from './configs/nextjs'
 import { node } from './configs/node'
 import { playwright } from './configs/playwright'
 import { prettier } from './configs/prettier'
+import { promise } from './configs/promise'
 import { react } from './configs/react'
 import { regexp } from './configs/regexp'
 import { sonarjs } from './configs/sonarjs'
@@ -47,6 +48,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...regexp(),
     ...stylistic(),
     ...zod(),
+    ...promise(),
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled

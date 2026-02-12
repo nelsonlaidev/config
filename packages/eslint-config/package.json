@@ -50,6 +50,7 @@
     "eslint-plugin-n": "^17.23.2",
     "eslint-plugin-playwright": "^2.5.1",
     "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-regexp": "^3.0.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
