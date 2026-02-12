@@ -11,6 +11,11 @@ export const vitest = (options: VitestOptions): FlatConfig[] => [
     },
     rules: {
       ...vitestPlugin.configs.all.rules,
+
+      // Too restrictive
+      'vitest/max-expects': 'off',
+
+      'vitest/consistent-test-it': ['error', { fn: 'test' }],
     },
     settings: {
       vitest: {
