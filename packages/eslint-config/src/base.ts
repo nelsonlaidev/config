@@ -79,7 +79,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
 
   if (isPrettierEnabled) {
     // Must be added as the last item
-    // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
+    // https://github.com/prettier/eslint-config-prettier#installation
     configs.push(...prettier())
   }
 

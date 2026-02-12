@@ -2,4 +2,4 @@
 '@nelsonlaidev/eslint-config': patch
 ---
 
-Disable `prettier/prettier` ESLint rule in the Prettier config to improve performance. Prettier handles formatting directly, so ESLint doesn't need to check for it. The `prettier/prettier` rule was significantly slowing down ESLint runs.
+Replace `eslint-plugin-prettier` with `eslint-config-prettier`. This change removes the `prettier/prettier` ESLint rule which was causing significant performance issues. The new approach simply disables ESLint rules that conflict with Prettier, while letting Prettier handle formatting separately. This provides better performance while maintaining compatibility between ESLint and Prettier.
