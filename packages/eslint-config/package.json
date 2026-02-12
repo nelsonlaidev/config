@@ -44,7 +44,6 @@
     "eslint-plugin-better-tailwindcss": "^4.0.2",
     "eslint-plugin-command": "^3.4.0",
     "eslint-plugin-de-morgan": "^2.0.0",
-    "eslint-plugin-import-lite": "^0.5.0",
     "eslint-plugin-import-zod": "^1.2.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-n": "^17.23.2",
