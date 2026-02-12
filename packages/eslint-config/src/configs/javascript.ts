@@ -108,6 +108,7 @@ export const javascript = (): FlatConfig[] => [
       'prefer-numeric-literals': 'error',
       'prefer-object-has-own': 'error',
       'prefer-object-spread': 'error',
+      'prefer-template': 'error',
       'preserve-caught-error': 'error',
       radix: 'error',
       'symbol-description': 'error',
