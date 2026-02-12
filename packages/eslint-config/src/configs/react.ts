@@ -15,6 +15,7 @@ export const react = (): FlatConfig[] => [
       ...reactPlugin.configs.all.rules,
       ...reactHooksPlugin.configs['recommended-latest'].rules,
 
+      '@eslint-react/jsx-dollar': 'error',
       '@eslint-react/naming-convention/filename': [
         'error',
         {
@@ -24,7 +25,6 @@ export const react = (): FlatConfig[] => [
       ],
 
       // Unnecessary
-      '@eslint-react/no-complex-conditional-rendering': 'off',
       '@eslint-react/no-array-index-key': 'off',
       '@eslint-react/naming-convention/use-state': 'off',
       '@eslint-react/hooks-extra/no-direct-set-state-in-use-effect': 'off',
