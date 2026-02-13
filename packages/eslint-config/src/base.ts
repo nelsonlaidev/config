@@ -40,7 +40,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...deMorgan(),
     ...comments(),
     ...node(),
-    ...importX(),
+    ...importX(options.importX),
     ...command(),
     ...unicorn(),
     ...jsx(options.jsx ?? {}),

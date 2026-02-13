@@ -1,3 +1,4 @@
+import type { ImportXOptions } from './import-x'
 import type { JsxOptions } from './jsx'
 import type { PlaywrightOptions } from './playwright'
 import type { TailwindCSSOptions } from './tailwindcss'
@@ -50,6 +51,10 @@ export type ConfigOptions = {
    * A list of file paths or glob patterns that ESLint should ignore.
    */
   ignores?: string[]
+  /**
+   * Import-x configuration options.
+   */
+  importX?: ImportXOptions
 }
 
 export type FlatConfig = Linter.Config

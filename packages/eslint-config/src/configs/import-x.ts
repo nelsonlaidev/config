@@ -1,8 +1,8 @@
-import type { FlatConfig } from '../types'
+import type { FlatConfig, ImportXOptions } from '../types'
 
 import { importXPlugin } from '../plugins'
 
-export const importX = (): FlatConfig[] => [
+export const importX = (options: ImportXOptions = {}): FlatConfig[] => [
   {
     name: 'nelsonlaidev/import-x/rules',
     plugins: {
@@ -19,7 +19,7 @@ export const importX = (): FlatConfig[] => [
       'import-x/no-commonjs': 'error',
       'import-x/no-mutable-exports': 'error',
       'import-x/no-named-default': 'error',
-      'import-x/no-namespace': ['error', { ignore: ['zod'] }],
+      'import-x/no-namespace': ['error', { ignore: ['zod', ...(options.noNamespace?.ignore ?? [])] }],
       'import-x/no-relative-packages': 'error',
       'import-x/no-self-import': 'error',
       'import-x/no-extraneous-dependencies': 'error',
