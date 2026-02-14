@@ -35,6 +35,7 @@ export const importX = (options: ImportXOptions = {}): FlatConfig[] => [
             '**/*.less',
             'server-only',
             'client-only',
+            '@total-typescript/ts-reset',
             '@testing-library/jest-dom/**',
             '@testing-library/jest-dom',
             'msw/{node,browser}',

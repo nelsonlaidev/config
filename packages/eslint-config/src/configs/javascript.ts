@@ -45,7 +45,6 @@ export const javascript = (): FlatConfig[] => [
       'array-callback-return': 'error',
       'arrow-body-style': 'error',
       'block-scoped-var': 'error',
-      'capitalized-comments': ['error', 'always', { ignorePattern: 'i18n-check', ignoreConsecutiveComments: true }],
       complexity: 'error',
       'default-case': 'error',
       'default-case-last': 'error',
@@ -118,7 +117,6 @@ export const javascript = (): FlatConfig[] => [
       // Recommended to disable
       // https://github.com/sweepline/eslint-plugin-unused-imports?tab=readme-ov-file#usage
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
 
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
