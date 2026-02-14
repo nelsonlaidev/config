@@ -62,6 +62,7 @@ export const typescript = (): FlatConfig[] => [
     },
   },
   {
+    name: 'nelsonlaidev/typescript/declarations',
     files: ['**/*.d.ts'],
     rules: {
       // We sometimes need to use `interface` in declaration files,
