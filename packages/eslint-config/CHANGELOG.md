@@ -1,5 +1,17 @@
 # @nelsonlaidev/eslint-config
 
+## 3.1.0
+
+### Minor Changes
+
+- 004bf7e: Add `eslint-plugin-promise` to enforce best practices for JavaScript promises, including rules for always returning values, avoiding nested promises, and preferring async/await over .then().catch() chains.
+
+### Patch Changes
+
+- 004bf7e: Replace `eslint-plugin-prettier` with `eslint-config-prettier`. This change removes the `prettier/prettier` ESLint rule which was causing significant performance issues. The new approach simply disables ESLint rules that conflict with Prettier, while letting Prettier handle formatting separately. This provides better performance while maintaining compatibility between ESLint and Prettier.
+- 004bf7e: Add more ESLint rules to `javascript` and `typescript` configs.
+- 004bf7e: Disable `@typescript-eslint/consistent-type-definitions` and `@typescript-eslint/consistent-indexed-object-style` rules in `.d.ts` declaration files. These rules are disabled to allow using interfaces in declaration files, which is necessary when extending types from other packages that use interfaces.
+
 ## 3.0.1
 
 ### Patch Changes
@@ -17,7 +29,7 @@
   ```ts
   // Before
   export default defineConfig({
-    tailwindEntryPoint: './src/globals.css'
+    tailwindEntryPoint: './src/globals.css',
   })
 
   // After
@@ -31,8 +43,8 @@
       consistentLineWrapping: { printWidth: 120 },
       noUnknownClasses: { ignore: [] },
       noRestrictedClasses: { restrict: [] },
-      noUnnecessaryWhitespace: { allowMultiline: true }
-    }
+      noUnnecessaryWhitespace: { allowMultiline: true },
+    },
   })
   ```
 
@@ -46,8 +58,8 @@
   // Before
   export default defineConfig({
     overrides: {
-      typescript: { '@typescript-eslint/no-explicit-any': 'off' }
-    }
+      typescript: { '@typescript-eslint/no-explicit-any': 'off' },
+    },
   })
 
   // After
@@ -55,9 +67,9 @@
     {},
     {
       rules: {
-        '@typescript-eslint/no-explicit-any': 'off'
-      }
-    }
+        '@typescript-eslint/no-explicit-any': 'off',
+      },
+    },
   )
   ```
 
@@ -68,7 +80,7 @@
   ```ts
   // Before
   export default defineConfig({
-    tsconfigRootDir: import.meta.dirname
+    tsconfigRootDir: import.meta.dirname,
   })
 
   // After
@@ -81,17 +93,17 @@
   // Before
   export default defineConfig({
     vitestGlob: 'tests/**/*.test.{ts,tsx}',
-    playwrightGlob: 'e2e/**/*.spec.{ts,tsx}'
+    playwrightGlob: 'e2e/**/*.spec.{ts,tsx}',
   })
 
   // After
   export default defineConfig({
     vitest: {
-      files: 'tests/**/*.test.{ts,tsx}'
+      files: 'tests/**/*.test.{ts,tsx}',
     },
     playwright: {
-      files: 'e2e/**/*.spec.{ts,tsx}'
-    }
+      files: 'e2e/**/*.spec.{ts,tsx}',
+    },
   })
   ```
 
@@ -110,13 +122,13 @@
         components: {
           Button: 'button',
           CustomLink: 'a',
-          CustomImage: 'img'
+          CustomImage: 'img',
         },
         // Configure polymorphic components
         polymorphicPropName: 'as',
-        polymorphicAllowList: ['div', 'span']
-      }
-    }
+        polymorphicAllowList: ['div', 'span'],
+      },
+    },
   })
   ```
 
