@@ -10,9 +10,6 @@ export const nextjs = (): FlatConfig[] => [
     },
     rules: {
       ...nextPlugin.configs['core-web-vitals'].rules,
-
-      // Unnecessary
-      '@next/next/no-html-link-for-pages': 'off',
     },
   },
 ]

@@ -1,15 +1,10 @@
 import type { FlatConfig } from '../types'
 
-import { prettierPlugin, prettierPluginRecommended } from '../plugins'
+import { rules } from 'eslint-config-prettier'
 
 export const prettier = (): FlatConfig[] => [
   {
     name: 'nelsonlaidev/prettier/rules',
-    plugins: {
-      prettier: prettierPlugin,
-    },
-    rules: {
-      ...prettierPluginRecommended.rules,
-    },
+    rules,
   },
 ]

@@ -8,13 +8,14 @@ import { deMorgan } from './configs/de-morgan'
 import { gitignore } from './configs/gitignore'
 import { ignores } from './configs/ignores'
 import { importSort } from './configs/import-sort'
-import { imports } from './configs/imports'
+import { importX } from './configs/import-x'
 import { javascript } from './configs/javascript'
 import { jsx } from './configs/jsx'
 import { nextjs } from './configs/nextjs'
 import { node } from './configs/node'
 import { playwright } from './configs/playwright'
 import { prettier } from './configs/prettier'
+import { promise } from './configs/promise'
 import { react } from './configs/react'
 import { regexp } from './configs/regexp'
 import { sonarjs } from './configs/sonarjs'
@@ -39,7 +40,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...deMorgan(),
     ...comments(),
     ...node(),
-    ...imports(),
+    ...importX(options.importX),
     ...command(),
     ...unicorn(),
     ...jsx(options.jsx ?? {}),
@@ -47,6 +48,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...regexp(),
     ...stylistic(),
     ...zod(),
+    ...promise(),
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled
@@ -77,7 +79,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
 
   if (isPrettierEnabled) {
     // Must be added as the last item
-    // https://github.com/prettier/eslint-plugin-prettier?tab=readme-ov-file#configuration-new-eslintconfigjs
+    // https://github.com/prettier/eslint-config-prettier#installation
     configs.push(...prettier())
   }
 

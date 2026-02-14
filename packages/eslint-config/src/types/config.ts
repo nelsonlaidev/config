@@ -1,3 +1,4 @@
+import type { ImportXOptions } from './import-x'
 import type { JsxOptions } from './jsx'
 import type { PlaywrightOptions } from './playwright'
 import type { TailwindCSSOptions } from './tailwindcss'
@@ -41,16 +42,19 @@ export type ConfigOptions = {
    */
   playwright?: PlaywrightOptions
   /**
-   * Enable eslint-plugin-prettier rules.
+   * Turn off all rules that are unnecessary or might conflict when using Prettier.
    *
-   * Defaults to enabling only when Prettier is installed.
-   * Set to true/false to override.
+   * Defaults to true if Prettier is installed.
    */
   prettier?: boolean
   /**
    * A list of file paths or glob patterns that ESLint should ignore.
    */
   ignores?: string[]
+  /**
+   * Import-x configuration options.
+   */
+  importX?: ImportXOptions
 }
 
 export type FlatConfig = Linter.Config
