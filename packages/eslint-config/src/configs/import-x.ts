@@ -40,6 +40,7 @@ export const importX = (options: ImportXOptions = {}): FlatConfig[] => [
             '@testing-library/jest-dom',
             'msw/{node,browser}',
             'dotenv/config',
+            ...(options.noUnassignedImport?.allow ?? []),
           ],
         },
       ],
