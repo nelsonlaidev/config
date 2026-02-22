@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 3.3.0
+
+### Minor Changes
+
+- 53bbbea: Enable `unicorn/text-encoding-identifier-case` with `withDash: true` option in the unicorn config.
+
 ## 3.2.0
 
 ### Minor Changes
