@@ -11,6 +11,8 @@ export const unicorn = (): FlatConfig[] => [
     rules: {
       ...unicornPlugin.configs.recommended.rules,
 
+      'unicorn/text-encoding-identifier-case': ['error', { withDash: true }],
+
       // Too opinionated
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-null': 'off',
