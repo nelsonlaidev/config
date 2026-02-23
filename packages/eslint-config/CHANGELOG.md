@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 3.4.0
+
+### Minor Changes
+
+- 75f814e: Add `jsx-a11y/anchor-is-valid` rule to the JSX config with `Link` component and `to` specialLink support
+
 ## 3.3.0
 
 ### Minor Changes
