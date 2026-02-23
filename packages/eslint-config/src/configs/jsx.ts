@@ -26,6 +26,14 @@ export const jsx = (options: JsxOptions): FlatConfig[] => [
 
       'jsx-a11y/lang': 'error',
       'jsx-a11y/no-aria-hidden-on-focusable': 'error',
+      'jsx-a11y/anchor-is-valid': [
+        'error',
+        {
+          components: ['Link'],
+          specialLink: ['to'],
+          aspects: ['noHref', 'invalidHref', 'preferButton'],
+        },
+      ],
     },
     settings: {
       'jsx-a11y': {
