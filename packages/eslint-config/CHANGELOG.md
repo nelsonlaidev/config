@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 3.5.0
+
+### Minor Changes
+
+- 2f7e0a4: Add `import-x/consistent-type-specifier-style` rule to the import-x config
+
 ## 3.4.0
 
 ### Minor Changes
