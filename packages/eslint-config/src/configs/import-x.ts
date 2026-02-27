@@ -12,6 +12,7 @@ export const importX = (options: ImportXOptions = {}): FlatConfig[] => [
       ...importXPlugin.configs.recommended.rules,
       ...importXPlugin.configs.typescript.rules,
 
+      'import-x/consistent-type-specifier-style': 'error',
       'import-x/first': 'error',
       'import-x/newline-after-import': ['error', { count: 1 }],
       'import-x/no-amd': 'error',
