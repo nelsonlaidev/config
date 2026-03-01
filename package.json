@@ -25,17 +25,17 @@
     "@nelsonlaidev/eslint-config": "workspace:*",
     "@nelsonlaidev/prettier-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
-    "@types/node": "^24.10.4",
-    "cspell": "^9.6.3",
+    "@types/node": "^24.11.0",
+    "cspell": "^9.7.0",
     "eslint": "^9.39.2",
-    "knip": "^5.78.0",
-    "lefthook": "^2.0.13",
-    "prettier": "^3.7.4",
-    "prettier-plugin-packagejson": "^2.5.20",
-    "turbo": "^2.7.2",
+    "knip": "^5.85.0",
+    "lefthook": "^2.1.1",
+    "prettier": "^3.8.1",
+    "prettier-plugin-packagejson": "^3.0.0",
+    "turbo": "^2.8.12",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.26.2",
+  "packageManager": "pnpm@10.30.3",
   "engines": {
     "node": ">=24"
   }
