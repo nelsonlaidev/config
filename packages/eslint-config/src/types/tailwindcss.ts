@@ -1,6 +1,4 @@
-import type { ObjectKeyMatcher, ObjectValueMatcher, StringMatcher } from 'eslint-plugin-better-tailwindcss/types'
-
-export type Matchers = Array<string | [string, Array<StringMatcher | ObjectKeyMatcher | ObjectValueMatcher>]>
+import type { Selectors } from 'eslint-plugin-better-tailwindcss/types'
 
 export type CanonicalClassesOptions = {
   /**
@@ -131,21 +129,9 @@ export type TailwindCSSOptions = {
    */
   messageStyle?: 'visual' | 'compact' | 'raw'
   /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#attributes) for more details.
+   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#selectors) for more details.
    */
-  attributes?: Matchers
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#callees) for more details.
-   */
-  callees?: Matchers
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#variables) for more details.
-   */
-  variables?: Matchers
-  /**
-   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#tags) for more details.
-   */
-  tags?: Matchers
+  selectors?: Selectors
   /**
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-canonical-classes.md) for more details.
    */
