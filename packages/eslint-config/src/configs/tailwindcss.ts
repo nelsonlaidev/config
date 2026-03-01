@@ -1,11 +1,6 @@
 import type { FlatConfig, TailwindCSSOptions } from '../types'
 
-import {
-  getDefaultAttributes,
-  getDefaultCallees,
-  getDefaultTags,
-  getDefaultVariables,
-} from 'eslint-plugin-better-tailwindcss/api/defaults'
+import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
 
 import {
   CANONICAL_CLASSES_DEFAULT_OPTIONS,
@@ -78,10 +73,7 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
         'better-tailwindcss': {
           ...options,
           rootFontSize: options.rootFontSize ?? DEFAULT_ROOT_FONT_SIZE,
-          attributes: [...getDefaultAttributes(), ...(options.attributes ?? [])],
-          callees: [...getDefaultCallees(), ...(options.callees ?? [])],
-          variables: [...getDefaultVariables(), ...(options.variables ?? [])],
-          tags: [...getDefaultTags(), ...(options.tags ?? [])],
+          selectors: [...getDefaultSelectors(), ...(options.selectors ?? [])],
         } satisfies TailwindCSSOptions,
       },
     },
