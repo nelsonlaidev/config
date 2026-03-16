@@ -5,9 +5,6 @@ const config: KnipConfig = {
     'packages/eslint-config': {
       entry: ['eslint-inspector.config.ts', 'src/index.ts'],
     },
-    'packages/eslint-plugin': {
-      ignore: ['tests/**/*.ts'],
-    },
   },
 }
 

@@ -24,14 +24,16 @@
     "build": "tsdown",
     "clean": "rm -rf .turbo dist",
     "dev": "tsdown --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@nelsonlaidev/eslint-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "^24.11.0",
     "eslint": "^9.39.2",
-    "tsdown": "^0.20.3"
+    "tsdown": "^0.20.3",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "eslint": "^9.0.0"
