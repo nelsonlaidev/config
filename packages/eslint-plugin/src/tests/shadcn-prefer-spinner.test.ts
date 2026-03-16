@@ -1,7 +1,7 @@
 import { RuleTester } from 'eslint'
 import { describe, expect, it } from 'vitest'
 
-import { shadcnPreferSpinner } from '@/rules/shadcn-prefer-spinner'
+import { shadcnPreferSpinner } from '../rules/shadcn-prefer-spinner'
 
 const ruleTester = new RuleTester()
 

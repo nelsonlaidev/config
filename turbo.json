@@ -6,8 +6,6 @@
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
-    "lint": {},
-    "lint:fix": {},
     "test": {},
     "typecheck": {},
     "clean": {

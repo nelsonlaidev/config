@@ -1,7 +1,7 @@
 import { RuleTester } from 'eslint'
 import { describe, expect, it } from 'vitest'
 
-import { shadcnCvaVariantsSuffix } from '@/rules/shadcn-cva-variants-suffix'
+import { shadcnCvaVariantsSuffix } from '../rules/shadcn-cva-variants-suffix'
 
 const ruleTester = new RuleTester()
 

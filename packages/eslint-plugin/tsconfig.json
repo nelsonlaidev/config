@@ -1,10 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
   "exclude": ["node_modules"],
   "extends": "@nelsonlaidev/typescript-config/base.json",
   "include": ["**/*.ts"]

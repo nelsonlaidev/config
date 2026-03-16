@@ -1,7 +1,7 @@
 import { RuleTester } from 'eslint'
 import { describe, expect, it } from 'vitest'
 
-import { shadcnCnWrapVariants } from '@/rules/shadcn-cn-wrap-variants'
+import { shadcnCnWrapVariants } from '../rules/shadcn-cn-wrap-variants'
 
 const ruleTester = new RuleTester()
 
