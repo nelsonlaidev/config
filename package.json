@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
-    "check": "turbo lint && turbo typecheck && pnpm format:check && pnpm knip && pnpm lint:spell",
+    "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm knip && pnpm lint:spell",
     "clean": "turbo clean && rm -rf .turbo",
     "dev": "turbo dev",
     "format": "prettier --write .",
