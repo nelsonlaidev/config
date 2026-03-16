@@ -22,14 +22,17 @@ describe('shadcn-cva-variants-suffix', () => {
         invalid: [
           {
             code: `const button = cva('base', { variants: {} })`,
+            output: `const buttonVariants = cva('base', { variants: {} })`,
             errors: [{ messageId: 'requireSuffix', data: { name: 'button', suggested: 'buttonVariants' } }],
           },
           {
             code: `export const badge = cva('base')`,
+            output: `export const badgeVariants = cva('base')`,
             errors: [{ messageId: 'requireSuffix', data: { name: 'badge', suggested: 'badgeVariants' } }],
           },
           {
             code: `const alertStyle = cva('base', { variants: {} })`,
+            output: `const alertStyleVariants = cva('base', { variants: {} })`,
             errors: [{ messageId: 'requireSuffix', data: { name: 'alertStyle', suggested: 'alertStyleVariants' } }],
           },
         ],

@@ -18,6 +18,7 @@ describe('shadcn-prefer-spinner', () => {
         invalid: [
           {
             code: `import { LoaderIcon } from 'lucide-react'`,
+            output: `import { Spinner } from '@/components/ui/spinner'\n`,
             errors: [
               {
                 messageId: 'preferSpinner',
@@ -27,6 +28,7 @@ describe('shadcn-prefer-spinner', () => {
           },
           {
             code: `import { Loader2Icon } from 'lucide-react'`,
+            output: `import { Spinner } from '@/components/ui/spinner'\n`,
             errors: [
               {
                 messageId: 'preferSpinner',
@@ -36,6 +38,7 @@ describe('shadcn-prefer-spinner', () => {
           },
           {
             code: `import { HomeIcon, LoaderIcon, Loader2Icon } from 'lucide-react'`,
+            output: `import { Spinner } from '@/components/ui/spinner'\nimport { HomeIcon, Loader2Icon } from 'lucide-react'`,
             errors: [
               {
                 messageId: 'preferSpinner',
@@ -64,6 +67,7 @@ describe('shadcn-prefer-spinner', () => {
         invalid: [
           {
             code: `import { LoaderIcon } from 'lucide-react'`,
+            output: `import { Spinner } from '~/components/spinner'\n`,
             options: [{ importSource: '~/components/spinner' }],
             errors: [
               {

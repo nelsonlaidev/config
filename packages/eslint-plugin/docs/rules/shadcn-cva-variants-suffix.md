@@ -22,6 +22,8 @@ const buttonVariants = cva('base', { variants: {} })
 export const badgeVariants = cva('base')
 ```
 
+**Fixable:** This rule is auto-fixable with `--fix`. It renames the variable and all its references.
+
 ## Options
 
 This rule has no options.

@@ -23,6 +23,8 @@ Examples of **correct** code for this rule:
 import { Spinner } from '@/components/ui/spinner'
 ```
 
+**Fixable:** This rule is auto-fixable with `--fix`. It removes the loader icon import, adds a `Spinner` import, and replaces all usages.
+
 ## Options
 
 ### `importSource`
