@@ -1,0 +1,39 @@
+import { RuleTester } from 'eslint'
+import { describe, expect, it } from 'vitest'
+
+import { shadcnCvaVariantsSuffix } from '../shadcn-cva-variants-suffix'
+
+const ruleTester = new RuleTester()
+
+describe('shadcn-cva-variants-suffix', () => {
+  it('should enforce Variants suffix on cva() assignments', () => {
+    expect(() => {
+      ruleTester.run('shadcn-cva-variants-suffix', shadcnCvaVariantsSuffix, {
+        valid: [
+          `const buttonVariants = cva('base', { variants: {} })`,
+          `export const badgeVariants = cva('base')`,
+          `const alertVariants = cva('base', { variants: {} })`,
+          // Non-cva calls should not be affected
+          `const button = cn('base')`,
+          `const styles = clsx('base')`,
+          // Already ends with Variants
+          `const myVariants = cva('base')`,
+        ],
+        invalid: [
+          {
+            code: `const button = cva('base', { variants: {} })`,
+            errors: [{ messageId: 'requireSuffix', data: { name: 'button', suggested: 'buttonVariants' } }],
+          },
+          {
+            code: `export const badge = cva('base')`,
+            errors: [{ messageId: 'requireSuffix', data: { name: 'badge', suggested: 'badgeVariants' } }],
+          },
+          {
+            code: `const alertStyle = cva('base', { variants: {} })`,
+            errors: [{ messageId: 'requireSuffix', data: { name: 'alertStyle', suggested: 'alertStyleVariants' } }],
+          },
+        ],
+      })
+    }).not.toThrow()
+  })
+})
