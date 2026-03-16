@@ -17,7 +17,8 @@
     "lint:spell": "cspell .",
     "prepare": "lefthook install",
     "release": "changeset publish",
-    "test": "turbo test",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "typecheck": "turbo typecheck",
     "version": "changeset version"
   },
@@ -34,7 +35,8 @@
     "prettier": "^3.8.1",
     "prettier-plugin-packagejson": "^3.0.0",
     "turbo": "^2.8.12",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.30.3",
   "engines": {
