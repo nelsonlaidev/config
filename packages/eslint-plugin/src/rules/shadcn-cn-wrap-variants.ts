@@ -6,6 +6,7 @@ export const shadcnCnWrapVariants: Rule.RuleModule = {
     docs: {
       description:
         "Enforce wrapping '*Variants()' calls inside the 'cn()' utility to ensure Tailwind classes merge correctly",
+      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/shadcn-cn-wrap-variants.md',
     },
     fixable: 'code',
     messages: {

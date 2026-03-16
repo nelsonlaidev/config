@@ -8,6 +8,7 @@ export const lucideIconSuffix: Rule.RuleModule = {
     docs: {
       description:
         "Enforce using the 'Icon' suffixed version of lucide-react imports (e.g., 'HomeIcon' instead of 'Home')",
+      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/lucide-icon-suffix.md',
     },
     fixable: 'code',
     messages: {

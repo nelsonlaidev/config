@@ -5,6 +5,7 @@ export const shadcnCvaVariantsSuffix: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description: "Enforce that variables assigned to `cva()` calls always end with 'Variants'",
+      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/shadcn-cva-variants-suffix.md',
     },
     fixable: 'code',
     messages: {

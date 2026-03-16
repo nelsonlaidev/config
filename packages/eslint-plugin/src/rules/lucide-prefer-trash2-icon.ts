@@ -14,6 +14,7 @@ export const lucidePreferTrash2Icon: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description: "Enforce using 'Trash2Icon' instead of 'TrashIcon' from lucide-react for better visual consistency",
+      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/lucide-prefer-trash2-icon.md',
     },
     fixable: 'code',
     messages: {

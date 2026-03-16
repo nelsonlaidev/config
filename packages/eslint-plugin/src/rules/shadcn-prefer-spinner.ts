@@ -45,6 +45,7 @@ export const shadcnPreferSpinner: Rule.RuleModule = {
     type: 'suggestion',
     docs: {
       description: "Enforce using the '<Spinner />' component instead of loader icons from lucide-react",
+      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/shadcn-prefer-spinner.md',
     },
     fixable: 'code',
     messages: {

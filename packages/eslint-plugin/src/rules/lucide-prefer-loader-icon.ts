@@ -15,6 +15,7 @@ export const lucidePreferLoaderIcon: Rule.RuleModule = {
     docs: {
       description:
         "Enforce using 'LoaderIcon' instead of 'Loader2Icon' from lucide-react for better visual consistency",
+      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/lucide-prefer-loader-icon.md',
     },
     fixable: 'code',
     messages: {
