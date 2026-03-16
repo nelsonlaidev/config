@@ -1,7 +1,7 @@
 import { RuleTester } from 'eslint'
 import { describe, expect, it } from 'vitest'
 
-import { lucidePreferLoaderIcon } from '../lucide-prefer-loader-icon'
+import { lucidePreferLoaderIcon } from '@/rules/lucide-prefer-loader-icon'
 
 const ruleTester = new RuleTester()
 

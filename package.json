@@ -17,6 +17,7 @@
     "lint:spell": "cspell .",
     "prepare": "lefthook install",
     "release": "changeset publish",
+    "test": "turbo test",
     "typecheck": "turbo typecheck",
     "version": "changeset version"
   },

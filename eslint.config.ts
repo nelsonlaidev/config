@@ -1,3 +1,5 @@
 import { defineConfig } from '@nelsonlaidev/eslint-config'
 
-export default defineConfig()
+export default defineConfig({
+  ignores: ['packages/**'],
+})

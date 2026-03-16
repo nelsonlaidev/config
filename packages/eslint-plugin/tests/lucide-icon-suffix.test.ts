@@ -1,7 +1,7 @@
 import { RuleTester } from 'eslint'
 import { describe, expect, it } from 'vitest'
 
-import { lucideIconSuffix } from '../lucide-icon-suffix'
+import { lucideIconSuffix } from '@/rules/lucide-icon-suffix'
 
 const ruleTester = new RuleTester()
 
