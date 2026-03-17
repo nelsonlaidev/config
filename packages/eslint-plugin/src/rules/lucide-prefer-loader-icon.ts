@@ -1,6 +1,7 @@
-import type { Rule } from 'eslint'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-const LUCIDE_REACT_SOURCE = 'lucide-react'
+import { LUCIDE_REACT_SOURCE } from '../lib/constants'
+import { createRule } from '../utils/create-rule'
 
 type Preferred = 'LoaderIcon' | 'Loader2Icon'
 
@@ -9,18 +10,19 @@ const OPPOSITES: Record<Preferred, Preferred> = {
   Loader2Icon: 'LoaderIcon',
 }
 
-export const lucidePreferLoaderIcon: Rule.RuleModule = {
+export const lucidePreferLoaderIcon = createRule({
+  name: 'lucide-prefer-loader-icon',
   meta: {
-    type: 'suggestion',
     docs: {
       description:
         "Enforce using 'LoaderIcon' instead of 'Loader2Icon' from lucide-react for better visual consistency",
-      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/lucide-prefer-loader-icon.md',
     },
-    fixable: 'code',
     messages: {
-      preferIcon: "Import '{{preferred}}' instead of '{{forbidden}}' from lucide-react for better visual consistency.",
+      preferIcon:
+        "Import '{{ preferred }}' instead of '{{ forbidden }}' from lucide-react for better visual consistency.",
     },
+    type: 'suggestion',
+    fixable: 'code',
     schema: [
       {
         type: 'object',
@@ -34,10 +36,9 @@ export const lucidePreferLoaderIcon: Rule.RuleModule = {
       },
     ],
   },
-
-  create(context) {
-    const preferred: Preferred =
-      (context.options[0] as { preferred?: Preferred } | undefined)?.preferred ?? 'LoaderIcon'
+  defaultOptions: [{ preferred: 'LoaderIcon' as Preferred }],
+  create(context, options) {
+    const [{ preferred }] = options
     const forbidden = OPPOSITES[preferred]
 
     return {
@@ -45,10 +46,10 @@ export const lucidePreferLoaderIcon: Rule.RuleModule = {
         if (node.source.value !== LUCIDE_REACT_SOURCE) return
 
         for (const specifier of node.specifiers) {
-          if (specifier.type !== 'ImportSpecifier') continue
+          if (specifier.type !== AST_NODE_TYPES.ImportSpecifier) continue
 
           const { imported } = specifier
-          if (imported.type !== 'Identifier') continue
+          if (imported.type !== AST_NODE_TYPES.Identifier) continue
 
           if (imported.name !== forbidden) continue
 
@@ -71,7 +72,7 @@ export const lucidePreferLoaderIcon: Rule.RuleModule = {
                 return fixer.replaceText(specifier, preferred)
               }
 
-              const fixes: Rule.Fix[] = [fixer.replaceText(specifier, preferred)]
+              const fixes = [fixer.replaceText(specifier, preferred)]
 
               for (const ref of variable.references) {
                 if (ref.identifier !== imported) {
@@ -86,4 +87,4 @@ export const lucidePreferLoaderIcon: Rule.RuleModule = {
       },
     }
   },
-}
+})

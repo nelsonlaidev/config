@@ -1,31 +1,36 @@
-import type { Rule } from 'eslint'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-export const shadcnCnWrapVariants: Rule.RuleModule = {
+import { createRule } from '../utils/create-rule'
+
+export const shadcnCnWrapVariants = createRule({
+  name: 'shadcn-cn-wrap-variants',
   meta: {
-    type: 'suggestion',
     docs: {
       description:
         "Enforce wrapping '*Variants()' calls inside the 'cn()' utility to ensure Tailwind classes merge correctly",
-      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/shadcn-cn-wrap-variants.md',
     },
-    fixable: 'code',
     messages: {
-      wrapWithCn: "'{{name}}()' should be wrapped inside 'cn()' to ensure Tailwind classes merge correctly.",
+      wrapWithCn: "'{{ name }}()' should be wrapped inside 'cn()' to ensure Tailwind classes merge correctly.",
     },
+    type: 'suggestion',
+    fixable: 'code',
     schema: [],
   },
-
   create(context) {
     return {
       CallExpression(node) {
         const { callee } = node
-        if (callee.type !== 'Identifier') return
+        if (callee.type !== AST_NODE_TYPES.Identifier) return
         if (!callee.name.endsWith('Variants')) return
 
         const { parent } = node
 
         // Already wrapped in cn()
-        if (parent.type === 'CallExpression' && parent.callee.type === 'Identifier' && parent.callee.name === 'cn') {
+        if (
+          parent.type === AST_NODE_TYPES.CallExpression &&
+          parent.callee.type === AST_NODE_TYPES.Identifier &&
+          parent.callee.name === 'cn'
+        ) {
           return
         }
 
@@ -42,4 +47,4 @@ export const shadcnCnWrapVariants: Rule.RuleModule = {
       },
     }
   },
-}
+})

@@ -1,33 +1,36 @@
-import type { Rule } from 'eslint'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-const LUCIDE_REACT_SOURCE = 'lucide-react'
+import { LUCIDE_REACT_SOURCE } from '../lib/constants'
+import { createRule } from '../utils/create-rule'
 
-export const lucideIconSuffix: Rule.RuleModule = {
+const NON_ICON_EXPORTS = new Set(['createLucideIcon', 'icons', 'LucideIcon', 'LucideProps', 'IconNode', 'Icon'])
+
+export const lucideIconSuffix = createRule({
+  name: 'lucide-icon-suffix',
   meta: {
-    type: 'suggestion',
     docs: {
       description:
         "Enforce using the 'Icon' suffixed version of lucide-react imports (e.g., 'HomeIcon' instead of 'Home')",
-      url: 'https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/docs/rules/lucide-icon-suffix.md',
     },
-    fixable: 'code',
     messages: {
       useSuffixed:
-        "Import '{{suffixed}}' instead of '{{name}}' from lucide-react. Always use the 'Icon' suffixed version.",
+        "Import '{{ suffixed }}' instead of '{{ name }}' from lucide-react. Always use the 'Icon' suffixed version.",
     },
+    type: 'suggestion',
+    fixable: 'code',
     schema: [],
   },
-
+  defaultOptions: [],
   create(context) {
     return {
       ImportDeclaration(node) {
         if (node.source.value !== LUCIDE_REACT_SOURCE) return
 
         for (const specifier of node.specifiers) {
-          if (specifier.type !== 'ImportSpecifier') continue
+          if (specifier.type !== AST_NODE_TYPES.ImportSpecifier) continue
 
           const { imported } = specifier
-          if (imported.type !== 'Identifier') continue
+          if (imported.type !== AST_NODE_TYPES.Identifier) continue
 
           const { name } = imported
 
@@ -46,12 +49,9 @@ export const lucideIconSuffix: Rule.RuleModule = {
             data: { name, suffixed },
             fix(fixer) {
               if (isRenamed) {
-                // `import { Home as MyIcon } from 'lucide-react'` → `import { HomeIcon as MyIcon } from 'lucide-react'`
                 return fixer.replaceText(imported, suffixed)
               }
 
-              // `import { Home } from 'lucide-react'` → `import { HomeIcon } from 'lucide-react'`
-              // Need to replace entire specifier and all references
               const { sourceCode } = context
               const scope = sourceCode.getScope(node)
               const variable = scope.variables.find((v) => v.name === name)
@@ -60,7 +60,7 @@ export const lucideIconSuffix: Rule.RuleModule = {
                 return fixer.replaceText(specifier, suffixed)
               }
 
-              const fixes: Rule.Fix[] = [fixer.replaceText(specifier, suffixed)]
+              const fixes = [fixer.replaceText(specifier, suffixed)]
 
               for (const ref of variable.references) {
                 if (ref.identifier !== imported) {
@@ -75,6 +75,4 @@ export const lucideIconSuffix: Rule.RuleModule = {
       },
     }
   },
-}
-
-const NON_ICON_EXPORTS = new Set(['createLucideIcon', 'icons', 'LucideIcon', 'LucideProps', 'IconNode'])
+})
