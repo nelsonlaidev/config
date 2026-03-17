@@ -1,6 +1,5 @@
 ---
 '@nelsonlaidev/eslint-plugin': minor
-'@nelsonlaidev/eslint-config': patch
 ---
 
 Improve ESLint plugin rules with configurable options and rule consolidation
@@ -10,4 +9,3 @@ Improve ESLint plugin rules with configurable options and rule consolidation
 - `shadcn-cn-wrap-variants`: replace catch-all `*Variants` pattern with explicit `names` array option to avoid false positives
 - `shadcn-prefer-spinner`: add `ignore` option (glob array) to skip files like `spinner.tsx`; fix path matching with absolute paths
 - Export typed default options and types for all configurable rules
-- Update eslint-config to reference `lucide-restrict-import` in place of removed rules
