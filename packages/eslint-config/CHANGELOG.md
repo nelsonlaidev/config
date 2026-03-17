@@ -1,5 +1,13 @@
 # @nelsonlaidev/eslint-config
 
+## 3.7.2
+
+### Patch Changes
+
+- 5929d1e: Update to use `lucide-restrict-import` in place of removed rules
+- Updated dependencies [18fe881]
+  - @nelsonlaidev/eslint-plugin@0.2.0
+
 ## 3.7.1
 
 ### Patch Changes
