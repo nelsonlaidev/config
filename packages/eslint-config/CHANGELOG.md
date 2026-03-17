@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 3.7.1
+
+### Patch Changes
+
+- 65a56c6: Move `eslint-import-resolver-typescript` to dependencies
+
 ## 3.7.0
 
 ### Minor Changes
