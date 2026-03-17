@@ -59,6 +59,9 @@ importers:
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.2
+      '@nelsonlaidev/eslint-plugin':
+        specifier: workspace:*
+        version: link:../eslint-plugin
       '@next/eslint-plugin-next':
         specifier: ^16.1.6
         version: 16.1.6

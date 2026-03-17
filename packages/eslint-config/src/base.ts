@@ -11,6 +11,7 @@ import { importSort } from './configs/import-sort'
 import { importX } from './configs/import-x'
 import { javascript } from './configs/javascript'
 import { jsx } from './configs/jsx'
+import { nelsonlaidev } from './configs/nelsonlaidev'
 import { nextjs } from './configs/nextjs'
 import { node } from './configs/node'
 import { playwright } from './configs/playwright'
@@ -49,6 +50,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...stylistic(),
     ...zod(),
     ...promise(),
+    ...nelsonlaidev(),
   ]
 
   const isNextjsEnabled = options.nextjs ?? isNextjsInstalled

@@ -1,5 +1,6 @@
 export { default as commentsPlugin } from '@eslint-community/eslint-plugin-eslint-comments'
 export { default as reactPlugin } from '@eslint-react/eslint-plugin'
+export { default as nelsonlaidevPlugin } from '@nelsonlaidev/eslint-plugin'
 export { default as nextPlugin } from '@next/eslint-plugin-next'
 export { default as stylisticPlugin } from '@stylistic/eslint-plugin'
 export { default as typescriptPlugin } from '@typescript-eslint/eslint-plugin'
