@@ -62,6 +62,7 @@
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "^24.11.0",
     "eslint": "^9.39.2",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "tsdown": "^0.20.3"
   },
   "peerDependencies": {
