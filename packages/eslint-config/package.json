@@ -40,6 +40,7 @@
     "@vitest/eslint-plugin": "^1.6.9",
     "eslint-config-flat-gitignore": "^2.2.1",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-better-tailwindcss": "^4.3.1",
     "eslint-plugin-command": "^3.5.2",
     "eslint-plugin-de-morgan": "^2.1.1",
@@ -63,7 +64,6 @@
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "^24.11.0",
     "eslint": "^9.39.2",
-    "eslint-import-resolver-typescript": "^4.4.4",
     "tsdown": "^0.20.3"
   },
   "peerDependencies": {
