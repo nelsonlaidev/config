@@ -32,7 +32,7 @@ An array of restriction objects. Each object has:
 - `preferred` (required): The preferred alternative import name
 - `message` (optional): A custom error message
 
-Default:
+### Default Options
 
 ```json
 {
@@ -42,6 +42,8 @@ Default:
   ]
 }
 ```
+
+> **Note:** Custom options **replace** the defaults entirely — they are not merged. See [Options & Defaults](../defaults.md) for details on how to extend them.
 
 Example with custom restrictions:
 

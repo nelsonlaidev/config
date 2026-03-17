@@ -23,6 +23,35 @@ Examples of **correct** code for this rule:
 import { Spinner } from '@/components/ui/spinner'
 ```
 
+## Options
+
+### `ignore`
+
+An array of glob patterns for files that should be excluded from this rule. Files matching any pattern will not be checked.
+
+### Default Options
+
+```json
+{
+  "ignore": ["**/spinner.tsx"]
+}
+```
+
+> **Note:** Custom options **replace** the defaults entirely — they are not merged. See [Options & Defaults](../defaults.md) for details on how to extend them.
+
+Example with custom ignore patterns:
+
+```json
+{
+  "@nelsonlaidev/shadcn-prefer-spinner": [
+    "error",
+    {
+      "ignore": ["**/spinner.tsx", "**/loading.tsx"]
+    }
+  ]
+}
+```
+
 ## When Not To Use It
 
 If your project does not have a dedicated Spinner component or does not use `lucide-react`.

@@ -43,12 +43,22 @@ import { Home, Search } from 'lucide-react'
 
 ### `suffix`
 
-- `'with'` (default): Enforce using the `Icon` suffix (e.g., `HomeIcon`)
+- `'with'`: Enforce using the `Icon` suffix (e.g., `HomeIcon`)
 - `'without'`: Enforce using the version without the `Icon` suffix (e.g., `Home`)
+
+### Default Options
 
 ```json
 {
-  "@nelsonlaidev/lucide-icon-suffix": ["error", { "suffix": "with" }]
+  "suffix": "with"
+}
+```
+
+Example using the unsuffixed variant:
+
+```json
+{
+  "@nelsonlaidev/lucide-icon-suffix": ["error", { "suffix": "without" }]
 }
 ```
 

@@ -35,22 +35,26 @@ const cls = cn(badgeVariants({ variant: 'outline' }))
 
 An array of function names to check. Only calls to these functions will be reported.
 
-Default:
+### Default Options
 
 ```json
-[
-  "badgeVariants",
-  "alertVariants",
-  "toggleVariants",
-  "emptyMediaVariants",
-  "itemVariants",
-  "itemMediaVariants",
-  "buttonGroupVariants",
-  "tabsListVariants",
-  "sidebarMenuButtonVariants",
-  "fieldVariants"
-]
+{
+  "names": [
+    "badgeVariants",
+    "alertVariants",
+    "toggleVariants",
+    "emptyMediaVariants",
+    "itemVariants",
+    "itemMediaVariants",
+    "buttonGroupVariants",
+    "tabsListVariants",
+    "sidebarMenuButtonVariants",
+    "fieldVariants"
+  ]
+}
 ```
+
+> **Note:** Custom options **replace** the defaults entirely — they are not merged. See [Options & Defaults](../defaults.md) for details on how to extend them.
 
 Example with custom names:
 
