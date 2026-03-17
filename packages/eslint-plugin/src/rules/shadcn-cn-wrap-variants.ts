@@ -1,5 +1,8 @@
+import type { TSESTree } from '@typescript-eslint/utils'
+
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
+import { shadcnCnWrapVariantsDefaults } from '../lib/defaults'
 import { createRule } from '../utils/create-rule'
 
 export const shadcnCnWrapVariants = createRule({
@@ -14,25 +17,31 @@ export const shadcnCnWrapVariants = createRule({
     },
     type: 'suggestion',
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          names: {
+            type: 'array',
+            items: { type: 'string' },
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
-  create(context) {
+  defaultOptions: [shadcnCnWrapVariantsDefaults],
+  create(context, options) {
+    const [{ names }] = options
+    const nameSet = new Set(names)
+
     return {
       CallExpression(node) {
         const { callee } = node
         if (callee.type !== AST_NODE_TYPES.Identifier) return
-        if (!callee.name.endsWith('Variants')) return
+        if (!nameSet.has(callee.name)) return
 
-        const { parent } = node
-
-        // Already wrapped in cn()
-        if (
-          parent.type === AST_NODE_TYPES.CallExpression &&
-          parent.callee.type === AST_NODE_TYPES.Identifier &&
-          parent.callee.name === 'cn'
-        ) {
-          return
-        }
+        if (isWrappedInCn(node)) return
 
         context.report({
           node,
@@ -48,3 +57,12 @@ export const shadcnCnWrapVariants = createRule({
     }
   },
 })
+
+function isWrappedInCn(node: TSESTree.CallExpression): boolean {
+  const { parent } = node
+  return (
+    parent.type === AST_NODE_TYPES.CallExpression &&
+    parent.callee.type === AST_NODE_TYPES.Identifier &&
+    parent.callee.name === 'cn'
+  )
+}

@@ -1,6 +1,7 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { LUCIDE_REACT_SOURCE } from '../lib/constants'
+import { lucideIconSuffixDefaults } from '../lib/defaults'
 import { createRule } from '../utils/create-rule'
 
 const NON_ICON_EXPORTS = new Set(['createLucideIcon', 'icons', 'LucideIcon', 'LucideProps', 'IconNode', 'Icon'])
@@ -14,17 +15,34 @@ export const lucideIconSuffix = createRule({
     },
     messages: {
       useSuffixed:
-        "Import '{{ suffixed }}' instead of '{{ name }}' from lucide-react. Always use the 'Icon' suffixed version.",
+        "Import '{{ expected }}' instead of '{{ name }}' from lucide-react. Always use the 'Icon' suffixed version.",
+      useUnsuffixed:
+        "Import '{{ expected }}' instead of '{{ name }}' from lucide-react. Always use the version without the 'Icon' suffix.",
     },
     type: 'suggestion',
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          suffix: {
+            type: 'string',
+            enum: ['with', 'without'],
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [lucideIconSuffixDefaults],
+  create(context, options) {
+    const [{ suffix }] = options
+
     return {
       ImportDeclaration(node) {
         if (node.source.value !== LUCIDE_REACT_SOURCE) return
+
+        const withSuffix = suffix === 'with'
 
         for (const specifier of node.specifiers) {
           if (specifier.type !== AST_NODE_TYPES.ImportSpecifier) continue
@@ -34,37 +52,36 @@ export const lucideIconSuffix = createRule({
 
           const { name } = imported
 
-          // Skip if already has Icon suffix, or is not a PascalCase icon name
-          if (name.endsWith('Icon') || !/^[A-Z]/.test(name)) continue
-
-          // Skip known non-icon exports (utilities, types, components)
+          if (!/^[A-Z]/.test(name)) continue
           if (NON_ICON_EXPORTS.has(name)) continue
 
-          const suffixed = `${name}Icon`
+          const hasIconSuffix = name.endsWith('Icon')
+          if (withSuffix === hasIconSuffix) continue
+
+          const expected = withSuffix ? `${name}Icon` : name.slice(0, -4)
           const isRenamed = specifier.local.name !== name
 
           context.report({
             node: specifier,
-            messageId: 'useSuffixed',
-            data: { name, suffixed },
+            messageId: withSuffix ? 'useSuffixed' : 'useUnsuffixed',
+            data: { name, expected },
             fix(fixer) {
               if (isRenamed) {
-                return fixer.replaceText(imported, suffixed)
+                return fixer.replaceText(imported, expected)
               }
 
-              const { sourceCode } = context
-              const scope = sourceCode.getScope(node)
+              const scope = context.sourceCode.getScope(node)
               const variable = scope.variables.find((v) => v.name === name)
 
               if (!variable) {
-                return fixer.replaceText(specifier, suffixed)
+                return fixer.replaceText(specifier, expected)
               }
 
-              const fixes = [fixer.replaceText(specifier, suffixed)]
+              const fixes = [fixer.replaceText(specifier, expected)]
 
               for (const ref of variable.references) {
                 if (ref.identifier !== imported) {
-                  fixes.push(fixer.replaceText(ref.identifier, suffixed))
+                  fixes.push(fixer.replaceText(ref.identifier, expected))
                 }
               }
 
