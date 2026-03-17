@@ -9,5 +9,5 @@
   "allowCompoundWords": true,
   "dictionaries": ["npm"],
   "ignorePaths": ["pnpm-lock.yaml", ".git"],
-  "words": ["nelsonlaidev", "sonarjs", "sxzz", "unsuffixed"],
+  "words": ["nelsonlaidev", "sonarjs", "sxzz", "TSES", "unsuffixed"],
 }
