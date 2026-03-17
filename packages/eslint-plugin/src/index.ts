@@ -10,3 +10,17 @@ const plugin = {
 } satisfies ESLint.Plugin
 
 export default plugin
+
+export type {
+  LucideIconSuffixOptions,
+  LucideRestrictImportOptions,
+  LucideRestrictImportRestriction,
+  ShadcnCnWrapVariantsOptions,
+  ShadcnPreferSpinnerOptions,
+} from './lib/defaults'
+export {
+  lucideIconSuffixDefaults,
+  lucideRestrictImportDefaults,
+  shadcnCnWrapVariantsDefaults,
+  shadcnPreferSpinnerDefaults,
+} from './lib/defaults'

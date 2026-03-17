@@ -6,7 +6,7 @@ Enforce wrapping `*Variants()` calls inside the `cn()` utility to ensure Tailwin
 
 When using [class-variance-authority (cva)](https://cva.style) with Tailwind CSS, calling a variants function directly (e.g., `buttonVariants()`) can produce conflicting classes. Wrapping the call in `cn()` ensures that [tailwind-merge](https://github.com/dcastil/tailwind-merge) resolves conflicts properly.
 
-This rule reports any call to a function ending with `Variants` that is not already wrapped in `cn()`.
+This rule reports calls to specific variant functions that are not already wrapped in `cn()`. Only explicitly listed function names are checked to avoid false positives.
 
 ### Examples
 
@@ -31,7 +31,34 @@ const cls = cn(badgeVariants({ variant: 'outline' }))
 
 ## Options
 
-This rule has no options.
+### `names`
+
+An array of function names to check. Only calls to these functions will be reported.
+
+Default:
+
+```json
+[
+  "badgeVariants",
+  "alertVariants",
+  "toggleVariants",
+  "emptyMediaVariants",
+  "itemVariants",
+  "itemMediaVariants",
+  "buttonGroupVariants",
+  "tabsListVariants",
+  "sidebarMenuButtonVariants",
+  "fieldVariants"
+]
+```
+
+Example with custom names:
+
+```json
+{
+  "@nelsonlaidev/shadcn-cn-wrap-variants": ["error", { "names": ["buttonVariants", "badgeVariants"] }]
+}
+```
 
 ## When Not To Use It
 

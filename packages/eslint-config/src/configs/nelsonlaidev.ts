@@ -10,8 +10,7 @@ export const nelsonlaidev = (): FlatConfig[] => [
     },
     rules: {
       '@nelsonlaidev/lucide-icon-suffix': 'error',
-      '@nelsonlaidev/lucide-prefer-loader-icon': 'error',
-      '@nelsonlaidev/lucide-prefer-trash2-icon': 'error',
+      '@nelsonlaidev/lucide-restrict-import': 'error',
       '@nelsonlaidev/shadcn-cn-wrap-variants': 'error',
       '@nelsonlaidev/shadcn-cva-variants-suffix': 'error',
       '@nelsonlaidev/shadcn-prefer-spinner': 'error',

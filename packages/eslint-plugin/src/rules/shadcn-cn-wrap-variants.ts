@@ -1,5 +1,6 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
+import { shadcnCnWrapVariantsDefaults } from '../lib/defaults'
 import { createRule } from '../utils/create-rule'
 
 export const shadcnCnWrapVariants = createRule({
@@ -14,14 +15,29 @@ export const shadcnCnWrapVariants = createRule({
     },
     type: 'suggestion',
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          names: {
+            type: 'array',
+            items: { type: 'string' },
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
-  create(context) {
+  defaultOptions: [shadcnCnWrapVariantsDefaults],
+  create(context, options) {
+    const [{ names }] = options
+    const nameSet = new Set(names)
+
     return {
       CallExpression(node) {
         const { callee } = node
         if (callee.type !== AST_NODE_TYPES.Identifier) return
-        if (!callee.name.endsWith('Variants')) return
+        if (!nameSet.has(callee.name)) return
 
         const { parent } = node
 
