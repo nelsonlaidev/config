@@ -38,7 +38,7 @@ export const shadcnPreferSpinner = createRule({
     const [{ ignore }] = options
     const { filename } = context
 
-    const relativePath = path.relative(context.cwd, filename)
+    const relativePath = path.relative(context.cwd, filename).replaceAll('\\', '/')
     if (ignore.some((pattern) => minimatch(relativePath, pattern))) return {}
 
     return {

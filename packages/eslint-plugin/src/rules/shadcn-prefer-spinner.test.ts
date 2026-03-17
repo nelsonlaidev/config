@@ -37,6 +37,12 @@ ruleTester.run('shadcn-prefer-spinner', shadcnPreferSpinner, {
       filename: 'src/components/ui/spinner.tsx',
       options: [{ ignore: ['**/ui/*.tsx'] }],
     },
+    // Windows-style path separators
+    {
+      code: `import { LoaderIcon } from 'lucide-react'`,
+      filename: 'src\\components\\ui\\spinner.tsx',
+      options: [{ ignore: ['**/spinner.tsx'] }],
+    },
   ],
   invalid: [
     {
