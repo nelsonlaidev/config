@@ -1,5 +1,18 @@
 # @nelsonlaidev/eslint-config
 
+## 3.7.0
+
+### Minor Changes
+
+- d69bd3e: Integrate `@nelsonlaidev/eslint-plugin` into the shared ESLint config
+  - Add `@nelsonlaidev/eslint-plugin` as a dependency
+  - Enable all custom rules by default (`lucide-icon-suffix`, `lucide-prefer-loader-icon`, `lucide-prefer-trash2-icon`, `shadcn-cn-wrap-variants`, `shadcn-cva-variants-suffix`, `shadcn-prefer-spinner`)
+
+### Patch Changes
+
+- Updated dependencies [9cd534b]
+  - @nelsonlaidev/eslint-plugin@0.1.0
+
 ## 3.6.0
 
 ### Minor Changes
