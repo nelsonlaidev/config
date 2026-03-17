@@ -1,6 +1,7 @@
 import path from 'node:path'
 
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { minimatch } from 'minimatch'
 
 import { LUCIDE_REACT_SOURCE } from '../lib/constants'
 import { shadcnPreferSpinnerDefaults } from '../lib/defaults'
@@ -37,7 +38,8 @@ export const shadcnPreferSpinner = createRule({
     const [{ ignore }] = options
     const { filename } = context
 
-    if (ignore.some((pattern) => path.matchesGlob(filename, pattern))) return {}
+    const relativePath = path.relative(context.cwd, filename)
+    if (ignore.some((pattern) => minimatch(relativePath, pattern))) return {}
 
     return {
       ImportDeclaration(node) {

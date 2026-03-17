@@ -47,5 +47,5 @@ export const shadcnCnWrapVariantsDefaults: ShadcnCnWrapVariantsOptions = {
 }
 
 export const shadcnPreferSpinnerDefaults: ShadcnPreferSpinnerOptions = {
-  ignore: ['spinner.tsx'],
+  ignore: ['**/spinner.tsx'],
 }
