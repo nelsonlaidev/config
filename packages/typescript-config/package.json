@@ -17,8 +17,17 @@
     "./library.json",
     "./nextjs.json",
     "./react-library.json",
+    "./react.d.ts",
     "./tanstack-start.json"
   ],
+  "peerDependencies": {
+    "@types/react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   }
