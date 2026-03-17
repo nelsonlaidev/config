@@ -29,12 +29,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@typescript-eslint/rule-tester": "^8.57.1",
     "@typescript-eslint/utils": "^8.57.1"
   },
   "devDependencies": {
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "^24.11.0",
+    "@typescript-eslint/rule-tester": "^8.57.1",
     "eslint": "^9.39.2",
     "tsdown": "^0.20.3",
     "vitest": "^3.2.4"
