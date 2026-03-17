@@ -1,14 +1,14 @@
 {
-  "name": "@nelsonlaidev/prettier-config",
-  "version": "0.2.0",
-  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/prettier-config/README.md",
+  "name": "@nelsonlaidev/eslint-plugin",
+  "version": "0.0.0",
+  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/README.md",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nelsonlaidev/config.git",
-    "directory": "packages/prettier-config"
+    "directory": "packages/eslint-plugin"
   },
   "license": "MIT",
   "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
@@ -24,17 +24,23 @@
     "build": "tsdown",
     "clean": "rm -rf .turbo dist",
     "dev": "tsdown --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@typescript-eslint/utils": "^8.57.1"
   },
   "devDependencies": {
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "^24.11.0",
-    "prettier": "^3.8.1",
-    "tsdown": "^0.20.3"
+    "@typescript-eslint/rule-tester": "^8.57.1",
+    "eslint": "^9.39.2",
+    "tsdown": "^0.20.3",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
-    "prettier": ">=3.6.0",
-    "prettier-plugin-packagejson": ">=2.5.0"
+    "eslint": "^9.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -14,6 +14,14 @@ A shared ESLint configuration to enforce consistent code style and best practice
 npm i -D @nelsonlaidev/eslint-config
 ```
 
+### [@nelsonlaidev/eslint-plugin](packages/eslint-plugin)
+
+Custom ESLint rules for Nelson Lai projects.
+
+```bash
+npm i -D @nelsonlaidev/eslint-plugin
+```
+
 ### [@nelsonlaidev/prettier-config](packages/prettier-config)
 
 A shared Prettier configuration to ensure consistent code formatting.
