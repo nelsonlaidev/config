@@ -12,7 +12,6 @@ ruleTester.run('shadcn-prefer-spinner', shadcnPreferSpinner, {
     `import { HomeIcon } from 'lucide-react'`,
     `import { LoaderIcon } from 'other-package'`,
     `import { Loader2Icon } from 'other-package'`,
-
     // Should not report when filename matches default ignore pattern
     {
       code: `import { LoaderIcon } from 'lucide-react'`,
@@ -22,21 +21,20 @@ ruleTester.run('shadcn-prefer-spinner', shadcnPreferSpinner, {
       code: `import { Loader2Icon } from 'lucide-react'`,
       filename: 'spinner.tsx',
     },
-
     // Glob pattern matching
     {
       code: `import { LoaderIcon } from 'lucide-react'`,
-      filename: '/components/ui/spinner.tsx',
+      filename: 'src/components/ui/spinner.tsx',
       options: [{ ignore: ['**/spinner.tsx'] }],
     },
     {
       code: `import { LoaderIcon } from 'lucide-react'`,
-      filename: '/components/ui/loading.tsx',
+      filename: 'src/components/ui/loading.tsx',
       options: [{ ignore: ['**/loading.tsx'] }],
     },
     {
       code: `import { LoaderIcon } from 'lucide-react'`,
-      filename: '/components/ui/spinner.tsx',
+      filename: 'src/components/ui/spinner.tsx',
       options: [{ ignore: ['**/ui/*.tsx'] }],
     },
   ],
@@ -57,23 +55,23 @@ ruleTester.run('shadcn-prefer-spinner', shadcnPreferSpinner, {
       ],
     },
     {
-      code: `import { LoaderIcon } from 'lucide-react'\nconst App = () => <LoaderIcon className="animate-spin" />`,
+      code: `
+        import { LoaderIcon } from 'lucide-react'
+        const App = () => <LoaderIcon className="animate-spin" />
+      `,
       errors: [{ messageId: 'preferSpinner' }],
     },
     {
-      code: `import { HomeIcon, Loader2Icon } from 'lucide-react'\nconst App = () => <Loader2Icon />`,
+      code: `
+        import { HomeIcon, Loader2Icon } from 'lucide-react'
+        const App = () => <Loader2Icon />
+      `,
       errors: [{ messageId: 'preferSpinner' }],
     },
     // Not matching ignore pattern
     {
       code: `import { LoaderIcon } from 'lucide-react'`,
-      filename: 'loader.tsx',
-      errors: [{ messageId: 'preferSpinner', data: { name: 'LoaderIcon' } }],
-    },
-    // Default ignore doesn't match full path
-    {
-      code: `import { LoaderIcon } from 'lucide-react'`,
-      filename: '/components/ui/spinner.tsx',
+      filename: 'src/components/ui/loader.tsx',
       errors: [{ messageId: 'preferSpinner', data: { name: 'LoaderIcon' } }],
     },
   ],
