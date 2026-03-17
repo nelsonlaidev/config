@@ -1,3 +1,5 @@
+import type { TSESTree } from '@typescript-eslint/utils'
+
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { shadcnCnWrapVariantsDefaults } from '../lib/defaults'
@@ -39,16 +41,7 @@ export const shadcnCnWrapVariants = createRule({
         if (callee.type !== AST_NODE_TYPES.Identifier) return
         if (!nameSet.has(callee.name)) return
 
-        const { parent } = node
-
-        // Already wrapped in cn()
-        if (
-          parent.type === AST_NODE_TYPES.CallExpression &&
-          parent.callee.type === AST_NODE_TYPES.Identifier &&
-          parent.callee.name === 'cn'
-        ) {
-          return
-        }
+        if (isWrappedInCn(node)) return
 
         context.report({
           node,
@@ -64,3 +57,12 @@ export const shadcnCnWrapVariants = createRule({
     }
   },
 })
+
+function isWrappedInCn(node: TSESTree.CallExpression): boolean {
+  const { parent } = node
+  return (
+    parent.type === AST_NODE_TYPES.CallExpression &&
+    parent.callee.type === AST_NODE_TYPES.Identifier &&
+    parent.callee.name === 'cn'
+  )
+}
