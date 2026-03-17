@@ -152,6 +152,13 @@ importers:
         version: 0.20.3(oxc-resolver@11.16.2)(synckit@0.11.12)(typescript@5.9.3)
 
   packages/eslint-plugin:
+    dependencies:
+      '@typescript-eslint/rule-tester':
+        specifier: ^8.57.1
+        version: 8.57.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/utils':
+        specifier: ^8.57.1
+        version: 8.57.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
     devDependencies:
       '@nelsonlaidev/typescript-config':
         specifier: workspace:*
@@ -159,12 +166,6 @@ importers:
       '@types/node':
         specifier: ^24.11.0
         version: 24.11.0
-      '@typescript-eslint/rule-tester':
-        specifier: ^8.57.1
-        version: 8.57.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/utils':
-        specifier: ^8.57.1
-        version: 8.57.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint:
         specifier: ^9.39.2
         version: 9.39.2(jiti@2.6.1)
