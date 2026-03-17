@@ -21,19 +21,6 @@ Examples of **correct** code for this rule:
 import { Spinner } from '@/components/ui/spinner'
 ```
 
-## Options
-
-### `importSource`
-
-- Type: `string`
-- Default: `'@/components/ui/spinner'`
-
-The import path for the Spinner component.
-
-```js
-'@nelsonlaidev/shadcn-prefer-spinner': ['error', { importSource: '@/components/ui/spinner' }]
-```
-
 ## When Not To Use It
 
 If your project does not have a dedicated Spinner component or does not use `lucide-react`.

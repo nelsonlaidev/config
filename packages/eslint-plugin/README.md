@@ -34,4 +34,4 @@ export default [
 | [lucide-prefer-trash2-icon](docs/rules/lucide-prefer-trash2-icon.md)   | Enforce using `Trash2Icon` instead of `TrashIcon` for better visual consistency   | Yes     |
 | [shadcn-cn-wrap-variants](docs/rules/shadcn-cn-wrap-variants.md)       | Enforce wrapping `*Variants()` calls inside `cn()`                                | Yes     |
 | [shadcn-cva-variants-suffix](docs/rules/shadcn-cva-variants-suffix.md) | Enforce that variables assigned to `cva()` end with `Variants`                    | Yes     |
-| [shadcn-prefer-spinner](docs/rules/shadcn-prefer-spinner.md)           | Enforce using `<Spinner />` instead of loader icons from lucide-react             | Yes     |
+| [shadcn-prefer-spinner](docs/rules/shadcn-prefer-spinner.md)           | Enforce using `<Spinner />` instead of loader icons from lucide-react             | No      |
