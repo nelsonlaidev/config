@@ -6,8 +6,6 @@ Enforce using the `<Spinner />` component instead of loader icons from `lucide-r
 
 Projects using shadcn/ui often provide a dedicated `<Spinner />` component that wraps loading behavior with consistent styling and accessibility. This rule forbids importing `LoaderIcon` or `Loader2Icon` from `lucide-react` and directs developers to use the `<Spinner />` component instead.
 
-This rule is not auto-fixable because replacing an icon with a component may require additional prop changes.
-
 ### Examples
 
 Examples of **incorrect** code for this rule:
@@ -22,8 +20,6 @@ Examples of **correct** code for this rule:
 ```js
 import { Spinner } from '@/components/ui/spinner'
 ```
-
-**Fixable:** This rule is auto-fixable with `--fix`. It removes the loader icon import, adds a `Spinner` import, and replaces all usages.
 
 ## Options
 
