@@ -187,6 +187,10 @@ importers:
       oxlint:
         specifier: '>=1.56.0'
         version: 1.56.0(oxlint-tsgolint@0.17.0)
+    devDependencies:
+      tsdown:
+        specifier: ^0.20.3
+        version: 0.20.3(oxc-resolver@11.16.2)(synckit@0.11.12)(typescript@5.9.3)
 
   packages/prettier-config:
     dependencies:

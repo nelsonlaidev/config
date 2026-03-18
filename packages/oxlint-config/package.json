@@ -12,9 +12,23 @@
   },
   "license": "MIT",
   "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
+  "type": "module",
+  "exports": {
+    "types": "./dist/index.d.mts",
+    "import": "./dist/index.mjs"
+  },
   "files": [
-    "./base.json"
+    "dist"
   ],
+  "scripts": {
+    "build": "tsdown",
+    "clean": "rm -rf .turbo dist",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsdown": "^0.20.3"
+  },
   "peerDependencies": {
     "oxlint": ">=1.56.0"
   },
