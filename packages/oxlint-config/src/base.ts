@@ -2,6 +2,7 @@ import type { OxlintConfig } from 'oxlint'
 
 import { deMorgan } from './de-morgan'
 import { eslint } from './eslint'
+import { importSort } from './import-sort'
 import { imports } from './imports'
 import { jsdoc } from './jsdoc'
 import { jsxA11y } from './jsx-a11y'
@@ -44,6 +45,7 @@ export const defineConfig = (config: OxlintConfig = {}): OxlintConfig => ({
     ...regexp,
     ...sonarjs,
     ...unusedImports,
+    ...importSort,
     ...(config.overrides ?? []),
   ],
 })
