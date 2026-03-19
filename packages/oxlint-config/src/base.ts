@@ -7,7 +7,6 @@ import { isPackageExists } from 'local-pkg'
 
 import { deMorgan } from './configs/de-morgan'
 import { eslint } from './configs/eslint'
-import { ignores } from './configs/ignores'
 import { importSort } from './configs/import-sort'
 import { imports } from './configs/imports'
 import { jsdoc } from './configs/jsdoc'
@@ -106,7 +105,7 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
       es2022: true,
       ...config.env,
     },
-    ignorePatterns: ignores(config.ignorePatterns),
+    ignorePatterns: ['**/routeTree.gen.ts', ...(config.ignorePatterns ?? [])],
     overrides,
     settings,
   }
