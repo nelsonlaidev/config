@@ -9,8 +9,19 @@ export const react: Overrides = [
       'eslint-plugin-react-dom',
       'eslint-plugin-react-web-api',
       'eslint-plugin-react-naming-convention',
+      'eslint-plugin-react-hooks',
     ],
     rules: {
+      // Disable the following rules because they require type information,
+      // which is not implemented in Oxlint JS plugins yet.
+      // See: https://oxc.rs/docs/guide/usage/linter/js-plugins.html#api-support
+
+      // 'react-x/no-implicit-children': 'error',
+      // 'react-x/no-implicit-key': 'error',
+      // 'react-x/no-implicit-ref': 'error',
+      // 'react-x/no-leaked-conditional-rendering': 'error',
+      // 'react-x/no-unused-props': 'error',
+
       'react-x/jsx-dollar': 'error',
       'react-x/jsx-key-before-spread': 'error',
       'react-x/jsx-no-comment-textnodes': 'error',
@@ -38,10 +49,6 @@ export const react: Overrides = [
       'react-x/no-direct-mutation-state': 'error',
       'react-x/no-duplicate-key': 'error',
       'react-x/no-forward-ref': 'error',
-      'react-x/no-implicit-children': 'error',
-      'react-x/no-implicit-key': 'error',
-      'react-x/no-implicit-ref': 'error',
-      'react-x/no-leaked-conditional-rendering': 'error',
       'react-x/no-missing-component-display-name': 'error',
       'react-x/no-missing-context-display-name': 'error',
       'react-x/no-missing-key': 'error',
@@ -61,7 +68,6 @@ export const react: Overrides = [
       'react-x/no-unstable-context-value': 'error',
       'react-x/no-unstable-default-props': 'error',
       'react-x/no-unused-class-component-members': 'error',
-      'react-x/no-unused-props': 'error',
       'react-x/no-unused-state': 'error',
       'react-x/no-use-context': 'error',
       'react-x/no-useless-fragment': 'error',
@@ -105,6 +111,14 @@ export const react: Overrides = [
       'react-naming-convention/context-name': 'error',
       'react-naming-convention/id-name': 'error',
       'react-naming-convention/ref-name': 'error',
+
+      // The following rules are not supported in eslint-plugin-react-x yet
+      // See: https://www.eslint-react.xyz/docs/migrating-from-eslint-plugin-react-hooks#table
+      'react-hooks/config': 'error',
+      'react-hooks/gating': 'error',
+      'react-hooks/globals': 'error',
+      'react-hooks/incompatible-library': 'error',
+      'react-hooks/preserve-manual-memoization': 'error',
     },
   },
 ]
