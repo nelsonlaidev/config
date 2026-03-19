@@ -11,7 +11,8 @@ const config: KnipConfig = {
     },
     'packages/oxlint-config': {
       ignoreDependencies: [
-        // Used in Oxlint Config as JS plugins
+        // Oxlint JS plugins are not parsed by Knip currently
+        // See: https://github.com/webpro-nl/knip/issues/1575
         'eslint-plugin-*',
       ],
     },
