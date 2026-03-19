@@ -7,7 +7,13 @@ export const playwright = (config: PlaywrightConfig): OxlintOverride[] => [
     jsPlugins: ['eslint-plugin-playwright'],
     rules: {
       'playwright/consistent-spacing-between-blocks': 'error',
-      'playwright/expect-expect': 'error',
+      'playwright/expect-expect': [
+        'error',
+        {
+          assertFunctionNames: config.assertFunctionNames ?? [],
+          assertFunctionPatterns: config.assertFunctionPatterns ?? [],
+        },
+      ],
       'playwright/max-nested-describe': 'error',
       'playwright/missing-playwright-await': 'error',
       'playwright/no-commented-out-tests': 'error',
