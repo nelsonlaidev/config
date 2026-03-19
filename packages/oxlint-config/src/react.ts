@@ -30,7 +30,7 @@ export const react: Overrides = [
       'react/iframe-missing-sandbox': 'error',
       'react/jsx-boolean-value': 'error',
       'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never', propElementValues: 'always' }],
-      'react/jsx-filename-extension': ['error', { allow: 'as-needed', extendsions: ['tsx'] }],
+      'react/jsx-filename-extension': ['error', { allow: 'as-needed', extensions: ['tsx'] }],
       'react/jsx-fragments': 'error',
       'react/jsx-handler-names': 'error',
       'react/jsx-no-comment-textnodes': 'error',
