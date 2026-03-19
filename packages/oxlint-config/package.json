@@ -26,6 +26,13 @@
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "eslint-plugin-react-dom": "3.0.0-rc.5",
+    "eslint-plugin-react-naming-convention": "3.0.0-rc.5",
+    "eslint-plugin-react-rsc": "3.0.0-rc.5",
+    "eslint-plugin-react-web-api": "3.0.0-rc.5",
+    "eslint-plugin-react-x": "3.0.0-rc.5"
+  },
   "devDependencies": {
     "tsdown": "^0.20.3"
   },
