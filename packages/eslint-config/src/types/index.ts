@@ -1,6 +1,0 @@
-export type * from './config'
-export type * from './import-x'
-export type * from './jsx'
-export type * from './playwright'
-export type * from './tailwindcss'
-export type * from './vitest'
