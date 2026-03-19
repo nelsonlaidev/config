@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const sonarjs: Overrides = [
+export const sonarjs = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     jsPlugins: ['eslint-plugin-sonarjs'],

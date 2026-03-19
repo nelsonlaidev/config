@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const regexp: Overrides = [
+export const regexp = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     jsPlugins: ['eslint-plugin-regexp'],

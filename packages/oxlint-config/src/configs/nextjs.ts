@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const nextjs: Overrides = [
+export const nextjs = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     plugins: ['nextjs'],

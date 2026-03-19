@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const stylistic: Overrides = [
+export const stylistic = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     jsPlugins: ['@stylistic/eslint-plugin'],

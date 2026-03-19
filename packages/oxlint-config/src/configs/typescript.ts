@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const typescript: Overrides = [
+export const typescript = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     plugins: ['typescript'],
@@ -14,14 +14,11 @@ export const typescript: Overrides = [
       'typescript/class-literal-property-style': 'error',
       'typescript/consistent-generic-constructors': 'error',
       'typescript/consistent-indexed-object-style': 'error',
-      // 'typescript/consistent-return': 'error',
       'typescript/consistent-type-assertions': 'error',
       'typescript/consistent-type-definitions': ['error', 'type'],
       'typescript/consistent-type-exports': ['error', { fixMixedExportsWithInlineTypeSpecifier: false }],
       'typescript/consistent-type-imports': ['error', { prefer: 'type-imports', fixStyle: 'separate-type-imports' }],
       'typescript/dot-notation': 'error',
-      // 'typescript/explicit-function-return-type': 'error',
-      // 'typescript/explicit-module-boundary-types': 'error',
       'typescript/no-array-delete': 'error',
       'typescript/no-base-to-string': 'error',
       'typescript/no-confusing-non-null-assertion': 'error',
@@ -72,7 +69,6 @@ export const typescript: Overrides = [
       'typescript/no-unsafe-function-type': 'error',
       'typescript/no-unsafe-member-access': 'error',
       'typescript/no-unsafe-return': 'error',
-      // 'typescript/no-unsafe-type-assertion': 'error',
       'typescript/no-unsafe-unary-minus': 'error',
       'typescript/no-useless-default-assignment': 'error',
       'typescript/no-useless-empty-export': 'error',
@@ -96,7 +92,6 @@ export const typescript: Overrides = [
       'typescript/prefer-optional-chain': 'error',
       'typescript/prefer-promise-reject-errors': 'error',
       'typescript/prefer-readonly': 'error',
-      // 'typescript/prefer-readonly-parameter-types': 'error',
       'typescript/prefer-reduce-type-parameter': 'error',
       'typescript/prefer-regexp-exec': 'error',
       'typescript/prefer-return-this-type': 'error',
@@ -109,8 +104,6 @@ export const typescript: Overrides = [
       'typescript/restrict-plus-operands': 'error',
       'typescript/restrict-template-expressions': ['error', { allowNumber: true }],
       'typescript/return-await': 'error',
-      // 'typescript/strict-boolean-expressions': 'error',
-      // 'typescript/strict-void-return': 'error',
       'typescript/switch-exhaustiveness-check': 'error',
       'typescript/triple-slash-reference': 'error',
       'typescript/unbound-method': 'error',

@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const vitest: Overrides = [
+export const vitest = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     plugins: ['vitest'],

@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const playwright: Overrides = [
+export const playwright = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     jsPlugins: ['eslint-plugin-playwright'],

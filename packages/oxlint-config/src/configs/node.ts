@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const node: Overrides = [
+export const node = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     plugins: ['node'],
@@ -10,7 +10,6 @@ export const node: Overrides = [
       'node/no-exports-assign': 'error',
       'node/no-new-require': 'error',
       'node/no-path-concat': 'error',
-      // 'node/no-process-env': 'error',
     },
   },
 ]

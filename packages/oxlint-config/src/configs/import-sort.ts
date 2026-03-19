@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const importSort: Overrides = [
+export const importSort = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     jsPlugins: [{ name: 'import-sort', specifier: 'eslint-plugin-simple-import-sort' }],

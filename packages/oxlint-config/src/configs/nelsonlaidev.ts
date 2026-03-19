@@ -1,6 +1,6 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const nelsonlaidev: Overrides = [
+export const nelsonlaidev = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     jsPlugins: [{ name: 'nelsonlaidev', specifier: '@nelsonlaidev/eslint-plugin' }],

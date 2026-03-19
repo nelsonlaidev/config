@@ -1,12 +1,11 @@
-import type { Overrides } from '../types'
+import type { OxlintOverride } from 'oxlint'
 
-export const jsxA11y: Overrides = [
+export const jsxA11y = (): OxlintOverride[] => [
   {
     files: ['**/*.{ts,tsx}'],
     plugins: ['jsx-a11y'],
     rules: {
       'jsx-a11y/alt-text': 'error',
-      // 'jsx-a11y/anchor-ambiguous-text': 'error',
       'jsx-a11y/anchor-has-content': 'error',
       'jsx-a11y/anchor-is-valid': [
         'error',
