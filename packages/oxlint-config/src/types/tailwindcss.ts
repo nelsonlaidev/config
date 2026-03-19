@@ -1,6 +1,6 @@
 import type { Selectors } from 'eslint-plugin-better-tailwindcss/types'
 
-export type TailwindCSSOptions = {
+export type TailwindCSSConfig = {
   /**
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#entrypoint) for more details.
    */

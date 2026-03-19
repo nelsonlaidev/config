@@ -1,8 +1,9 @@
 import type { OxlintOverride } from 'oxlint'
+import type { PlaywrightConfig } from '../types/playwright'
 
-export const playwright = (): OxlintOverride[] => [
+export const playwright = (config: PlaywrightConfig): OxlintOverride[] => [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: config.files,
     jsPlugins: ['eslint-plugin-playwright'],
     rules: {
       'playwright/consistent-spacing-between-blocks': 'error',

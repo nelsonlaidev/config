@@ -1,7 +1,7 @@
-import type { TailwindCSSOptions } from '../types'
 import type { OxlintOverride } from 'oxlint'
+import type { TailwindCSSConfig } from '../types'
 
-export const tailwindcss = (options: TailwindCSSOptions): OxlintOverride[] => {
+export const tailwindcss = (options: TailwindCSSConfig): OxlintOverride[] => {
   const disableShorthand = options.canonical?.logical
 
   return [

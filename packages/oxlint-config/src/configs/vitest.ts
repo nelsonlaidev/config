@@ -1,8 +1,9 @@
 import type { OxlintOverride } from 'oxlint'
+import type { VitestConfig } from '../types/vitest'
 
-export const vitest = (): OxlintOverride[] => [
+export const vitest = (config: VitestConfig): OxlintOverride[] => [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: config.files,
     plugins: ['vitest'],
     rules: {
       'vitest/consistent-each-for': 'error',

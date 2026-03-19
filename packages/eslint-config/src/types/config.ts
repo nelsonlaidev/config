@@ -1,9 +1,9 @@
+import type { Linter } from 'eslint'
 import type { ImportXOptions } from './import-x'
 import type { JsxOptions } from './jsx'
 import type { PlaywrightOptions } from './playwright'
 import type { TailwindCSSOptions } from './tailwindcss'
 import type { VitestOptions } from './vitest'
-import type { Linter } from 'eslint'
 
 /**
  * ESLint configuration options.

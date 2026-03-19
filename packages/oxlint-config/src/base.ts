@@ -1,8 +1,9 @@
-import type { ConfigOptions } from './types'
 import type { OxlintConfig } from 'oxlint'
+import type { CustomConfig } from './types'
 
 import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
 import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/types'
+import { isPackageExists } from 'local-pkg'
 
 import { deMorgan } from './configs/de-morgan'
 import { eslint } from './configs/eslint'
@@ -28,7 +29,7 @@ import { unusedImports } from './configs/unused-imports'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
 
-export const defineConfig = (options: ConfigOptions = {}, config: OxlintConfig = {}): OxlintConfig => {
+export const defineConfig = (config: CustomConfig & OxlintConfig = {}): OxlintConfig => {
   const overrides = [
     ...oxc(),
     ...eslint(),
@@ -36,17 +37,13 @@ export const defineConfig = (options: ConfigOptions = {}, config: OxlintConfig =
     ...unicorn(),
     ...promise(),
     ...node(),
-    ...nextjs(),
     ...jsxA11y(),
     ...imports(),
     ...jsdoc(),
-    ...react(),
-    ...vitest(),
     ...nelsonlaidev(),
     ...stylistic(),
     ...deMorgan(),
     ...zod(),
-    ...playwright(),
     ...regexp(),
     ...sonarjs(),
     ...unusedImports(),
@@ -55,15 +52,31 @@ export const defineConfig = (options: ConfigOptions = {}, config: OxlintConfig =
 
   const settings: NonNullable<OxlintConfig['settings']> = { ...config.settings }
 
-  if (options.tailwindcss) {
-    overrides.push(...tailwindcss(options.tailwindcss))
+  if (config.react ?? isPackageExists('react')) {
+    overrides.push(...react())
+  }
+
+  if (config.nextjs ?? isPackageExists('next')) {
+    overrides.push(...nextjs())
+  }
+
+  if (config.vitest) {
+    overrides.push(...vitest(config.vitest))
+  }
+
+  if (config.playwright) {
+    overrides.push(...playwright(config.playwright))
+  }
+
+  if (config.tailwindcss) {
+    overrides.push(...tailwindcss(config.tailwindcss))
 
     settings['better-tailwindcss'] = {
-      rootFontSize: options.tailwindcss.rootFontSize ?? 16,
-      entryPoint: options.tailwindcss.entryPoint,
-      tailwindConfig: options.tailwindcss.config,
-      tsconfig: options.tailwindcss.tsconfig,
-      detectComponentClasses: options.tailwindcss.detectComponentClasses ?? false,
+      rootFontSize: config.tailwindcss.rootFontSize ?? 16,
+      entryPoint: config.tailwindcss.entryPoint,
+      tailwindConfig: config.tailwindcss.config,
+      tsconfig: config.tailwindcss.tsconfig,
+      detectComponentClasses: config.tailwindcss.detectComponentClasses ?? false,
       selectors: [
         ...getDefaultSelectors(),
         ...['classNames', '.+ClassNames'].map((name) => ({
@@ -76,7 +89,7 @@ export const defineConfig = (options: ConfigOptions = {}, config: OxlintConfig =
           kind: SelectorKind.Variable,
           match: [{ type: MatcherType.String }, { type: MatcherType.ObjectValue }],
         })),
-        ...(options.tailwindcss.selectors ?? []),
+        ...(config.tailwindcss.selectors ?? []),
       ],
     }
   }
@@ -85,6 +98,16 @@ export const defineConfig = (options: ConfigOptions = {}, config: OxlintConfig =
 
   return {
     ...config,
+    options: {
+      typeAware: true,
+      ...config.options,
+    },
+    env: {
+      node: true,
+      browser: true,
+      es2022: true,
+      ...config.env,
+    },
     ignorePatterns: ignores(config.ignorePatterns),
     overrides,
     settings,
