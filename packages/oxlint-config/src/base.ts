@@ -28,7 +28,7 @@ import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
 
-export const defineConfig = (config: CustomConfig & OxlintConfig = {}): OxlintConfig => {
+export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig = {}): OxlintConfig => {
   const overrides = [
     ...oxc(),
     ...eslint(),
@@ -50,31 +50,31 @@ export const defineConfig = (config: CustomConfig & OxlintConfig = {}): OxlintCo
 
   const settings: NonNullable<OxlintConfig['settings']> = { ...config.settings }
 
-  if (config.react ?? isPackageExists('react')) {
+  if (userConfig.react ?? isPackageExists('react')) {
     overrides.push(...react())
   }
 
-  if (config.nextjs ?? isPackageExists('next')) {
+  if (userConfig.nextjs ?? isPackageExists('next')) {
     overrides.push(...nextjs())
   }
 
-  if (config.vitest) {
-    overrides.push(...vitest(config.vitest))
+  if (userConfig.vitest) {
+    overrides.push(...vitest(userConfig.vitest))
   }
 
-  if (config.playwright) {
-    overrides.push(...playwright(config.playwright))
+  if (userConfig.playwright) {
+    overrides.push(...playwright(userConfig.playwright))
   }
 
-  if (config.tailwindcss) {
-    overrides.push(...tailwindcss(config.tailwindcss))
+  if (userConfig.tailwindcss) {
+    overrides.push(...tailwindcss(userConfig.tailwindcss))
 
     settings['better-tailwindcss'] = {
-      rootFontSize: config.tailwindcss.rootFontSize ?? 16,
-      entryPoint: config.tailwindcss.entryPoint,
-      tailwindConfig: config.tailwindcss.config,
-      tsconfig: config.tailwindcss.tsconfig,
-      detectComponentClasses: config.tailwindcss.detectComponentClasses ?? false,
+      rootFontSize: userConfig.tailwindcss.rootFontSize ?? 16,
+      entryPoint: userConfig.tailwindcss.entryPoint,
+      tailwindConfig: userConfig.tailwindcss.config,
+      tsconfig: userConfig.tailwindcss.tsconfig,
+      detectComponentClasses: userConfig.tailwindcss.detectComponentClasses ?? false,
       selectors: [
         ...getDefaultSelectors(),
         ...['classNames', '.+ClassNames'].map((name) => ({
@@ -87,7 +87,7 @@ export const defineConfig = (config: CustomConfig & OxlintConfig = {}): OxlintCo
           kind: SelectorKind.Variable,
           match: [{ type: MatcherType.String }, { type: MatcherType.ObjectValue }],
         })),
-        ...(config.tailwindcss.selectors ?? []),
+        ...(userConfig.tailwindcss.selectors ?? []),
       ],
     }
   }
