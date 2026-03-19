@@ -9,6 +9,12 @@ const config: KnipConfig = {
         'eslint-import-resolver-typescript',
       ],
     },
+    'packages/oxlint-config': {
+      ignoreDependencies: [
+        // Used in Oxlint Config as JS plugins
+        'eslint-plugin-*',
+      ],
+    },
   },
 }
 
