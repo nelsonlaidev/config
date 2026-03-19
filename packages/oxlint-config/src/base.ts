@@ -11,6 +11,7 @@ import { promise } from './promise'
 import { react } from './react'
 import { typescript } from './typescript'
 import { unicorn } from './unicorn'
+import { vitest } from './vitest'
 
 export const defineConfig = (config: OxlintConfig = {}): OxlintConfig => ({
   ...config,
@@ -26,6 +27,7 @@ export const defineConfig = (config: OxlintConfig = {}): OxlintConfig => ({
     ...imports,
     ...jsdoc,
     ...react,
+    ...vitest,
     ...(config.overrides ?? []),
   ],
 })
