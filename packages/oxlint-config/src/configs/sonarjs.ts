@@ -82,7 +82,6 @@ export const sonarjs = (): OxlintOverride[] => [
       'sonarjs/no-redundant-jump': 'error',
       'sonarjs/inconsistent-function-call': 'error',
       'sonarjs/no-use-of-empty-return-value': 'error',
-      'sonarjs/void-use': 'error',
       'sonarjs/cognitive-complexity': ['error', 20],
       'sonarjs/argument-type': 'error',
       'sonarjs/in-operator-type-error': 'error',

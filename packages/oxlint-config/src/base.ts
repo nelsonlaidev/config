@@ -25,7 +25,6 @@ import { stylistic } from './configs/stylistic'
 import { tailwindcss } from './configs/tailwindcss'
 import { typescript } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
-import { unusedImports } from './configs/unused-imports'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
 
@@ -46,7 +45,6 @@ export const defineConfig = (config: CustomConfig & OxlintConfig = {}): OxlintCo
     ...zod(),
     ...regexp(),
     ...sonarjs(),
-    ...unusedImports(),
     ...importSort(),
   ]
 
