@@ -14,7 +14,6 @@ export const vitest: Overrides = [
       'vitest/prefer-called-times': 'error',
       'vitest/prefer-describe-function-title': 'error',
       'vitest/prefer-expect-type-of': 'error',
-      'vitest/prefer-import-in-mock': 'error',
       'vitest/prefer-to-be-object': 'error',
       'vitest/require-local-test-context-for-concurrent-snapshots': 'error',
       'vitest/warn-todo': 'error',
