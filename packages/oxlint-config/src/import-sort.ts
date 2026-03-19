@@ -3,7 +3,7 @@ import type { Overrides } from './types'
 export const importSort: Overrides = [
   {
     files: ['**/*.{ts,tsx}'],
-    jsPlugins: ['simple-import-sort'],
+    jsPlugins: ['eslint-plugin-simple-import-sort'],
     rules: {
       'import-sort/imports': [
         'error',
