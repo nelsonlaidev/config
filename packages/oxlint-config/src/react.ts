@@ -57,7 +57,6 @@ export const react: Overrides = [
       'react/no-set-state': 'error',
       'react/no-string-refs': 'error',
       'react/no-this-in-sfc': 'error',
-      'react/no-unescaped-entities': 'error',
       'react/no-unknown-property': 'error',
       'react/no-unsafe': 'error',
       'react/no-will-update-set-state': 'error',
