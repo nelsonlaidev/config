@@ -1,4 +1,4 @@
-import type { Overrides } from './types'
+import type { Overrides } from '../types'
 
 export const regexp: Overrides = [
   {
