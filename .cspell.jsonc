@@ -10,6 +10,7 @@
   "dictionaries": ["npm"],
   "ignorePaths": ["pnpm-lock.yaml", ".git"],
   "words": [
+    "lookarounds",
     "misrefactored",
     "nelsonlaidev",
     "oxlint",
@@ -19,5 +20,6 @@
     "TSES",
     "uninvoked",
     "unsuffixed",
+    "unthrown",
   ],
 }
