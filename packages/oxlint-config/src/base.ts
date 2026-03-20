@@ -1,5 +1,5 @@
 import type { OxlintConfig } from 'oxlint'
-import type { CustomConfig } from './types'
+import type { CustomConfig, DefaultConfig } from './types'
 
 import { mergeWith, pick } from 'es-toolkit/object'
 import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
@@ -28,9 +28,12 @@ import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
 
-export const DEFAULT_CONFIG: OxlintConfig = {
+export const DEFAULT_CONFIG: DefaultConfig = {
   options: {
     typeAware: true,
+    maxWarnings: 0,
+    denyWarnings: true,
+    reportUnusedDisableDirectives: 'error',
   },
   env: {
     node: true,
@@ -38,6 +41,18 @@ export const DEFAULT_CONFIG: OxlintConfig = {
     es2022: true,
   },
   ignorePatterns: ['**/routeTree.gen.ts'],
+  overrides: [],
+  settings: {
+    'jsx-a11y': {
+      components: {
+        Button: 'button',
+        Image: 'img',
+        Input: 'input',
+        Textarea: 'textarea',
+        Link: 'a',
+      },
+    },
+  },
 }
 
 export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig = {}): OxlintConfig => {
@@ -59,9 +74,6 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
     ...sonarjs(),
     ...importSort(),
   ]
-
-  DEFAULT_CONFIG.overrides = []
-  DEFAULT_CONFIG.settings = {}
 
   DEFAULT_CONFIG.overrides.push(...DEFAULT_OVERRIDES)
 
