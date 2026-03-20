@@ -24,6 +24,8 @@
     "build": "tsdown",
     "clean": "rm -rf .turbo dist",
     "dev": "tsdown --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -47,7 +49,8 @@
     "local-pkg": "^1.1.2"
   },
   "devDependencies": {
-    "tsdown": "^0.20.3"
+    "tsdown": "^0.20.3",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "oxlint": ">=1.56.0"
