@@ -28,7 +28,7 @@ import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
 
-export const DEFAULT_CONFIG: DefaultConfig = {
+const DEFAULT_CONFIG: DefaultConfig = {
   options: {
     typeAware: true,
     maxWarnings: 0,
@@ -56,7 +56,7 @@ export const DEFAULT_CONFIG: DefaultConfig = {
 }
 
 export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig = {}): OxlintConfig => {
-  const DEFAULT_OVERRIDES = [
+  const overrides = [
     ...oxc(),
     ...eslint(),
     ...typescript(),
@@ -75,28 +75,30 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
     ...importSort(),
   ]
 
-  DEFAULT_CONFIG.overrides.push(...DEFAULT_OVERRIDES)
-
   if (userConfig.react ?? isPackageExists('react')) {
-    DEFAULT_CONFIG.overrides.push(...react())
+    overrides.push(...react())
   }
 
   if (userConfig.nextjs ?? isPackageExists('next')) {
-    DEFAULT_CONFIG.overrides.push(...nextjs())
+    overrides.push(...nextjs())
   }
 
   if (userConfig.vitest) {
-    DEFAULT_CONFIG.overrides.push(...vitest(userConfig.vitest))
+    overrides.push(...vitest(userConfig.vitest))
   }
 
   if (userConfig.playwright) {
-    DEFAULT_CONFIG.overrides.push(...playwright(userConfig.playwright))
+    overrides.push(...playwright(userConfig.playwright))
+  }
+
+  const settings: Record<string, unknown> = {
+    ...DEFAULT_CONFIG.settings,
   }
 
   if (userConfig.tailwindcss) {
-    DEFAULT_CONFIG.overrides.push(...tailwindcss(userConfig.tailwindcss))
+    overrides.push(...tailwindcss(userConfig.tailwindcss))
 
-    DEFAULT_CONFIG.settings['better-tailwindcss'] = {
+    settings['better-tailwindcss'] = {
       detectComponentClasses: false,
       rootFontSize: 16,
       selectors: [
@@ -115,8 +117,14 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
     }
   }
 
+  const baseConfig: DefaultConfig = {
+    ...DEFAULT_CONFIG,
+    overrides: [...DEFAULT_CONFIG.overrides, ...overrides],
+    settings,
+  }
+
   return mergeWith(
-    DEFAULT_CONFIG,
+    baseConfig,
     {
       ...config,
       settings: {

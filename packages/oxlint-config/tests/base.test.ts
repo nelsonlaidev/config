@@ -185,6 +185,58 @@ describe('defineConfig', () => {
     })
   })
 
+  describe('tailwindcss plugin', () => {
+    it('should include tailwindcss overrides when userConfig.tailwindcss is provided', async () => {
+      const { defineConfig } = await importModule()
+      const config = defineConfig({}, { tailwindcss: {} })
+
+      const jsPlugins = (config.overrides ?? []).flatMap((o) =>
+        (o.jsPlugins ?? []).map((p) => (typeof p === 'string' ? p : p.specifier)),
+      )
+
+      expect(jsPlugins).toEqual(expect.arrayContaining(['eslint-plugin-better-tailwindcss']))
+    })
+
+    it('should not include tailwindcss overrides when userConfig.tailwindcss is not provided', async () => {
+      const { defineConfig } = await importModule()
+      const config = defineConfig()
+
+      const jsPlugins = (config.overrides ?? []).flatMap((o) =>
+        (o.jsPlugins ?? []).map((p) => (typeof p === 'string' ? p : p.specifier)),
+      )
+
+      expect(jsPlugins).not.toEqual(expect.arrayContaining(['eslint-plugin-better-tailwindcss']))
+    })
+
+    it('should include default better-tailwindcss settings with selectors', async () => {
+      const { defineConfig } = await importModule()
+      const config = defineConfig({}, { tailwindcss: {} })
+
+      const twSettings = (config.settings as Record<string, unknown>)['better-tailwindcss'] as Record<string, unknown>
+
+      expect(twSettings).toBeDefined()
+      expect(twSettings.detectComponentClasses).toBe(false)
+      expect(twSettings.rootFontSize).toBe(16)
+      expect(twSettings.selectors).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ name: 'classNames' }),
+          expect.objectContaining({ name: '.+ClassNames' }),
+          expect.objectContaining({ name: '.+ClassName' }),
+        ]),
+      )
+    })
+
+    it('should merge user-provided tailwindcss settings over defaults', async () => {
+      const { defineConfig } = await importModule()
+      const config = defineConfig({}, { tailwindcss: { rootFontSize: 14, entryPoint: './src/styles.css' } })
+
+      const twSettings = (config.settings as Record<string, unknown>)['better-tailwindcss'] as Record<string, unknown>
+
+      expect(twSettings.rootFontSize).toBe(14)
+      expect(twSettings.entryPoint).toBe('./src/styles.css')
+    })
+  })
+
   describe('config merging', () => {
     it('should merge user-provided oxlint config', async () => {
       const { defineConfig } = await importModule()
