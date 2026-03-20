@@ -29,6 +29,7 @@
   "dependencies": {
     "@nelsonlaidev/eslint-plugin": "workspace:*",
     "@stylistic/eslint-plugin": "^5.10.0",
+    "es-toolkit": "^1.45.1",
     "eslint": "^10.0.3",
     "eslint-plugin-better-tailwindcss": "^4.3.2",
     "eslint-plugin-de-morgan": "^2.1.1",

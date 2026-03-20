@@ -1,6 +1,7 @@
 import type { OxlintConfig } from 'oxlint'
 import type { CustomConfig } from './types'
 
+import { mergeWith, pick } from 'es-toolkit/object'
 import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
 import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/types'
 import { isPackageExists } from 'local-pkg'
@@ -27,8 +28,20 @@ import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
 
+export const DEFAULT_CONFIG: OxlintConfig = {
+  options: {
+    typeAware: true,
+  },
+  env: {
+    node: true,
+    browser: true,
+    es2022: true,
+  },
+  ignorePatterns: ['**/routeTree.gen.ts'],
+}
+
 export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig = {}): OxlintConfig => {
-  const overrides = [
+  const DEFAULT_OVERRIDES = [
     ...oxc(),
     ...eslint(),
     ...typescript(),
@@ -47,33 +60,33 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
     ...importSort(),
   ]
 
-  const settings: NonNullable<OxlintConfig['settings']> = { ...config.settings }
+  DEFAULT_CONFIG.overrides = []
+  DEFAULT_CONFIG.settings = {}
+
+  DEFAULT_CONFIG.overrides.push(...DEFAULT_OVERRIDES)
 
   if (userConfig.react ?? isPackageExists('react')) {
-    overrides.push(...react())
+    DEFAULT_CONFIG.overrides.push(...react())
   }
 
   if (userConfig.nextjs ?? isPackageExists('next')) {
-    overrides.push(...nextjs())
+    DEFAULT_CONFIG.overrides.push(...nextjs())
   }
 
   if (userConfig.vitest) {
-    overrides.push(...vitest(userConfig.vitest))
+    DEFAULT_CONFIG.overrides.push(...vitest(userConfig.vitest))
   }
 
   if (userConfig.playwright) {
-    overrides.push(...playwright(userConfig.playwright))
+    DEFAULT_CONFIG.overrides.push(...playwright(userConfig.playwright))
   }
 
   if (userConfig.tailwindcss) {
-    overrides.push(...tailwindcss(userConfig.tailwindcss))
+    DEFAULT_CONFIG.overrides.push(...tailwindcss(userConfig.tailwindcss))
 
-    settings['better-tailwindcss'] = {
-      rootFontSize: userConfig.tailwindcss.rootFontSize ?? 16,
-      entryPoint: userConfig.tailwindcss.entryPoint,
-      tailwindConfig: userConfig.tailwindcss.config,
-      tsconfig: userConfig.tailwindcss.tsconfig,
-      detectComponentClasses: userConfig.tailwindcss.detectComponentClasses ?? false,
+    DEFAULT_CONFIG.settings['better-tailwindcss'] = {
+      detectComponentClasses: false,
+      rootFontSize: 16,
       selectors: [
         ...getDefaultSelectors(),
         ...['classNames', '.+ClassNames'].map((name) => ({
@@ -86,27 +99,33 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
           kind: SelectorKind.Variable,
           match: [{ type: MatcherType.String }, { type: MatcherType.ObjectValue }],
         })),
-        ...(userConfig.tailwindcss.selectors ?? []),
       ],
     }
   }
 
-  overrides.push(...(config.overrides ?? []))
-
-  return {
-    ...config,
-    options: {
-      typeAware: true,
-      ...config.options,
+  return mergeWith(
+    DEFAULT_CONFIG,
+    {
+      ...config,
+      settings: {
+        'better-tailwindcss': pick(userConfig.tailwindcss ?? {}, [
+          'entryPoint',
+          'tailwindConfig',
+          'tsconfig',
+          'detectComponentClasses',
+          'rootFontSize',
+          'messageStyle',
+          'selectors',
+        ]),
+      },
     },
-    env: {
-      node: true,
-      browser: true,
-      es2022: true,
-      ...config.env,
+    (targetValue: unknown, sourceValue: unknown) => {
+      if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+        return [...(targetValue as unknown[]), ...(sourceValue as unknown[])]
+      }
+      // mergeWith requires explicit undefined for default behavior
+      // oxlint-disable-next-line unicorn/no-useless-undefined
+      return undefined
     },
-    ignorePatterns: ['**/routeTree.gen.ts', ...(config.ignorePatterns ?? [])],
-    overrides,
-    settings,
-  }
+  )
 }

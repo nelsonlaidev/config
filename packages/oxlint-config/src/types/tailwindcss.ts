@@ -8,7 +8,7 @@ export type TailwindCSSConfig = {
   /**
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#tailwindconfig) for more details.
    */
-  config?: string
+  tailwindConfig?: string
   /**
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#tsconfig) for more details.
    */
