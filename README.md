@@ -2,16 +2,16 @@
 
 Personal configurations for Nelson Lai projects.
 
-This monorepo contains shared configuration packages for various tools used across Nelson Lai's projects, including ESLint, Prettier, and TypeScript.
+This monorepo contains shared configuration packages for various tools used across Nelson Lai's projects, including Oxlint, Prettier, and TypeScript.
 
 ## Packages
 
-### [@nelsonlaidev/eslint-config](packages/eslint-config)
+### [@nelsonlaidev/oxlint-config](packages/oxlint-config)
 
-A shared ESLint configuration to enforce consistent code style and best practices.
+A shared Oxlint configuration to enforce consistent code style and best practices.
 
 ```bash
-npm i -D @nelsonlaidev/eslint-config
+npm i -D @nelsonlaidev/oxlint-config
 ```
 
 ### [@nelsonlaidev/eslint-plugin](packages/eslint-plugin)
