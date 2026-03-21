@@ -1,8 +1,10 @@
 import type { OxlintOverride } from 'oxlint'
 
+import { GLOB_SRC } from '../globs'
+
 export const imports = (): OxlintOverride[] => [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: [GLOB_SRC],
     plugins: ['import'],
     rules: {
       'import/consistent-type-specifier-style': 'error',

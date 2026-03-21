@@ -1,8 +1,10 @@
 import type { OxlintOverride } from 'oxlint'
 
+import { GLOB_SRC } from '../globs'
+
 export const typescript = (): OxlintOverride[] => [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: [GLOB_SRC],
     plugins: ['typescript'],
     rules: {
       'typescript/adjacent-overload-signatures': 'error',

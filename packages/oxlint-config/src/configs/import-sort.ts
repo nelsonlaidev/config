@@ -1,8 +1,10 @@
 import type { OxlintOverride } from 'oxlint'
 
+import { GLOB_SRC } from '../globs'
+
 export const importSort = (): OxlintOverride[] => [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: [GLOB_SRC],
     jsPlugins: [{ name: 'import-sort', specifier: 'eslint-plugin-simple-import-sort' }],
     rules: {
       'import-sort/imports': [

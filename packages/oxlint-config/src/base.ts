@@ -143,9 +143,7 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
       if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
         return [...(targetValue as unknown[]), ...(sourceValue as unknown[])]
       }
-      // mergeWith requires explicit undefined for default behavior
-      // oxlint-disable-next-line unicorn/no-useless-undefined
-      return undefined
+      return
     },
   )
 }

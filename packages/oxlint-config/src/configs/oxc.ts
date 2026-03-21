@@ -1,8 +1,10 @@
 import type { OxlintOverride } from 'oxlint'
 
+import { GLOB_SRC } from '../globs'
+
 export const oxc = (): OxlintOverride[] => [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: [GLOB_SRC],
     plugins: ['oxc'],
     rules: {
       'approx-constant': 'error',

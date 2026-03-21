@@ -1,8 +1,10 @@
 import type { OxlintOverride } from 'oxlint'
 
+import { GLOB_SRC } from '../globs'
+
 export const jsdoc = (): OxlintOverride[] => [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: [GLOB_SRC],
     plugins: ['jsdoc'],
     rules: {
       'jsdoc/check-tag-names': 'error',

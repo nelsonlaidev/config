@@ -1,12 +1,14 @@
 import type { OxlintOverride } from 'oxlint'
 import type { TailwindCSSConfig } from '../types'
 
+import { GLOB_SRC } from '../globs'
+
 export const tailwindcss = (options: TailwindCSSConfig): OxlintOverride[] => {
   const disableShorthand = options.canonical?.logical
 
   return [
     {
-      files: ['**/*.{ts,tsx}'],
+      files: [GLOB_SRC],
       jsPlugins: ['eslint-plugin-better-tailwindcss'],
       rules: {
         'better-tailwindcss/enforce-canonical-classes': [

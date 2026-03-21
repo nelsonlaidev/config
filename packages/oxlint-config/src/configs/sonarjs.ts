@@ -1,8 +1,10 @@
 import type { OxlintOverride } from 'oxlint'
 
+import { GLOB_SRC } from '../globs'
+
 export const sonarjs = (): OxlintOverride[] => [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: [GLOB_SRC],
     jsPlugins: ['eslint-plugin-sonarjs'],
     rules: {
       'sonarjs/class-name': 'error',
