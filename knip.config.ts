@@ -2,11 +2,11 @@ import type { KnipConfig } from 'knip'
 
 const config: KnipConfig = {
   workspaces: {
-    'packages/eslint-config': {
-      entry: ['eslint-inspector.config.ts', 'src/index.ts'],
+    'packages/oxlint-config': {
       ignoreDependencies: [
-        // Required by eslint-plugin-import-x
-        'eslint-import-resolver-typescript',
+        // Oxlint JS plugins are not parsed by Knip currently
+        // See: https://github.com/webpro-nl/knip/issues/1575
+        'eslint-plugin-*',
       ],
     },
   },

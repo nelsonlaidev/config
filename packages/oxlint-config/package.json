@@ -1,0 +1,61 @@
+{
+  "name": "@nelsonlaidev/oxlint-config",
+  "version": "0.0.0",
+  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/oxlint-config/README.md",
+  "bugs": {
+    "url": "https://github.com/nelsonlaidev/config/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nelsonlaidev/config.git",
+    "directory": "packages/oxlint-config"
+  },
+  "license": "MIT",
+  "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
+  "type": "module",
+  "exports": {
+    "types": "./dist/index.d.mts",
+    "import": "./dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "clean": "rm -rf .turbo dist",
+    "dev": "tsdown --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nelsonlaidev/eslint-plugin": "workspace:*",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "es-toolkit": "^1.45.1",
+    "eslint": "^10.0.3",
+    "eslint-plugin-better-tailwindcss": "^4.3.2",
+    "eslint-plugin-de-morgan": "^2.1.1",
+    "eslint-plugin-import-zod": "^1.2.1",
+    "eslint-plugin-playwright": "^2.10.1",
+    "eslint-plugin-react-dom": "^3.0.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-naming-convention": "^3.0.0",
+    "eslint-plugin-react-rsc": "^3.0.0",
+    "eslint-plugin-react-web-api": "^3.0.0",
+    "eslint-plugin-react-x": "^3.0.0",
+    "eslint-plugin-regexp": "^3.1.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-sonarjs": "^4.0.2",
+    "local-pkg": "^1.1.2"
+  },
+  "devDependencies": {
+    "tsdown": "^0.20.3",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "oxlint": ">=1.56.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

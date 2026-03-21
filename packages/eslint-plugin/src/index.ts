@@ -1,7 +1,6 @@
 import type { ESLint, Rule } from 'eslint'
 
 import { name, version } from '../package.json'
-
 import { rules } from './rules'
 
 const plugin = {
