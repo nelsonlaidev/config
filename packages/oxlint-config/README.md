@@ -1,6 +1,6 @@
 # @nelsonlaidev/oxlint-config
 
-Personal OxLint configurations for Nelson Lai projects.
+Personal Oxlint configurations for Nelson Lai projects.
 
 ## Installation
 
@@ -30,15 +30,27 @@ public-hoist-pattern[]=*eslint-plugin*
 
 This config includes opinionated rules from the following plugins:
 
+#### Always enabled
+
 - `oxc`
 - `eslint`
 - `typescript`
 - `unicorn`
 - `promise`
 - `node`
-- `nextjs`
 - `jsx-a11y`
-- `import`
+- `import` / `import-sort`
 - `jsdoc`
-- `react`
-- `vitest`
+- `stylistic`
+- `de-morgan`
+- `zod`
+- `regexp`
+- `sonarjs`
+
+#### Conditionally enabled
+
+- `react` — auto-detected or via `react` option
+- `nextjs` — auto-detected or via `nextjs` option
+- `vitest` — via `vitest` option
+- `playwright` — via `playwright` option
+- `tailwindcss` — via `tailwindcss` option
