@@ -123,21 +123,26 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
     settings,
   }
 
+  const configSettings: Record<string, unknown> = {
+    ...config.settings,
+    ...(userConfig.tailwindcss && {
+      'better-tailwindcss': pick(userConfig.tailwindcss, [
+        'entryPoint',
+        'tailwindConfig',
+        'tsconfig',
+        'detectComponentClasses',
+        'rootFontSize',
+        'messageStyle',
+        'selectors',
+      ]),
+    }),
+  }
+
   return mergeWith(
     baseConfig,
     {
       ...config,
-      settings: {
-        'better-tailwindcss': pick(userConfig.tailwindcss ?? {}, [
-          'entryPoint',
-          'tailwindConfig',
-          'tsconfig',
-          'detectComponentClasses',
-          'rootFontSize',
-          'messageStyle',
-          'selectors',
-        ]),
-      },
+      settings: configSettings,
     },
     (targetValue: unknown, sourceValue: unknown) => {
       if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {

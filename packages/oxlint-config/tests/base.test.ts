@@ -273,5 +273,25 @@ describe('defineConfig', () => {
 
       expect(config.settings).toHaveProperty('jsx-a11y')
     })
+
+    it('should preserve caller-provided config.settings', async () => {
+      const { defineConfig } = await importModule()
+      const config = defineConfig({
+        settings: {
+          'my-custom-setting': { enabled: true },
+        },
+      })
+
+      expect(config.settings).toHaveProperty('jsx-a11y')
+      expect(config.settings).toHaveProperty('my-custom-setting')
+      expect((config.settings as Record<string, unknown>)['my-custom-setting']).toEqual({ enabled: true })
+    })
+
+    it('should not include better-tailwindcss settings when tailwindcss is not enabled', async () => {
+      const { defineConfig } = await importModule()
+      const config = defineConfig()
+
+      expect(config.settings).not.toHaveProperty('better-tailwindcss')
+    })
   })
 })
