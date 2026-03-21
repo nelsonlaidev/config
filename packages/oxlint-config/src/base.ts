@@ -37,8 +37,10 @@ const createSelectors = (names: string[], kind: SelectorKind) =>
 
 const concatArrays = (target: unknown, source: unknown) => {
   if (Array.isArray(target) && Array.isArray(source)) {
-    return [...target, ...source]
+    return [...(target as unknown[]), ...(source as unknown[])]
   }
+  // mergeWith requires explicit undefined for default behavior
+  // oxlint-disable-next-line unicorn/no-useless-undefined
   return undefined
 }
 

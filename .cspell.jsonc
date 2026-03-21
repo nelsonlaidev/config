@@ -10,8 +10,12 @@
   "dictionaries": ["npm"],
   "ignorePaths": ["pnpm-lock.yaml", ".git"],
   "words": [
+    "cjsx",
+    "ctsx",
     "lookarounds",
     "misrefactored",
+    "mjsx",
+    "mtsx",
     "nelsonlaidev",
     "oxlint",
     "polyfillio",
