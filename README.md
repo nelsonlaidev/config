@@ -2,7 +2,7 @@
 
 Personal configurations for Nelson Lai projects.
 
-This monorepo contains shared configuration packages for various tools used across Nelson Lai's projects, including Oxlint, Prettier, and TypeScript.
+This monorepo contains shared configuration packages for various tools used across Nelson Lai's projects, including Oxlint, Oxfmt, and TypeScript.
 
 ## Packages
 
@@ -22,12 +22,12 @@ Custom ESLint rules for Nelson Lai projects.
 npm i -D @nelsonlaidev/eslint-plugin
 ```
 
-### [@nelsonlaidev/prettier-config](packages/prettier-config)
+### [@nelsonlaidev/oxfmt-config](packages/oxfmt-config)
 
-A shared Prettier configuration to ensure consistent code formatting.
+A shared Oxfmt configuration to ensure consistent code formatting.
 
 ```bash
-npm i -D @nelsonlaidev/prettier-config prettier-plugin-packagejson
+npm i -D @nelsonlaidev/oxfmt-config
 ```
 
 ### [@nelsonlaidev/typescript-config](packages/typescript-config)

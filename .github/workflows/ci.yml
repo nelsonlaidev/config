@@ -41,8 +41,8 @@ jobs:
       - name: Run typecheck
         run: pnpm typecheck
 
-  prettier:
-    name: Prettier
+  format:
+    name: Oxfmt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
@@ -51,7 +51,7 @@ jobs:
       - name: Configure environment
         uses: ./.github/actions/setup
 
-      - name: Run Prettier format check
+      - name: Run Oxfmt format check
         run: pnpm format:check
 
   knip:

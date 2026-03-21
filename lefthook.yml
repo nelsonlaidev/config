@@ -1,7 +1,7 @@
 pre-commit:
   jobs:
-    - name: prettier
-      run: pnpm prettier --write --ignore-unknown "{staged_files}"
+    - name: oxfmt
+      run: pnpm oxfmt "{staged_files}"
       stage_fixed: true
 
     - name: lint

@@ -1,7 +1,7 @@
 {
-  "name": "@nelsonlaidev/eslint-plugin",
-  "version": "0.2.0",
-  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/README.md",
+  "name": "@nelsonlaidev/oxfmt-config",
+  "version": "0.0.0",
+  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/oxfmt-config/README.md",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
@@ -10,7 +10,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nelsonlaidev/config.git",
-    "directory": "packages/eslint-plugin"
+    "directory": "packages/oxfmt-config"
   },
   "files": [
     "dist"
@@ -27,23 +27,13 @@
     "build": "tsdown",
     "clean": "rm -rf .turbo dist",
     "dev": "tsdown --watch",
-    "test": "vitest run",
-    "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@typescript-eslint/utils": "^8.57.1",
-    "minimatch": "^10.2.4"
-  },
   "devDependencies": {
-    "@nelsonlaidev/typescript-config": "workspace:*",
-    "@types/node": "^24.11.0",
-    "@typescript-eslint/rule-tester": "^8.57.1",
-    "eslint": "^9.39.2",
-    "tsdown": "^0.20.3",
-    "vitest": "^3.2.4"
+    "oxfmt": "^0.41.0",
+    "tsdown": "^0.20.3"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0"
+    "oxfmt": ">=0.41.0"
   }
 }
