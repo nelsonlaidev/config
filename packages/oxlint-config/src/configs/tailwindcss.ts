@@ -4,7 +4,7 @@ import type { TailwindCSSConfig } from '../types'
 import { GLOB_SRC } from '../globs'
 
 export const tailwindcss = (options: TailwindCSSConfig): OxlintOverride[] => {
-  const disableShorthand = options.canonical?.logical
+  const disableShorthand = options.canonical?.logical ?? true
 
   return [
     {
