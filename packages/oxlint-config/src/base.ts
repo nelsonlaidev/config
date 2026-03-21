@@ -1,5 +1,5 @@
 import type { OxlintConfig } from 'oxlint'
-import type { CustomConfig, DefaultConfig } from './types'
+import type { CustomConfig } from './types'
 
 import { mergeWith, pick } from 'es-toolkit/object'
 import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
@@ -28,31 +28,18 @@ import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
 
-const DEFAULT_CONFIG: DefaultConfig = {
-  options: {
-    typeAware: true,
-    maxWarnings: 0,
-    denyWarnings: true,
-    reportUnusedDisableDirectives: 'error',
-  },
-  env: {
-    node: true,
-    browser: true,
-    es2022: true,
-  },
-  ignorePatterns: ['**/routeTree.gen.ts'],
-  overrides: [],
-  settings: {
-    'jsx-a11y': {
-      components: {
-        Button: 'button',
-        Image: 'img',
-        Input: 'input',
-        Textarea: 'textarea',
-        Link: 'a',
-      },
-    },
-  },
+const createSelectors = (names: string[], kind: SelectorKind) =>
+  names.map((name) => ({
+    name,
+    kind,
+    match: [{ type: MatcherType.String }, { type: MatcherType.ObjectValue }],
+  }))
+
+const concatArrays = (target: unknown, source: unknown) => {
+  if (Array.isArray(target) && Array.isArray(source)) {
+    return [...target, ...source]
+  }
+  return undefined
 }
 
 export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig = {}): OxlintConfig => {
@@ -91,64 +78,65 @@ export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig
     overrides.push(...playwright(userConfig.playwright))
   }
 
-  const settings: Record<string, unknown> = {
-    ...DEFAULT_CONFIG.settings,
-  }
-
   if (userConfig.tailwindcss) {
     overrides.push(...tailwindcss(userConfig.tailwindcss))
-
-    settings['better-tailwindcss'] = {
-      detectComponentClasses: false,
-      rootFontSize: 16,
-      selectors: [
-        ...getDefaultSelectors(),
-        ...['classNames', '.+ClassNames'].map((name) => ({
-          name,
-          kind: SelectorKind.Attribute,
-          match: [{ type: MatcherType.String }, { type: MatcherType.ObjectValue }],
-        })),
-        ...['.+ClassName', '.+ClassNames'].map((name) => ({
-          name,
-          kind: SelectorKind.Variable,
-          match: [{ type: MatcherType.String }, { type: MatcherType.ObjectValue }],
-        })),
-      ],
-    }
   }
 
-  const baseConfig: DefaultConfig = {
-    ...DEFAULT_CONFIG,
-    overrides: [...DEFAULT_CONFIG.overrides, ...overrides],
-    settings,
-  }
-
-  const configSettings: Record<string, unknown> = {
-    ...config.settings,
-    ...(userConfig.tailwindcss && {
-      'better-tailwindcss': pick(userConfig.tailwindcss, [
-        'entryPoint',
-        'tailwindConfig',
-        'tsconfig',
-        'detectComponentClasses',
-        'rootFontSize',
-        'messageStyle',
-        'selectors',
-      ]),
-    }),
-  }
-
-  return mergeWith(
-    baseConfig,
+  return mergeWith<OxlintConfig, OxlintConfig>(
+    {
+      options: {
+        typeAware: true,
+        maxWarnings: 0,
+        denyWarnings: true,
+        reportUnusedDisableDirectives: 'error',
+      },
+      env: {
+        node: true,
+        browser: true,
+        es2022: true,
+      },
+      ignorePatterns: ['**/routeTree.gen.ts'],
+      overrides,
+      settings: {
+        'jsx-a11y': {
+          components: {
+            Button: 'button',
+            Image: 'img',
+            Input: 'input',
+            Textarea: 'textarea',
+            Link: 'a',
+          },
+        },
+        ...(userConfig.tailwindcss && {
+          'better-tailwindcss': {
+            detectComponentClasses: false,
+            rootFontSize: 16,
+            selectors: [
+              ...getDefaultSelectors(),
+              ...createSelectors(['classNames', '.+ClassNames'], SelectorKind.Attribute),
+              ...createSelectors(['.+ClassName', '.+ClassNames'], SelectorKind.Variable),
+            ],
+          },
+        }),
+      },
+    },
     {
       ...config,
-      settings: configSettings,
+      settings: {
+        ...config.settings,
+        ...(userConfig.tailwindcss && {
+          'better-tailwindcss': pick(userConfig.tailwindcss, [
+            'entryPoint',
+            'tailwindConfig',
+            'tsconfig',
+            'detectComponentClasses',
+            'rootFontSize',
+            'messageStyle',
+            'selectors',
+          ]),
+        }),
+      },
     },
-    (targetValue: unknown, sourceValue: unknown) => {
-      if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
-        return [...(targetValue as unknown[]), ...(sourceValue as unknown[])]
-      }
-      return
-    },
+    concatArrays,
   )
 }
