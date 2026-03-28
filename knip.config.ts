@@ -1,7 +1,7 @@
 import type { KnipConfig } from 'knip'
 
 const config: KnipConfig = {
-  ignoreDependencies: [/^(@[\w-]+\/)?eslint-plugin(-[\w-]+)?$/],
+  ignoreDependencies: [/eslint-plugin/],
 }
 
 export default config
