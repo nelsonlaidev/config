@@ -30,8 +30,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "oxfmt": "^0.41.0",
-    "tsdown": "^0.20.3"
+    "oxfmt": "catalog:dev",
+    "tsdown": "catalog:dev"
   },
   "peerDependencies": {
     "oxfmt": ">=0.41.0"
