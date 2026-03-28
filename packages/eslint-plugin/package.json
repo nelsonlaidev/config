@@ -44,6 +44,11 @@
     "vitest": "catalog:dev"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0"
+    "eslint": ">=10.0.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
   }
 }
