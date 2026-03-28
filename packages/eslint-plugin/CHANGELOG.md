@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-plugin
 
+## 0.2.3
+
+### Patch Changes
+
+- 75762a5: Update the `eslint` peer dependency to `>=10.0.0` and mark it as optional.
+
 ## 0.2.2
 
 ### Patch Changes

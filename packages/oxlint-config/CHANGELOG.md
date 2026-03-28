@@ -1,5 +1,12 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [75762a5]
+  - @nelsonlaidev/eslint-plugin@0.2.3
+
 ## 0.1.2
 
 ### Patch Changes
