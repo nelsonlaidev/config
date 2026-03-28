@@ -1,5 +1,13 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.1.2
+
+### Patch Changes
+
+- b56c6b0: Align development tooling with shared catalog versions and remove the unused local eslint dependency.
+- Updated dependencies [35dea48]
+  - @nelsonlaidev/eslint-plugin@0.2.2
+
 ## 0.1.1
 
 ### Patch Changes

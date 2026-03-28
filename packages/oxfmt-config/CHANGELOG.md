@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxfmt-config
 
+## 0.1.1
+
+### Patch Changes
+
+- f76d066: Switch local development tooling dependencies to the shared catalog versions.
+
 ## 0.1.0
 
 ### Minor Changes
