@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-plugin
 
+## 0.2.2
+
+### Patch Changes
+
+- 35dea48: Update development dependencies and refresh TypeScript ESLint tooling versions.
+
 ## 0.2.1
 
 ### Patch Changes
