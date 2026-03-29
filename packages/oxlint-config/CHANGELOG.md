@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.1.4
+
+### Patch Changes
+
+- 3f9327b: Export the `OxlintConfig` type from the package entrypoint.
+
 ## 0.1.3
 
 ### Patch Changes
