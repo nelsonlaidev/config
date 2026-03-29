@@ -20,7 +20,7 @@ export default defineConfig({
 
 ### Notes
 
-If you are using pnpm, add the following to your `.npmrc` to hoist ESLint plugin dependencies so the Oxc VS Code extension can resolve them:
+If you are using pnpm/bun, add the following to your `.npmrc` to hoist ESLint plugin dependencies so the Oxlint can resolve them:
 
 ```ini
 public-hoist-pattern[]=*eslint-plugin*
