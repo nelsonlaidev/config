@@ -100,7 +100,7 @@ describe('defineConfig', () => {
   describe('conditional plugins', () => {
     it('should include react overrides when userConfig.react is true', async () => {
       const { defineConfig } = await importModule()
-      const config = defineConfig({}, { react: true })
+      const config = defineConfig({ custom: { react: true } })
 
       const plugins = getPlugins(config)
 
@@ -109,7 +109,7 @@ describe('defineConfig', () => {
 
     it('should not include react overrides when react is false and not installed', async () => {
       const { defineConfig } = await importModule()
-      const config = defineConfig({}, { react: false })
+      const config = defineConfig({ custom: { react: false } })
 
       const plugins = getPlugins(config)
 
@@ -129,7 +129,7 @@ describe('defineConfig', () => {
 
     it('should include nextjs overrides when userConfig.nextjs is true', async () => {
       const { defineConfig } = await importModule()
-      const config = defineConfig({}, { nextjs: true })
+      const config = defineConfig({ custom: { nextjs: true } })
 
       const plugins = getPlugins(config)
 
@@ -149,7 +149,7 @@ describe('defineConfig', () => {
 
     it('should include vitest overrides when userConfig.vitest is provided', async () => {
       const { defineConfig } = await importModule()
-      const config = defineConfig({}, { vitest: { files: ['**/*.test.ts'] } })
+      const config = defineConfig({ custom: { vitest: { files: ['**/*.test.ts'] } } })
 
       const plugins = getPlugins(config)
 
@@ -170,7 +170,7 @@ describe('defineConfig', () => {
 
     it('should include playwright overrides when userConfig.playwright is provided', async () => {
       const { defineConfig } = await importModule()
-      const config = defineConfig({}, { playwright: { files: ['**/*.spec.ts'] } })
+      const config = defineConfig({ custom: { playwright: { files: ['**/*.spec.ts'] } } })
 
       const jsPlugins = (config.overrides ?? []).flatMap((o) =>
         (o.jsPlugins ?? []).map((p) => (typeof p === 'string' ? p : p.specifier)),
@@ -188,7 +188,7 @@ describe('defineConfig', () => {
   describe('tailwindcss plugin', () => {
     it('should include tailwindcss overrides when userConfig.tailwindcss is provided', async () => {
       const { defineConfig } = await importModule()
-      const config = defineConfig({}, { tailwindcss: {} })
+      const config = defineConfig({ custom: { tailwindcss: {} } })
 
       const jsPlugins = (config.overrides ?? []).flatMap((o) =>
         (o.jsPlugins ?? []).map((p) => (typeof p === 'string' ? p : p.specifier)),
@@ -210,7 +210,7 @@ describe('defineConfig', () => {
 
     it('should include default better-tailwindcss settings with selectors', async () => {
       const { defineConfig } = await importModule()
-      const config = defineConfig({}, { tailwindcss: {} })
+      const config = defineConfig({ custom: { tailwindcss: {} } })
 
       const twSettings = (config.settings as Record<string, unknown>)['better-tailwindcss'] as Record<string, unknown>
 
@@ -228,7 +228,7 @@ describe('defineConfig', () => {
 
     it('should merge user-provided tailwindcss settings over defaults', async () => {
       const { defineConfig } = await importModule()
-      const config = defineConfig({}, { tailwindcss: { rootFontSize: 14, entryPoint: './src/styles.css' } })
+      const config = defineConfig({ custom: { tailwindcss: { rootFontSize: 14, entryPoint: './src/styles.css' } } })
 
       const twSettings = (config.settings as Record<string, unknown>)['better-tailwindcss'] as Record<string, unknown>
 
@@ -243,7 +243,7 @@ describe('defineConfig', () => {
       const customConfig: OxlintConfig = {
         ignorePatterns: ['**/generated/**'],
       }
-      const config = defineConfig(customConfig)
+      const config = defineConfig({ config: customConfig })
 
       expect(config.ignorePatterns).toEqual(expect.arrayContaining(['**/routeTree.gen.ts', '**/generated/**']))
     })
@@ -258,7 +258,7 @@ describe('defineConfig', () => {
           },
         ],
       }
-      const config = defineConfig(customConfig)
+      const config = defineConfig({ config: customConfig })
 
       expect((config.overrides ?? []).length).toBeGreaterThan(1)
 
@@ -277,8 +277,10 @@ describe('defineConfig', () => {
     it('should preserve caller-provided config.settings', async () => {
       const { defineConfig } = await importModule()
       const config = defineConfig({
-        settings: {
-          'my-custom-setting': { enabled: true },
+        config: {
+          settings: {
+            'my-custom-setting': { enabled: true },
+          },
         },
       })
 

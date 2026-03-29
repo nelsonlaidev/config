@@ -14,7 +14,12 @@ Create an `oxlint.config.ts` file with the following content:
 import { defineConfig } from '@nelsonlaidev/oxlint-config'
 
 export default defineConfig({
-  // Custom OxLint configuration options
+  config: {
+    // Custom OxLint configuration options
+  },
+  custom: {
+    react: true,
+  },
 })
 ```
 

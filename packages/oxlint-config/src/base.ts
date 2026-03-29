@@ -1,5 +1,5 @@
 import type { OxlintConfig } from 'oxlint'
-import type { CustomConfig } from './types'
+import type { DefineConfigOptions } from './types'
 
 import { mergeWith, pick } from 'es-toolkit/object'
 import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
@@ -44,7 +44,7 @@ const concatArrays = (target: unknown, source: unknown) => {
   return undefined
 }
 
-export const defineConfig = (config: OxlintConfig = {}, userConfig: CustomConfig = {}): OxlintConfig => {
+export const defineConfig = ({ config = {}, custom: userConfig = {} }: DefineConfigOptions = {}): OxlintConfig => {
   const overrides = [
     ...oxc(),
     ...eslint(),
