@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxfmt-config
 
+## 0.1.2
+
+### Patch Changes
+
+- e74b458: Export the `OxfmtConfig` type from the package entrypoint.
+
 ## 0.1.1
 
 ### Patch Changes
