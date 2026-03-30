@@ -1,7 +1,7 @@
 {
-  "name": "@nelsonlaidev/oxfmt-config",
-  "version": "0.1.2",
-  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/oxfmt-config/README.md",
+  "name": "@nelsonlaidev/prettier-config",
+  "version": "0.2.0",
+  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/prettier-config/README.md",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
@@ -10,7 +10,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nelsonlaidev/config.git",
-    "directory": "packages/oxfmt-config"
+    "directory": "packages/prettier-config"
   },
   "files": [
     "dist"
@@ -30,10 +30,13 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "oxfmt": "catalog:dev",
+    "@nelsonlaidev/typescript-config": "workspace:*",
+    "@types/node": "^24.11.0",
+    "prettier": "^3.8.1",
     "tsdown": "catalog:dev"
   },
   "peerDependencies": {
-    "oxfmt": "^0.41.0"
+    "prettier": "^3.0.0",
+    "prettier-plugin-packagejson": "^2.0.0"
   }
 }
