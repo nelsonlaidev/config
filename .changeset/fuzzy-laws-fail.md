@@ -11,7 +11,7 @@ This release includes a few breaking option changes:
 - Simplify the `playwright` options to only accept `files`, `assertFunctionNames`, and `assertFunctionPatterns`.
 - Remove `importX` options entirely. `importX` no longer accepts configuration because the related configurable rules, `import-x/no-namespace` and `import-x/no-unassigned-import`, are now disabled in the preset.
 
-It also updates the preset behavior by enabling `unused-imports`, splitting several setup and rules configs for clearer composition, tightening some `import-x` and React rules, disabling overlapping SonarJS rules, and refreshing the underlying ESLint plugin dependency set.
+It also updates the preset behavior by enabling `unused-imports`, adding built-in JSDoc validation with `jsdoc/check-tag-names` and `jsdoc/empty-tags`, splitting several setup and rules configs for clearer composition, tightening some `import-x` and React rules, disabling overlapping SonarJS rules, and refreshing the underlying ESLint plugin dependency set, including `eslint-plugin-jsdoc`.
 
 Migration guide:
 
