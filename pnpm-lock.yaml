@@ -194,7 +194,7 @@ importers:
         specifier: ^8.57.2
         version: 8.57.2(eslint@10.1.0(jiti@2.6.1))(typescript@6.0.2)
       eslint:
-        specifier: ^10.1.0
+        specifier: catalog:dev
         version: 10.1.0(jiti@2.6.1)
       tsdown:
         specifier: catalog:dev

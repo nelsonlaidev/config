@@ -39,12 +39,12 @@
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "catalog:dev",
     "@typescript-eslint/rule-tester": "^8.57.2",
-    "eslint": "^10.1.0",
+    "eslint": "catalog:dev",
     "tsdown": "catalog:dev",
     "vitest": "catalog:dev"
   },
   "peerDependencies": {
-    "eslint": ">=10.0.0"
+    "eslint": "^9.0.0 || ^10.0.0"
   },
   "peerDependenciesMeta": {
     "eslint": {
