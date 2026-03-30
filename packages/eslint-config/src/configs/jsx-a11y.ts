@@ -3,7 +3,7 @@ import type { FlatConfig, JsxA11yConfigOptions, JsxA11yOptions } from '../types'
 import { GLOB_JSX, GLOB_TSX } from '../globs'
 import { jsxA11yPlugin } from '../plugins'
 
-export const jsxA11y = (options: JsxA11yConfigOptions): FlatConfig[] => [
+export const jsxA11y = (options: JsxA11yConfigOptions = {}): FlatConfig[] => [
   {
     name: 'nelsonlaidev/jsx-a11y/setup',
     files: [GLOB_JSX, GLOB_TSX],

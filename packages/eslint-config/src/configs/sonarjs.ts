@@ -21,6 +21,10 @@ export const sonarjs = (): FlatConfig[] => [
       'sonarjs/pseudo-random': 'off',
       'sonarjs/function-return-type': 'off',
       'sonarjs/prefer-read-only-props': 'off',
+      'sonarjs/argument-type': 'off',
+
+      // Replaced by React rules
+      'sonarjs/jsx-no-leaked-render': 'off',
     },
   },
 ]

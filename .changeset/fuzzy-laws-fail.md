@@ -9,8 +9,9 @@ This release includes a few breaking option changes:
 - Rename the `jsx` option to `jsxA11y`.
 - Rename Tailwind CSS options to the new shape: `canonicalClasses` -> `canonical`, `consistentClassOrder` -> `classOrder`, `noRestrictedClasses` -> `restrict`, `noUnknownClasses` -> `ignore`, and `noUnnecessaryWhitespace` -> `whitespace`.
 - Simplify the `playwright` options to only accept `files`, `assertFunctionNames`, and `assertFunctionPatterns`.
+- Remove `importX` options entirely. `importX` no longer accepts configuration because the related configurable rules, `import-x/no-namespace` and `import-x/no-unassigned-import`, are now disabled in the preset.
 
-It also updates the preset behavior by enabling `unused-imports`, splitting several setup and rules configs for clearer composition, tightening some `import-x` and React rules, and refreshing the underlying ESLint plugin dependency set.
+It also updates the preset behavior by enabling `unused-imports`, splitting several setup and rules configs for clearer composition, tightening some `import-x` and React rules, disabling overlapping SonarJS rules, and refreshing the underlying ESLint plugin dependency set.
 
 Migration guide:
 
@@ -98,5 +99,24 @@ defineConfig({
     files: ['e2e/**/*.spec.ts'],
     assertFunctionNames: ['expectStatus'],
   },
+})
+```
+
+```ts
+// Before
+defineConfig({
+  importX: {
+    noNamespace: {
+      ignore: ['zod'],
+    },
+    noUnassignedImport: {
+      allow: ['**/*.css'],
+    },
+  },
+})
+
+// After
+defineConfig({
+  // Remove the importX option entirely.
 })
 ```
