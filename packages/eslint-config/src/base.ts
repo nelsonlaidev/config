@@ -10,6 +10,7 @@ import { ignores } from './configs/ignores'
 import { importSort } from './configs/import-sort'
 import { importX } from './configs/import-x'
 import { javascript } from './configs/javascript'
+import { jsdoc } from './configs/jsdoc'
 import { jsxA11y } from './configs/jsx-a11y'
 import { nelsonlaidev } from './configs/nelsonlaidev'
 import { nextjs } from './configs/nextjs'
@@ -38,6 +39,7 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     ...gitignore(),
     ...ignores(options.ignores),
     ...javascript(),
+    ...jsdoc(),
     ...sonarjs(),
     ...importSort(),
     ...deMorgan(),
