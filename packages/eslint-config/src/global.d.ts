@@ -3,7 +3,6 @@
 //
 // - eslint-plugin-jsx-a11y: missing types
 // - eslint-plugin-promise: missing types
-// - @eslint-react/eslint-plugin: incompatible types
 // - @typescript-eslint/eslint-plugin: missing types
 // - eslint-plugin-react-hooks: incompatible types
 // - eslint-plugin-sonarjs: incompatible types
@@ -31,20 +30,6 @@ declare module 'eslint-plugin-promise' {
   const plugin: ESLint.Plugin & {
     configs: {
       recommended: Linter.Config
-    }
-  }
-
-  export default plugin
-}
-
-declare module '@eslint-react/eslint-plugin' {
-  import type { ESLint, Linter } from 'eslint'
-
-  const plugin: ESLint.Plugin & {
-    configs: {
-      all: Linter.Config
-      'disable-conflict-eslint-plugin-react-hooks': Linter.Config
-      'strict-type-checked': Linter.Config
     }
   }
 

@@ -1,6 +1,6 @@
 import type { FlatConfig } from '../types'
 
-import { GLOB_SRC } from '../globs'
+import { GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
 import { reactHooksPlugin, reactPlugin } from '../plugins'
 
 export const react = (): FlatConfig[] => [
@@ -12,7 +12,7 @@ export const react = (): FlatConfig[] => [
       'react-hooks': reactHooksPlugin,
     },
     settings: {
-      ...reactPlugin.configs['strict-type-checked'].settings,
+      ...reactPlugin.configs.all.settings,
     },
   },
   {
@@ -21,11 +21,20 @@ export const react = (): FlatConfig[] => [
     rules: {
       ...reactHooksPlugin.configs['recommended-latest'].rules,
 
-      ...reactPlugin.configs['strict-type-checked'].rules,
+      ...reactPlugin.configs.all.rules,
       ...reactPlugin.configs['disable-conflict-eslint-plugin-react-hooks'].rules,
 
       '@eslint-react/immutability': 'error',
       '@eslint-react/refs': 'error',
+    },
+  },
+  {
+    name: 'nelsonlaidev/react/typescript-rules',
+    files: [GLOB_TS, GLOB_TSX],
+    rules: {
+      // Rules that require type information.
+      '@eslint-react/no-leaked-conditional-rendering': 'error',
+      '@eslint-react/no-unused-props': 'error',
     },
   },
 ]
