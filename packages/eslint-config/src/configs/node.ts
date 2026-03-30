@@ -9,9 +9,8 @@ export const node = (): FlatConfig[] => [
       n: nodePlugin,
     },
     rules: {
-      ...nodePlugin.configs['recommended-module'].rules,
-
-      'n/no-new-require': 'error',
+      'n/no-deprecated-api': 'error',
+      'n/no-exports-assign': 'error',
       'n/no-path-concat': 'error',
       'n/prefer-node-protocol': 'error',
       'n/prefer-promises/fs': 'error',
