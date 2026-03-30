@@ -37,6 +37,9 @@ export const importX = (): FlatConfig[] => [
       'import-x/no-empty-named-blocks': 'error',
       'import-x/no-deprecated': 'error',
       'import-x/no-duplicates': 'error',
+
+      'import-x/no-named-as-default': 'off',
+      'import-x/no-named-as-default-member': 'off',
     },
   },
 ]
