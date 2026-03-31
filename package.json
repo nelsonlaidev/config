@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
-    "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm knip && pnpm lint:spell",
+    "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm knip && pnpm lint:spell && pnpm sync:check",
     "clean": "turbo clean && rm -rf .turbo",
     "dev": "turbo dev",
     "format": "prettier --write .",
@@ -17,6 +17,8 @@
     "lint:spell": "cspell .",
     "prepare": "lefthook install",
     "release": "changeset publish",
+    "sync": "tsx scripts/sync-oxlint-eslint.ts",
+    "sync:check": "tsx scripts/sync-oxlint-eslint.ts --check",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "version": "changeset version"
@@ -32,6 +34,7 @@
     "knip": "^6.1.0",
     "lefthook": "^2.1.4",
     "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
     "turbo": "^2.8.21",
     "typescript": "^6.0.2"
   },
