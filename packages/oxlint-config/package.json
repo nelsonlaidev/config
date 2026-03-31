@@ -5,24 +5,21 @@
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
-  "license": "MIT",
-  "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nelsonlaidev/config.git",
     "directory": "packages/oxlint-config"
   },
-  "files": [
-    "dist"
-  ],
+  "license": "MIT",
+  "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
   "type": "module",
   "exports": {
     "types": "./dist/index.d.mts",
     "import": "./dist/index.mjs"
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "clean": "rm -rf .turbo dist",
@@ -57,5 +54,8 @@
   },
   "peerDependencies": {
     "oxlint": ">=1.56.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

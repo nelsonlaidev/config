@@ -35,9 +35,9 @@ importers:
       '@nelsonlaidev/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
-      '@nelsonlaidev/oxfmt-config':
+      '@nelsonlaidev/prettier-config':
         specifier: workspace:*
-        version: link:packages/oxfmt-config
+        version: link:packages/prettier-config
       '@nelsonlaidev/typescript-config':
         specifier: workspace:*
         version: link:packages/typescript-config
@@ -56,12 +56,9 @@ importers:
       lefthook:
         specifier: ^2.1.4
         version: 2.1.4
-      oxfmt:
-        specifier: catalog:dev
-        version: 0.42.0
-      oxlint:
-        specifier: catalog:dev
-        version: 1.57.0(oxlint-tsgolint@0.18.1)
+      prettier:
+        specifier: ^3.8.1
+        version: 3.8.1
       turbo:
         specifier: ^2.8.21
         version: 2.8.21

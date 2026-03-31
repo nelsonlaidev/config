@@ -1,7 +1,7 @@
 pre-commit:
   jobs:
     - name: format
-      run: pnpm oxfmt --no-error-on-unmatched-pattern "{staged_files}"
+      run: pnpm prettier --write --ignore-unknown "{staged_files}"
       stage_fixed: true
 
     - name: lint

@@ -9,8 +9,8 @@
     "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm knip && pnpm lint:spell",
     "clean": "turbo clean && rm -rf .turbo",
     "dev": "turbo dev",
-    "format": "oxfmt",
-    "format:check": "oxfmt --check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "knip": "knip",
     "lint": "eslint --max-warnings 0",
     "lint:fix": "eslint --fix --max-warnings 0",
@@ -24,20 +24,19 @@
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
     "@nelsonlaidev/eslint-config": "workspace:*",
-    "@nelsonlaidev/oxfmt-config": "workspace:*",
+    "@nelsonlaidev/prettier-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "catalog:dev",
     "cspell": "^9.7.0",
     "eslint": "catalog:dev",
     "knip": "^6.1.0",
     "lefthook": "^2.1.4",
-    "oxfmt": "catalog:dev",
-    "oxlint": "catalog:dev",
+    "prettier": "^3.8.1",
     "turbo": "^2.8.21",
     "typescript": "^6.0.2"
   },
+  "packageManager": "pnpm@10.33.0",
   "engines": {
     "node": ">=24"
-  },
-  "packageManager": "pnpm@10.33.0"
+  }
 }

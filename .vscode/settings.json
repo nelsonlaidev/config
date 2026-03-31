@@ -1,13 +1,10 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.oxc": "explicit"
+    "source.fixAll.eslint": "explicit"
   },
 
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-
-  "oxc.fmt.configPath": "oxfmt.config.ts",
-  "editor.defaultFormatter": "oxc.oxc-vscode",
 
   "js/ts.tsdk.promptToUseWorkspaceVersion": true,
   "js/ts.preferences.preferTypeOnlyAutoImports": true,
