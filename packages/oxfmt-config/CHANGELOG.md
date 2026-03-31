@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxfmt-config
 
+## 0.1.3
+
+### Patch Changes
+
+- 12f2523: Tighten the `oxfmt` peer dependency range to `^0.41.0`.
+
 ## 0.1.2
 
 ### Patch Changes

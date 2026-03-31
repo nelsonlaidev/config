@@ -1,5 +1,11 @@
 # @nelsonlaidev/prettier-config
 
+## 0.2.1
+
+### Patch Changes
+
+- 337be96: Bundle `prettier-plugin-packagejson` as a dependency and update the docs to only require pnpm hoisting.
+
 ## 0.2.0
 
 ### Minor Changes

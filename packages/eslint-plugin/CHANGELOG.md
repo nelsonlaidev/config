@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-plugin
 
+## 0.2.4
+
+### Patch Changes
+
+- d84896c: Align the ESLint peer dependency to `^9.0.0` and simplify the plugin export typing.
+
 ## 0.2.3
 
 ### Patch Changes
