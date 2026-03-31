@@ -13,7 +13,10 @@ const importModule = async () => {
 }
 
 const getPlugins = (config: OxlintConfig) =>
-  (config.overrides ?? []).flatMap((o) => [...(o.plugins ?? []), ...(o.jsPlugins ?? [])])
+  (config.overrides ?? []).flatMap((o) => [
+    ...(o.plugins ?? []),
+    ...(o.jsPlugins ?? []).map((p) => (typeof p === 'string' ? p : p.specifier)),
+  ])
 
 describe('defineConfig', () => {
   beforeEach(() => {
@@ -104,7 +107,7 @@ describe('defineConfig', () => {
 
       const plugins = getPlugins(config)
 
-      expect(plugins).toEqual(expect.arrayContaining(['react']))
+      expect(plugins).toEqual(expect.arrayContaining(['@eslint-react/eslint-plugin']))
     })
 
     it('should not include react overrides when react is false and not installed', async () => {
@@ -113,7 +116,7 @@ describe('defineConfig', () => {
 
       const plugins = getPlugins(config)
 
-      expect(plugins).not.toEqual(expect.arrayContaining(['react']))
+      expect(plugins).not.toEqual(expect.arrayContaining(['@eslint-react/eslint-plugin']))
     })
 
     it('should auto-detect react when package exists', async () => {
@@ -124,7 +127,7 @@ describe('defineConfig', () => {
 
       const plugins = getPlugins(config)
 
-      expect(plugins).toEqual(expect.arrayContaining(['react']))
+      expect(plugins).toEqual(expect.arrayContaining(['@eslint-react/eslint-plugin']))
     })
 
     it('should include nextjs overrides when userConfig.nextjs is true', async () => {
