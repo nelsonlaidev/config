@@ -1,5 +1,14 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.2.1
+
+### Patch Changes
+
+- be33f74: Document that the Oxlint config is synced from `eslint-config`, enables matching supported Oxlint rules, and intentionally excludes `unused-imports` because Oxlint `jsPlugins` does not currently support the required type information.
+- a88623f: Clarify the pnpm hoisting note in the README by removing the unsupported bun guidance.
+- Updated dependencies [d84896c]
+  - @nelsonlaidev/eslint-plugin@0.2.4
+
 ## 0.2.0
 
 ### Minor Changes
