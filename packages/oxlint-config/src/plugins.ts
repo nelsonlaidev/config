@@ -1,0 +1,5 @@
+export { default as reactPlugin } from '@eslint-react/eslint-plugin'
+export { default as playwrightPlugin } from 'eslint-plugin-playwright'
+export { default as reactHooksPlugin } from 'eslint-plugin-react-hooks'
+export { default as regexpPlugin } from 'eslint-plugin-regexp'
+export { default as sonarjsPlugin } from 'eslint-plugin-sonarjs'

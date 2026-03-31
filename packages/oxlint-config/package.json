@@ -29,6 +29,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@eslint-react/eslint-plugin": "4.0.2-beta.6",
     "@nelsonlaidev/eslint-plugin": "workspace:*",
     "@stylistic/eslint-plugin": "^5.10.0",
     "es-toolkit": "^1.45.1",
@@ -36,12 +37,7 @@
     "eslint-plugin-de-morgan": "^2.1.1",
     "eslint-plugin-import-zod": "^1.2.1",
     "eslint-plugin-playwright": "^2.10.1",
-    "eslint-plugin-react-dom": "^3.0.0",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-naming-convention": "^3.0.0",
-    "eslint-plugin-react-rsc": "^3.0.0",
-    "eslint-plugin-react-web-api": "^3.0.0",
-    "eslint-plugin-react-x": "^3.0.0",
     "eslint-plugin-regexp": "^3.1.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sonarjs": "^4.0.2",

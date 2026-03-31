@@ -2,6 +2,8 @@
 
 Personal Oxlint configurations for Nelson Lai projects.
 
+This package is synced from `eslint-config` and aims to enable every supported Oxlint rule that is also enabled in `eslint-config`.
+
 ## Installation
 
 ```bash
@@ -24,6 +26,10 @@ export default defineConfig({
 ```
 
 ### Notes
+
+This package follows `eslint-config` as the source of truth. When a rule is enabled there, we enable the corresponding Oxlint rule here when Oxlint supports it.
+
+`unused-imports` is intentionally not included. That plugin requires type information, and Oxlint `jsPlugins` does not support that currently.
 
 If you are using pnpm, add the following to your `.npmrc` to hoist ESLint plugin dependencies so the Oxlint can resolve them:
 
