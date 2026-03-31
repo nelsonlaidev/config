@@ -40,7 +40,7 @@ const concatArrays = (target: unknown, source: unknown) => {
     return [...(target as unknown[]), ...(source as unknown[])]
   }
   // mergeWith requires explicit undefined for default behavior
-  // oxlint-disable-next-line unicorn/no-useless-undefined
+  // eslint-disable-next-line unicorn/no-useless-undefined
   return undefined
 }
 

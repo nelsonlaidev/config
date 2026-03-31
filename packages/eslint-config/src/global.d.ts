@@ -85,7 +85,7 @@ declare module 'eslint-plugin-sonarjs' {
 }
 
 declare module '@nelsonlaidev/eslint-plugin' {
-  import type { ESLint, Linter } from 'eslint'
+  import type { ESLint } from 'eslint'
 
   const plugin: ESLint.Plugin
 
