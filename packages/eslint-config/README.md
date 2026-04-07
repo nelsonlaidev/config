@@ -97,5 +97,31 @@ type Options = {
   // Optional
   // Specify files to ignore
   ignores?: string[]
+  // Optional
+  // Configure TypeScript import resolver for monorepos
+  // Defaults to scanning root tsconfig.json and apps/**/{ts,js}config.json and packages/**/{ts,js}config.json
+  typescriptResolver?: import('eslint-import-resolver-typescript').TypeScriptResolverOptions
 }
 ```
+
+### TypeScript Import Resolver
+
+When using a monorepo, you may need to customize the TypeScript import resolver configuration. By default, the resolver scans for `tsconfig.json` and `jsconfig.json` files in the following locations:
+
+- `./tsconfig.json` (root)
+- `apps/**/{ts,js}config.json`
+- `packages/**/{ts,js}config.json`
+
+If your monorepo structure differs, you can provide a custom `typescriptResolver` option:
+
+```ts
+export default defineConfig({
+  typescriptResolver: {
+    alwaysTryTypes: true,
+    bun: true,
+    project: ['packages/foo/tsconfig.json'],
+  },
+})
+```
+
+Refer to the [eslint-import-resolver-typescript](https://github.com/import-js/eslint-import-resolver-typescript) documentation for all available options.
