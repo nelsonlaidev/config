@@ -1,5 +1,14 @@
 # @nelsonlaidev/eslint-config
 
+## 4.1.0
+
+### Minor Changes
+
+- 9242277: Add a `typescriptResolver` option.
+  - Configure `import-x` to use `eslint-import-resolver-typescript` with monorepo-friendly default project globs.
+  - Allow overriding resolver behavior through `defineConfig({ typescriptResolver })`.
+  - Document resolver defaults and customization in the package README.
+
 ## 4.0.0
 
 ### Major Changes
