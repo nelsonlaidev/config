@@ -1,5 +1,11 @@
 # @nelsonlaidev/prettier-config
 
+## 0.3.0
+
+### Minor Changes
+
+- 87e372b: Moved prettier-plugin-packagejson to peerDependencies and updated docs to instruct consumers to install it themselves.
+
 ## 0.2.1
 
 ### Patch Changes
