@@ -26,9 +26,6 @@
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "prettier-plugin-packagejson": "^2.0.0"
-  },
   "devDependencies": {
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "^24.11.0",
@@ -36,7 +33,8 @@
     "tsdown": "catalog:dev"
   },
   "peerDependencies": {
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.0",
+    "prettier-plugin-packagejson": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"

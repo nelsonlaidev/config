@@ -5,7 +5,7 @@ Personal Prettier configurations for Nelson Lai projects.
 ## Installation
 
 ```bash
-npm i -D @nelsonlaidev/prettier-config
+npm i -D @nelsonlaidev/prettier-config prettier-plugin-packagejson
 ```
 
 Create a `prettier.config.js` file with the following content:
@@ -16,12 +16,4 @@ import { defineConfig } from '@nelsonlaidev/prettier-config'
 export default defineConfig({
   // Custom Prettier configuration options
 })
-```
-
-### Notes
-
-If you are using pnpm, add the following to your `.npmrc` to hoist the bundled Prettier plugin dependency so Prettier can resolve it:
-
-```ini
-public-hoist-pattern[]=*prettier-plugin*
 ```

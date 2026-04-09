@@ -40,10 +40,10 @@ npm i -D @nelsonlaidev/oxfmt-config
 
 ### [@nelsonlaidev/prettier-config](packages/prettier-config)
 
-A shared Prettier configuration that bundles `prettier-plugin-packagejson`.
+A shared Prettier configuration.
 
 ```bash
-npm i -D @nelsonlaidev/prettier-config
+npm i -D @nelsonlaidev/prettier-config prettier-plugin-packagejson
 ```
 
 ### [@nelsonlaidev/typescript-config](packages/typescript-config)
