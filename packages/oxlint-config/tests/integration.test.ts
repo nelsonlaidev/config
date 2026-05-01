@@ -29,11 +29,13 @@ function runOxlint(file: string) {
       encoding: 'utf-8',
       stdio: 'pipe',
     })
+    console.log('result:', result)
     return JSON.parse(result) as OxlintResult
   } catch (error) {
     const execError = error as { stderr?: string; stdout?: string }
 
     if (execError.stdout) {
+      console.log('stdout:', execError.stdout)
       return JSON.parse(execError.stdout) as OxlintResult
     }
     throw error
