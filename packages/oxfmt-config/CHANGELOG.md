@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxfmt-config
 
+## 0.1.4
+
+### Patch Changes
+
+- 5da95d1: Bump oxfmt peer dependency from ^0.41.0 to ^0.47.0
+
 ## 0.1.3
 
 ### Patch Changes
