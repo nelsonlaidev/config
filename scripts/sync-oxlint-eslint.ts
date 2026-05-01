@@ -51,8 +51,16 @@ type PresetManifestEntry = {
   groups: RuleGroupManifest[]
 }
 
+type UnsupportedRule = {
+  presetId: string
+  sourceConfigNames: string[]
+  eslintRuleName: string
+  oxlintRuleName: string
+}
+
 type SyncResult = {
   staleFilePaths: string[]
+  unsupportedRules: UnsupportedRule[]
   updatedFilePaths: string[]
 }
 
@@ -367,7 +375,13 @@ export function mapToSupportedOxlintRules(
   rules: Record<string, unknown>,
   entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
   supportedRules: RuleLookup,
-  { preserveOffRules = false }: { preserveOffRules?: boolean } = {},
+  {
+    onUnsupportedRule,
+    preserveOffRules = false,
+  }: {
+    onUnsupportedRule?: (rule: { eslintRuleName: string; oxlintRuleName: string }) => void
+    preserveOffRules?: boolean
+  } = {},
 ): Record<string, SyncedRuleValue> {
   const syncedRules = new Map<string, SyncedRuleValue>()
 
@@ -387,6 +401,7 @@ export function mapToSupportedOxlintRules(
     const oxlintRuleName = resolveSupportedOxlintRuleName(remappedRuleName, entry, supportedRules)
 
     if (!oxlintRuleName) {
+      onUnsupportedRule?.({ eslintRuleName, oxlintRuleName: remappedRuleName })
       continue
     }
 
@@ -501,6 +516,42 @@ export async function generatePresetContent(entry: PresetManifestEntry, supporte
   return formatGeneratedSource(source, entry.targetFilePath)
 }
 
+export async function collectUnsupportedRules(supportedRules: RuleLookup): Promise<UnsupportedRule[]> {
+  const unsupportedRules: UnsupportedRule[] = []
+
+  await Promise.all(
+    PRESET_MANIFEST.map(async (entry) => {
+      const sourceConfigs = await loadSourceConfigs(entry)
+
+      for (const group of entry.groups) {
+        const eslintRules = collectRulesForGroup(sourceConfigs, group)
+
+        mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
+          onUnsupportedRule: ({ eslintRuleName, oxlintRuleName }) => {
+            unsupportedRules.push({
+              presetId: entry.id,
+              sourceConfigNames: group.sourceConfigNames,
+              eslintRuleName,
+              oxlintRuleName,
+            })
+          },
+          preserveOffRules: group.preserveOffRules,
+        })
+      }
+    }),
+  )
+
+  return unsupportedRules.toSorted((left, right) => {
+    const presetOrder = left.presetId.localeCompare(right.presetId)
+
+    if (presetOrder !== 0) {
+      return presetOrder
+    }
+
+    return left.oxlintRuleName.localeCompare(right.oxlintRuleName)
+  })
+}
+
 export async function generatePresetOutputs(supportedRules: RuleLookup) {
   return Promise.all(
     PRESET_MANIFEST.map(async (entry) => ({
@@ -512,7 +563,10 @@ export async function generatePresetOutputs(supportedRules: RuleLookup) {
 
 export async function syncOxlintEslint({ check = false }: { check?: boolean } = {}): Promise<SyncResult> {
   const supportedRules = buildSupportedRuleLookup(readRulesFromCommand())
-  const presetOutputs = await generatePresetOutputs(supportedRules)
+  const [presetOutputs, unsupportedRules] = await Promise.all([
+    generatePresetOutputs(supportedRules),
+    collectUnsupportedRules(supportedRules),
+  ])
 
   const staleFilePaths: string[] = []
   const updatedFilePaths: string[] = []
@@ -533,12 +587,41 @@ export async function syncOxlintEslint({ check = false }: { check?: boolean } = 
     }
   }
 
-  return { staleFilePaths, updatedFilePaths }
+  return { staleFilePaths, unsupportedRules, updatedFilePaths }
+}
+
+function logUnsupportedRuleSummary(unsupportedRules: UnsupportedRule[]) {
+  if (unsupportedRules.length === 0) {
+    console.log('All configured ESLint rules are currently supported by Oxlint.')
+    return
+  }
+
+  console.log(`Oxlint does not currently support ${unsupportedRules.length} configured ESLint rule(s).`)
+
+  const unsupportedCountByPresetId = Map.groupBy(unsupportedRules, (rule) => rule.presetId)
+
+  for (const [presetId, rules] of unsupportedCountByPresetId
+    .entries()
+    .toArray()
+    .toSorted(([left], [right]) => left.localeCompare(right))) {
+    console.log(`- ${presetId}: ${rules.length}`)
+
+    for (const rule of rules) {
+      const ruleName =
+        rule.eslintRuleName === rule.oxlintRuleName
+          ? rule.eslintRuleName
+          : `${rule.eslintRuleName} -> ${rule.oxlintRuleName}`
+
+      console.log(`  - ${ruleName}`)
+    }
+  }
 }
 
 async function main() {
   const check = process.argv.includes('--check')
   const result = await syncOxlintEslint({ check })
+
+  logUnsupportedRuleSummary(result.unsupportedRules)
 
   if (check && result.staleFilePaths.length > 0) {
     console.error('Oxlint preset files are out of sync:')
