@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.2.3
+
+### Patch Changes
+
+- a4f0df4: Omit `prefer-regex-literals` from regexp recommended rules (not supported by Oxlint)
+
 ## 0.2.2
 
 ### Patch Changes
