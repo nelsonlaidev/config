@@ -7,5 +7,6 @@ catalogs:
     eslint: ^10.1.0
     oxfmt: ^0.42.0
     oxlint: ^1.62.0
+    oxlint-tsgolint: ^0.22.1
     tsdown: ^0.21.6
     vitest: ^4.1.2
