@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.2.2
+
+### Patch Changes
+
+- ba83ece: Enable additional ESLint, Unicorn, and Vitest rules supported by newer oxlint releases.
+
 ## 0.2.1
 
 ### Patch Changes
