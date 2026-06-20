@@ -7,13 +7,8 @@ import type { VitestConfig } from '../types/vitest'
 export const vitest = (config: VitestConfig): OxlintOverride[] => [
   {
     files: config.files,
-    plugins: ['vitest', 'jest'],
+    plugins: ['vitest'],
     rules: {
-      'jest/no-standalone-expect': 'error',
-      'jest/no-unneeded-async-expect-function': 'error',
-      'jest/prefer-mock-return-shorthand': 'error',
-      'jest/valid-describe-callback': 'error',
-      'jest/valid-expect-in-promise': 'error',
       'vitest/consistent-test-it': [
         'error',
         {
@@ -29,9 +24,14 @@ export const vitest = (config: VitestConfig): OxlintOverride[] => [
       'vitest/no-import-node-test': 'error',
       'vitest/no-interpolation-in-snapshots': 'error',
       'vitest/no-mocks-import': 'error',
+      'vitest/no-standalone-expect': 'error',
+      'vitest/no-unneeded-async-expect-function': 'error',
       'vitest/prefer-called-exactly-once-with': 'error',
+      'vitest/prefer-mock-return-shorthand': 'error',
       'vitest/require-local-test-context-for-concurrent-snapshots': 'error',
+      'vitest/valid-describe-callback': 'error',
       'vitest/valid-expect': 'error',
+      'vitest/valid-expect-in-promise': 'error',
       'vitest/valid-title': 'error',
       'vitest/warn-todo': 'error',
     },

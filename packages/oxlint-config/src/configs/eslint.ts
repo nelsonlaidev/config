@@ -87,7 +87,14 @@ export const eslint = (): OxlintOverride[] => [
       'no-unsafe-optional-chaining': 'error',
       'no-unused-labels': 'error',
       'no-unused-private-class-members': 'error',
-      'no-unused-vars': 'error',
+      'no-unused-vars': [
+        'error',
+        {
+          fix: {
+            imports: 'safe-fix',
+          },
+        },
+      ],
       'no-useless-assignment': 'error',
       'no-useless-backreference': 'error',
       'no-useless-call': 'error',

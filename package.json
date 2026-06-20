@@ -18,7 +18,8 @@
     "prepare": "lefthook install",
     "release": "changeset publish",
     "sync": "tsx scripts/sync-oxlint-eslint.ts",
-    "sync:check": "tsx scripts/sync-oxlint-eslint.ts --check",
+    "sync:check": "tsx scripts/sync-oxlint-eslint.ts --diff",
+    "sync:report": "tsx scripts/sync-oxlint-eslint.ts --report --write",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "version": "changeset version"

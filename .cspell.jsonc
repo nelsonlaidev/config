@@ -26,6 +26,7 @@
     "tsgolint",
     "undeprecate",
     "uninvoked",
+    "unscanned",
     "unsuffixed",
     "unthrown",
   ],
