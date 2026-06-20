@@ -35,6 +35,7 @@ type RuleGroupManifest = {
   commentByRuleName?: Record<string, string[]>
   preserveOffRules?: boolean
   dropRuleOptions?: string[]
+  augmentRuleOptions?: Record<string, Record<string, unknown>>
 }
 
 type PresetManifestEntry = {
@@ -117,6 +118,9 @@ export const PRESET_MANIFEST: PresetManifestEntry[] = [
         sourceConfigNames: ['nelsonlaidev/javascript/rules'],
         filesExpression: '[GLOB_SRC]',
         pluginsExpression: "['eslint']",
+        augmentRuleOptions: {
+          'no-unused-vars': { fix: { imports: 'safe-fix' } },
+        },
       },
     ],
   },
@@ -496,7 +500,15 @@ export function mapToSupportedOxlintRules(
   rules: Record<string, unknown>,
   entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
   supportedRules: RuleLookup,
-  { preserveOffRules = false, dropRuleOptions = [] }: { preserveOffRules?: boolean; dropRuleOptions?: string[] } = {},
+  {
+    preserveOffRules = false,
+    dropRuleOptions = [],
+    augmentRuleOptions = {},
+  }: {
+    preserveOffRules?: boolean
+    dropRuleOptions?: string[]
+    augmentRuleOptions?: Record<string, Record<string, unknown>>
+  } = {},
 ): Record<string, SyncedRuleValue> {
   const dropSet = new Set(dropRuleOptions)
   const syncedRules = new Map<string, SyncedRuleValue>()
@@ -520,7 +532,14 @@ export function mapToSupportedOxlintRules(
       continue
     }
 
-    const finalValue = dropSet.has(oxlintRuleName) && normalizedValue !== 'off' ? 'error' : normalizedValue
+    let finalValue: SyncedRuleValue =
+      dropSet.has(oxlintRuleName) && normalizedValue !== 'off' ? 'error' : normalizedValue
+
+    const augment = augmentRuleOptions[oxlintRuleName]
+    if (augment && finalValue !== 'off') {
+      const existingOptions = Array.isArray(finalValue) ? finalValue.slice(1) : []
+      finalValue = ['error', ...existingOptions, augment]
+    }
 
     syncedRules.set(oxlintRuleName, finalValue)
   }
@@ -652,6 +671,7 @@ export async function generatePresetContent(entry: PresetManifestEntry, supporte
     const syncedRules = mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
       preserveOffRules: group.preserveOffRules,
       dropRuleOptions: group.dropRuleOptions,
+      augmentRuleOptions: group.augmentRuleOptions,
     })
     return renderOverride(group, syncedRules)
   })
@@ -873,6 +893,7 @@ async function diffPreset(entry: PresetManifestEntry, supportedRules: RuleLookup
     const syncedRules = mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
       preserveOffRules: group.preserveOffRules,
       dropRuleOptions: group.dropRuleOptions,
+      augmentRuleOptions: group.augmentRuleOptions,
     })
 
     const targetRules = normalizeRules(targetOverrides[groupIndex]?.rules ?? {})
