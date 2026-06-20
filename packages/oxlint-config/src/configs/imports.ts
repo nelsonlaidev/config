@@ -15,6 +15,12 @@ export const imports = (): OxlintOverride[] => [
       'import/export': 'error',
       'import/first': 'error',
       'import/namespace': 'error',
+      'import/newline-after-import': [
+        'error',
+        {
+          count: 1,
+        },
+      ],
       'import/no-absolute-path': 'error',
       'import/no-amd': 'error',
       'import/no-anonymous-default-export': 'error',

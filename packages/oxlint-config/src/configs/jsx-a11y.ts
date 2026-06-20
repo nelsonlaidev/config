@@ -31,6 +31,12 @@ export const jsxA11y = (): OxlintOverride[] => [
       'jsx-a11y/html-has-lang': 'error',
       'jsx-a11y/iframe-has-title': 'error',
       'jsx-a11y/img-redundant-alt': 'error',
+      'jsx-a11y/interactive-supports-focus': [
+        'error',
+        {
+          tabbable: ['button', 'checkbox', 'link', 'searchbox', 'spinbutton', 'switch', 'textbox'],
+        },
+      ],
       'jsx-a11y/label-has-associated-control': 'error',
       'jsx-a11y/lang': 'error',
       'jsx-a11y/media-has-caption': 'error',
@@ -39,6 +45,35 @@ export const jsxA11y = (): OxlintOverride[] => [
       'jsx-a11y/no-aria-hidden-on-focusable': 'error',
       'jsx-a11y/no-autofocus': 'error',
       'jsx-a11y/no-distracting-elements': 'error',
+      'jsx-a11y/no-interactive-element-to-noninteractive-role': [
+        'error',
+        {
+          tr: ['none', 'presentation'],
+          canvas: ['img'],
+        },
+      ],
+      'jsx-a11y/no-noninteractive-element-interactions': [
+        'error',
+        {
+          handlers: ['onClick', 'onError', 'onLoad', 'onMouseDown', 'onMouseUp', 'onKeyPress', 'onKeyDown', 'onKeyUp'],
+          alert: ['onKeyUp', 'onKeyDown', 'onKeyPress'],
+          body: ['onError', 'onLoad'],
+          dialog: ['onKeyUp', 'onKeyDown', 'onKeyPress'],
+          iframe: ['onError', 'onLoad'],
+          img: ['onError', 'onLoad'],
+        },
+      ],
+      'jsx-a11y/no-noninteractive-element-to-interactive-role': [
+        'error',
+        {
+          ul: ['listbox', 'menu', 'menubar', 'radiogroup', 'tablist', 'tree', 'treegrid'],
+          ol: ['listbox', 'menu', 'menubar', 'radiogroup', 'tablist', 'tree', 'treegrid'],
+          li: ['menuitem', 'menuitemradio', 'menuitemcheckbox', 'option', 'row', 'tab', 'treeitem'],
+          table: ['grid'],
+          td: ['gridcell'],
+          fieldset: ['radiogroup', 'presentation'],
+        },
+      ],
       'jsx-a11y/no-noninteractive-tabindex': [
         'error',
         {
