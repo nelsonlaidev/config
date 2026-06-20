@@ -227,13 +227,12 @@ export const PRESET_MANIFEST: PresetManifestEntry[] = [
     functionSignature: '(config: VitestConfig): OxlintOverride[]',
     imports: ["import type { OxlintOverride } from 'oxlint'", "import type { VitestConfig } from '../types/vitest'"],
     oxlintScope: 'vitest',
-    oxlintFallbackScopes: ['jest'],
     remapRuleName: identityRemapper,
     groups: [
       {
         sourceConfigNames: ['nelsonlaidev/vitest/rules'],
         filesExpression: 'config.files',
-        pluginsExpression: "['vitest', 'jest']",
+        pluginsExpression: "['vitest']",
       },
     ],
   },
