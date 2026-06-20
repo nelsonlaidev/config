@@ -824,7 +824,14 @@ async function updateReadmeReport(supportedRules: RuleLookup) {
 
   const updated = current.slice(0, startIndex) + content + current.slice(endIndex + endMarker.length)
 
-  writeFileSync(readmePath, updated)
+  const prettierConfig = (await resolveConfig(readmePath)) ?? {}
+  const formatted = await format(updated, {
+    ...prettierConfig,
+    filepath: readmePath,
+    parser: 'markdown',
+  })
+
+  writeFileSync(readmePath, formatted)
   console.log(`Updated ${path.relative(ROOT_DIR, readmePath)}`)
 }
 

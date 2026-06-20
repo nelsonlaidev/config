@@ -102,14 +102,14 @@ These use `jsPlugins` and are checked for consistency via `sync:check`.
 
 ### Unscanned ESLint plugins
 
-| Config              | Reason                                                  |
-| ------------------- | ------------------------------------------------------- |
-| `command.ts`        | Codemod for ESLint only, cannot be migrated             |
-| `comments.ts`       | Plugin that comments out eslint-disable directives      |
-| `gitignore.ts`      | File-based ignores, handled by Oxlint config            |
-| `ignores.ts`        | File ignore patterns                                    |
-| `import-sort.ts`    | Replaced by Oxlint built-in `import/sort`               |
-| `prettier.ts`       | Formatting concern, handled by oxfmt                    |
-| `unused-imports.ts` | Requires type information, `jsPlugins` does not support |
+| Config              | Reason                                                          |
+| ------------------- | --------------------------------------------------------------- |
+| `command.ts`        | Codemod for ESLint only, cannot be migrated                     |
+| `comments.ts`       | Plugin that comments out eslint-disable directives              |
+| `gitignore.ts`      | File-based ignores, handled by Oxlint config                    |
+| `ignores.ts`        | File ignore patterns                                            |
+| `import-sort.ts`    | Replaced by Oxlint built-in `import/sort`                       |
+| `prettier.ts`       | Formatting concern, handled by oxfmt                            |
+| `unused-imports.ts` | Replaced by Oxlint built-in `no-unused-vars` with `fix.imports` |
 
 <!-- sync:report-end -->
