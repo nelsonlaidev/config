@@ -43,6 +43,7 @@ type PresetManifestEntry = {
   sourceArgs?: unknown[]
   targetFilePath: string
   targetExportName: string
+  targetArgs?: unknown[]
   functionSignature: string
   imports: string[]
   oxlintScope: string
@@ -51,34 +52,38 @@ type PresetManifestEntry = {
   groups: RuleGroupManifest[]
 }
 
-type RuleComparisonGroupManifest = {
-  sourceConfigNames: string[]
-  preserveOffRules?: boolean
-}
-
-type JsPluginComparisonManifestEntry = {
+type DiffOnlyManifestEntry = {
   id: string
   sourceModulePath: string
   sourceExportName: string
   sourceArgs?: unknown[]
-  targetModulePath?: string
-  targetExportName?: string
+  targetFilePath: string
+  targetExportName: string
   targetArgs?: unknown[]
   remapRuleName: (ruleName: string) => string | null
-  groups: RuleComparisonGroupManifest[]
-}
-
-type UnsupportedRule = {
-  presetId: string
-  sourceConfigNames: string[]
-  eslintRuleName: string
-  oxlintRuleName: string
+  groups: Array<Pick<RuleGroupManifest, 'sourceConfigNames'>>
 }
 
 type SyncResult = {
   staleFilePaths: string[]
-  unsupportedRules: UnsupportedRule[]
   updatedFilePaths: string[]
+}
+
+type MigrationGap = {
+  ruleName: string
+  reason: 'off' | 'not_remapped' | 'not_supported'
+}
+
+type MigrationGroupReport = {
+  sourceConfigNames: string[]
+  total: number
+  synced: number
+  unsupported: MigrationGap[]
+}
+
+type MigrationPresetReport = {
+  id: string
+  groups: MigrationGroupReport[]
 }
 
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -93,20 +98,6 @@ function identityRemapper(ruleName: string) {
 
 function createPrefixRemapper(from: string, to: string) {
   return (ruleName: string) => (ruleName.startsWith(from) ? `${to}${ruleName.slice(from.length)}` : null)
-}
-
-function createCompositeRemapper(...remappers: Array<(ruleName: string) => string | null>) {
-  return (ruleName: string) => {
-    for (const remapper of remappers) {
-      const remappedRuleName = remapper(ruleName)
-
-      if (remappedRuleName) {
-        return remappedRuleName
-      }
-    }
-
-    return null
-  }
 }
 
 export const PRESET_MANIFEST: PresetManifestEntry[] = [
@@ -224,6 +215,7 @@ export const PRESET_MANIFEST: PresetManifestEntry[] = [
     sourceArgs: [{ files: ['__SYNC_PLACEHOLDER__'] }],
     targetFilePath: 'packages/oxlint-config/src/configs/vitest.ts',
     targetExportName: 'vitest',
+    targetArgs: [{ files: ['**/*.test.ts'] }],
     functionSignature: '(config: VitestConfig): OxlintOverride[]',
     imports: ["import type { OxlintOverride } from 'oxlint'", "import type { VitestConfig } from '../types/vitest'"],
     oxlintScope: 'vitest',
@@ -310,107 +302,92 @@ export const PRESET_MANIFEST: PresetManifestEntry[] = [
   },
 ]
 
-export const JS_PLUGIN_COMPARISON_MANIFEST: JsPluginComparisonManifestEntry[] = [
-  {
-    id: 'de-morgan',
-    sourceModulePath: 'packages/eslint-config/src/configs/de-morgan.ts',
-    sourceExportName: 'deMorgan',
-    targetModulePath: 'packages/oxlint-config/src/configs/de-morgan.ts',
-    targetExportName: 'deMorgan',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/de-morgan/rules'] }],
-  },
-  {
-    id: 'import-sort',
-    sourceModulePath: 'packages/eslint-config/src/configs/import-sort.ts',
-    sourceExportName: 'importSort',
-    targetModulePath: 'packages/oxlint-config/src/configs/import-sort.ts',
-    targetExportName: 'importSort',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/import-sort/rules'] }],
-  },
-  {
-    id: 'nelsonlaidev',
-    sourceModulePath: 'packages/eslint-config/src/configs/nelsonlaidev.ts',
-    sourceExportName: 'nelsonlaidev',
-    targetModulePath: 'packages/oxlint-config/src/configs/nelsonlaidev.ts',
-    targetExportName: 'nelsonlaidev',
-    remapRuleName: createPrefixRemapper('@nelsonlaidev/', 'nelsonlaidev/'),
-    groups: [{ sourceConfigNames: ['nelsonlaidev/nelsonlaidev/rules'] }],
-  },
-  {
-    id: 'playwright',
-    sourceModulePath: 'packages/eslint-config/src/configs/playwright.ts',
-    sourceExportName: 'playwright',
-    sourceArgs: [{ files: ['__SYNC_PLACEHOLDER__'] }],
-    targetModulePath: 'packages/oxlint-config/src/configs/playwright.ts',
-    targetExportName: 'playwright',
-    targetArgs: [{ files: ['__SYNC_PLACEHOLDER__'] }],
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/playwright/rules'] }],
-  },
-  {
-    id: 'react',
-    sourceModulePath: 'packages/eslint-config/src/configs/react.ts',
-    sourceExportName: 'react',
-    targetModulePath: 'packages/oxlint-config/src/configs/react.ts',
-    targetExportName: 'react',
-    remapRuleName: createCompositeRemapper(createPrefixRemapper('react-hooks/', 'react-hooks-js/'), identityRemapper),
-    groups: [{ sourceConfigNames: ['nelsonlaidev/react/rules'] }],
-  },
+export const MANUAL_DIFF_MANIFEST: DiffOnlyManifestEntry[] = [
   {
     id: 'regexp',
     sourceModulePath: 'packages/eslint-config/src/configs/regexp.ts',
     sourceExportName: 'regexp',
-    targetModulePath: 'packages/oxlint-config/src/configs/regexp.ts',
+    targetFilePath: 'packages/oxlint-config/src/configs/regexp.ts',
     targetExportName: 'regexp',
     remapRuleName: identityRemapper,
     groups: [{ sourceConfigNames: ['nelsonlaidev/regexp/rules'] }],
   },
   {
+    id: 'playwright',
+    sourceModulePath: 'packages/eslint-config/src/configs/playwright.ts',
+    sourceExportName: 'playwright',
+    sourceArgs: [{ files: ['__DIFF_PLACEHOLDER__'] }],
+    targetFilePath: 'packages/oxlint-config/src/configs/playwright.ts',
+    targetExportName: 'playwright',
+    targetArgs: [{ files: ['__DIFF_PLACEHOLDER__'] }],
+    remapRuleName: identityRemapper,
+    groups: [{ sourceConfigNames: ['nelsonlaidev/playwright/rules'] }],
+  },
+  {
     id: 'sonarjs',
     sourceModulePath: 'packages/eslint-config/src/configs/sonarjs.ts',
     sourceExportName: 'sonarjs',
-    targetModulePath: 'packages/oxlint-config/src/configs/sonarjs.ts',
+    targetFilePath: 'packages/oxlint-config/src/configs/sonarjs.ts',
     targetExportName: 'sonarjs',
     remapRuleName: identityRemapper,
     groups: [{ sourceConfigNames: ['nelsonlaidev/sonarjs/rules'] }],
   },
   {
+    id: 'zod',
+    sourceModulePath: 'packages/eslint-config/src/configs/zod.ts',
+    sourceExportName: 'zod',
+    targetFilePath: 'packages/oxlint-config/src/configs/zod.ts',
+    targetExportName: 'zod',
+    remapRuleName: identityRemapper,
+    groups: [{ sourceConfigNames: ['nelsonlaidev/zod/rules'] }],
+  },
+  {
     id: 'stylistic',
     sourceModulePath: 'packages/eslint-config/src/configs/stylistic.ts',
     sourceExportName: 'stylistic',
-    targetModulePath: 'packages/oxlint-config/src/configs/stylistic.ts',
+    targetFilePath: 'packages/oxlint-config/src/configs/stylistic.ts',
     targetExportName: 'stylistic',
     remapRuleName: identityRemapper,
     groups: [{ sourceConfigNames: ['nelsonlaidev/stylistic/rules'] }],
+  },
+  {
+    id: 'de-morgan',
+    sourceModulePath: 'packages/eslint-config/src/configs/de-morgan.ts',
+    sourceExportName: 'deMorgan',
+    targetFilePath: 'packages/oxlint-config/src/configs/de-morgan.ts',
+    targetExportName: 'deMorgan',
+    remapRuleName: identityRemapper,
+    groups: [{ sourceConfigNames: ['nelsonlaidev/de-morgan/rules'] }],
   },
   {
     id: 'tailwindcss',
     sourceModulePath: 'packages/eslint-config/src/configs/tailwindcss.ts',
     sourceExportName: 'tailwindcss',
     sourceArgs: [{}],
-    targetModulePath: 'packages/oxlint-config/src/configs/tailwindcss.ts',
+    targetFilePath: 'packages/oxlint-config/src/configs/tailwindcss.ts',
     targetExportName: 'tailwindcss',
     targetArgs: [{}],
     remapRuleName: identityRemapper,
     groups: [{ sourceConfigNames: ['nelsonlaidev/tailwindcss/rules'] }],
   },
   {
-    id: 'unused-imports',
-    sourceModulePath: 'packages/eslint-config/src/configs/unused-imports.ts',
-    sourceExportName: 'unusedImports',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/unused-imports/rules'] }],
+    id: 'react',
+    sourceModulePath: 'packages/eslint-config/src/configs/react.ts',
+    sourceExportName: 'react',
+    targetFilePath: 'packages/oxlint-config/src/configs/react.ts',
+    targetExportName: 'react',
+    remapRuleName: (ruleName) =>
+      ruleName.startsWith('react-hooks/') ? `react-hooks-js/${ruleName.slice('react-hooks/'.length)}` : ruleName,
+    groups: [{ sourceConfigNames: ['nelsonlaidev/react/rules'] }],
   },
   {
-    id: 'zod',
-    sourceModulePath: 'packages/eslint-config/src/configs/zod.ts',
-    sourceExportName: 'zod',
-    targetModulePath: 'packages/oxlint-config/src/configs/zod.ts',
-    targetExportName: 'zod',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/zod/rules'] }],
+    id: 'nelsonlaidev',
+    sourceModulePath: 'packages/eslint-config/src/configs/nelsonlaidev.ts',
+    sourceExportName: 'nelsonlaidev',
+    targetFilePath: 'packages/oxlint-config/src/configs/nelsonlaidev.ts',
+    targetExportName: 'nelsonlaidev',
+    remapRuleName: createPrefixRemapper('@nelsonlaidev/', 'nelsonlaidev/'),
+    groups: [{ sourceConfigNames: ['nelsonlaidev/nelsonlaidev/rules'] }],
   },
 ]
 
@@ -451,6 +428,14 @@ export function normalizeRuleValue(rawValue: unknown): SyncedRuleValue {
   return normalizeSeverity(rawValue)
 }
 
+function normalizeRules(rules: Record<string, unknown>): Record<string, SyncedRuleValue> {
+  const result: Record<string, SyncedRuleValue> = {}
+  for (const [key, value] of Object.entries(rules)) {
+    result[key] = normalizeRuleValue(value)
+  }
+  return result
+}
+
 function normalizeSeverity(level: unknown): 'error' | 'off' {
   if (level === 'off' || level === 0) {
     return 'off'
@@ -467,32 +452,16 @@ function resolveFromRoot(filePath: string) {
   return path.join(ROOT_DIR, filePath)
 }
 
-async function loadConfigFactoryOutputs({
-  args = [],
-  exportName,
-  modulePath,
-}: {
-  args?: unknown[]
-  exportName: string
-  modulePath: string
-}): Promise<EslintFlatConfig[]> {
-  const moduleUrl = pathToFileURL(resolveFromRoot(modulePath)).href
+async function loadSourceConfigs(entry: PresetManifestEntry): Promise<EslintFlatConfig[]> {
+  const moduleUrl = pathToFileURL(resolveFromRoot(entry.sourceModulePath)).href
   const sourceModule = (await import(moduleUrl)) as Record<string, (...args: unknown[]) => EslintFlatConfig[]>
-  const sourceFactory = sourceModule[exportName]
+  const sourceFactory = sourceModule[entry.sourceExportName]
 
   if (typeof sourceFactory !== 'function') {
-    throw new TypeError(`Missing export "${exportName}" in ${modulePath}`)
+    throw new TypeError(`Missing source export "${entry.sourceExportName}" in ${entry.sourceModulePath}`)
   }
 
-  return sourceFactory(...args)
-}
-
-async function loadSourceConfigs(entry: PresetManifestEntry): Promise<EslintFlatConfig[]> {
-  return loadConfigFactoryOutputs({
-    args: entry.sourceArgs,
-    exportName: entry.sourceExportName,
-    modulePath: entry.sourceModulePath,
-  })
+  return sourceFactory(...(entry.sourceArgs ?? []))
 }
 
 function getConfigByName(configs: EslintFlatConfig[], configName: string): EslintFlatConfig {
@@ -516,27 +485,6 @@ export function collectRulesForGroup(configs: EslintFlatConfig[], group: RuleGro
   return collectedRules
 }
 
-function collectRulesForConfigNames(configs: EslintFlatConfig[], configNames: string[]): Record<string, unknown> {
-  const collectedRules: Record<string, unknown> = {}
-
-  for (const configName of configNames) {
-    const config = getConfigByName(configs, configName)
-    Object.assign(collectedRules, config.rules)
-  }
-
-  return collectedRules
-}
-
-function collectRules(configs: EslintFlatConfig[]): Record<string, unknown> {
-  const collectedRules: Record<string, unknown> = {}
-
-  for (const config of configs) {
-    Object.assign(collectedRules, config.rules)
-  }
-
-  return collectedRules
-}
-
 function getScopedRuleValue(ruleName: string) {
   const slashIndex = ruleName.indexOf('/')
   return slashIndex === -1 ? ruleName : ruleName.slice(slashIndex + 1)
@@ -546,13 +494,7 @@ export function mapToSupportedOxlintRules(
   rules: Record<string, unknown>,
   entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
   supportedRules: RuleLookup,
-  {
-    onUnsupportedRule,
-    preserveOffRules = false,
-  }: {
-    onUnsupportedRule?: (rule: { eslintRuleName: string; oxlintRuleName: string }) => void
-    preserveOffRules?: boolean
-  } = {},
+  { preserveOffRules = false }: { preserveOffRules?: boolean } = {},
 ): Record<string, SyncedRuleValue> {
   const syncedRules = new Map<string, SyncedRuleValue>()
 
@@ -572,7 +514,6 @@ export function mapToSupportedOxlintRules(
     const oxlintRuleName = resolveSupportedOxlintRuleName(remappedRuleName, entry, supportedRules)
 
     if (!oxlintRuleName) {
-      onUnsupportedRule?.({ eslintRuleName, oxlintRuleName: remappedRuleName })
       continue
     }
 
@@ -585,6 +526,42 @@ export function mapToSupportedOxlintRules(
       .toArray()
       .toSorted(([left], [right]) => left.localeCompare(right)),
   )
+}
+
+export function analyzeGroupMigration(
+  rules: Record<string, unknown>,
+  entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
+  supportedRules: RuleLookup,
+  { preserveOffRules = false }: { preserveOffRules?: boolean } = {},
+): { synced: string[]; unsupported: MigrationGap[] } {
+  const synced: string[] = []
+  const unsupported: MigrationGap[] = []
+
+  for (const [eslintRuleName, rawValue] of Object.entries(rules)) {
+    const normalizedValue = normalizeRuleValue(rawValue)
+
+    if (normalizedValue === 'off' && !preserveOffRules) {
+      continue
+    }
+
+    const remappedRuleName = entry.remapRuleName(eslintRuleName)
+
+    if (!remappedRuleName) {
+      unsupported.push({ ruleName: eslintRuleName, reason: 'not_remapped' })
+      continue
+    }
+
+    const oxlintRuleName = resolveSupportedOxlintRuleName(remappedRuleName, entry, supportedRules)
+
+    if (!oxlintRuleName) {
+      unsupported.push({ ruleName: eslintRuleName, reason: 'not_supported' })
+      continue
+    }
+
+    synced.push(oxlintRuleName)
+  }
+
+  return { synced, unsupported }
 }
 
 function resolveSupportedOxlintRuleName(
@@ -687,111 +664,6 @@ export async function generatePresetContent(entry: PresetManifestEntry, supporte
   return formatGeneratedSource(source, entry.targetFilePath)
 }
 
-export async function collectUnsupportedRules(supportedRules: RuleLookup): Promise<UnsupportedRule[]> {
-  const [presetUnsupportedRules, jsPluginUnsupportedRules] = await Promise.all([
-    collectUnsupportedPresetRules(supportedRules),
-    collectUnsupportedJsPluginRules(),
-  ])
-
-  return [...presetUnsupportedRules, ...jsPluginUnsupportedRules].toSorted((left, right) => {
-    const presetOrder = left.presetId.localeCompare(right.presetId)
-
-    if (presetOrder !== 0) {
-      return presetOrder
-    }
-
-    return left.oxlintRuleName.localeCompare(right.oxlintRuleName)
-  })
-}
-
-async function collectUnsupportedPresetRules(supportedRules: RuleLookup): Promise<UnsupportedRule[]> {
-  const unsupportedRules: UnsupportedRule[] = []
-
-  await Promise.all(
-    PRESET_MANIFEST.map(async (entry) => {
-      const sourceConfigs = await loadSourceConfigs(entry)
-
-      for (const group of entry.groups) {
-        const eslintRules = collectRulesForGroup(sourceConfigs, group)
-
-        mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
-          onUnsupportedRule: ({ eslintRuleName, oxlintRuleName }) => {
-            unsupportedRules.push({
-              presetId: entry.id,
-              sourceConfigNames: group.sourceConfigNames,
-              eslintRuleName,
-              oxlintRuleName,
-            })
-          },
-          preserveOffRules: group.preserveOffRules,
-        })
-      }
-    }),
-  )
-
-  return unsupportedRules
-}
-
-async function collectUnsupportedJsPluginRules(): Promise<UnsupportedRule[]> {
-  const unsupportedRules: UnsupportedRule[] = []
-
-  await Promise.all(
-    JS_PLUGIN_COMPARISON_MANIFEST.map(async (entry) => {
-      const [sourceConfigs, targetConfigs] = await Promise.all([
-        loadConfigFactoryOutputs({
-          args: entry.sourceArgs,
-          exportName: entry.sourceExportName,
-          modulePath: entry.sourceModulePath,
-        }),
-        entry.targetModulePath && entry.targetExportName
-          ? loadConfigFactoryOutputs({
-              args: entry.targetArgs,
-              exportName: entry.targetExportName,
-              modulePath: entry.targetModulePath,
-            })
-          : Promise.resolve([]),
-      ])
-      const targetRules = collectRules(targetConfigs)
-
-      for (const group of entry.groups) {
-        const sourceRules = collectRulesForConfigNames(sourceConfigs, group.sourceConfigNames)
-        collectUnsupportedRulesForComparison(sourceRules, entry, targetRules, group, unsupportedRules)
-      }
-    }),
-  )
-
-  return unsupportedRules
-}
-
-function collectUnsupportedRulesForComparison(
-  rules: Record<string, unknown>,
-  entry: Pick<JsPluginComparisonManifestEntry, 'id' | 'remapRuleName'>,
-  targetRules: Record<string, unknown>,
-  group: RuleComparisonGroupManifest,
-  unsupportedRules: UnsupportedRule[],
-) {
-  for (const [eslintRuleName, rawValue] of Object.entries(rules)) {
-    const normalizedValue = normalizeRuleValue(rawValue)
-
-    if (normalizedValue === 'off' && !group.preserveOffRules) {
-      continue
-    }
-
-    const oxlintRuleName = entry.remapRuleName(eslintRuleName)
-
-    if (!oxlintRuleName || Object.hasOwn(targetRules, oxlintRuleName)) {
-      continue
-    }
-
-    unsupportedRules.push({
-      presetId: entry.id,
-      sourceConfigNames: group.sourceConfigNames,
-      eslintRuleName,
-      oxlintRuleName,
-    })
-  }
-}
-
 export async function generatePresetOutputs(supportedRules: RuleLookup) {
   return Promise.all(
     PRESET_MANIFEST.map(async (entry) => ({
@@ -803,10 +675,7 @@ export async function generatePresetOutputs(supportedRules: RuleLookup) {
 
 export async function syncOxlintEslint({ check = false }: { check?: boolean } = {}): Promise<SyncResult> {
   const supportedRules = buildSupportedRuleLookup(readRulesFromCommand())
-  const [presetOutputs, unsupportedRules] = await Promise.all([
-    generatePresetOutputs(supportedRules),
-    collectUnsupportedRules(supportedRules),
-  ])
+  const presetOutputs = await generatePresetOutputs(supportedRules)
 
   const staleFilePaths: string[] = []
   const updatedFilePaths: string[] = []
@@ -827,41 +696,325 @@ export async function syncOxlintEslint({ check = false }: { check?: boolean } = 
     }
   }
 
-  return { staleFilePaths, unsupportedRules, updatedFilePaths }
+  return { staleFilePaths, updatedFilePaths }
 }
 
-function logUnsupportedRuleSummary(unsupportedRules: UnsupportedRule[]) {
-  if (unsupportedRules.length === 0) {
-    console.log('All configured ESLint rules are currently supported by Oxlint.')
-    return
-  }
+export async function generateMigrationReport(supportedRules: RuleLookup): Promise<MigrationPresetReport[]> {
+  const allSourceConfigs = await Promise.all(PRESET_MANIFEST.map(async (entry) => loadSourceConfigs(entry)))
 
-  console.log(`Oxlint does not currently support ${unsupportedRules.length} configured ESLint rule(s).`)
+  return PRESET_MANIFEST.map((entry, index) => {
+    const sourceConfigs = allSourceConfigs[index]
+    if (!sourceConfigs) {
+      throw new Error(`Missing source configs for preset "${entry.id}"`)
+    }
+    const groupReports: MigrationGroupReport[] = entry.groups.map((group) => {
+      const eslintRules = collectRulesForGroup(sourceConfigs, group)
+      const { synced, unsupported } = analyzeGroupMigration(eslintRules, entry, supportedRules, {
+        preserveOffRules: group.preserveOffRules,
+      })
 
-  const unsupportedCountByPresetId = Map.groupBy(unsupportedRules, (rule) => rule.presetId)
+      return {
+        sourceConfigNames: group.sourceConfigNames,
+        total: synced.length + unsupported.length,
+        synced: synced.length,
+        unsupported,
+      }
+    })
 
-  for (const [presetId, rules] of unsupportedCountByPresetId
-    .entries()
-    .toArray()
-    .toSorted(([left], [right]) => left.localeCompare(right))) {
-    console.log(`- ${presetId}: ${rules.length}`)
+    return { id: entry.id, groups: groupReports }
+  })
+}
 
-    for (const rule of rules) {
-      const ruleName =
-        rule.eslintRuleName === rule.oxlintRuleName
-          ? rule.eslintRuleName
-          : `${rule.eslintRuleName} -> ${rule.oxlintRuleName}`
+export function printMigrationReport(reports: MigrationPresetReport[]) {
+  const notSupportedByGroup: Array<{ preset: string; rules: string[] }> = []
 
-      console.log(`  - ${ruleName}`)
+  for (const preset of reports) {
+    for (const group of preset.groups) {
+      const unsupported = group.unsupported.filter((g) => g.reason === 'not_supported')
+      const pct = group.total > 0 ? ((group.synced / group.total) * 100).toFixed(1) : '0.0'
+      const label = group.sourceConfigNames.join('+')
+
+      console.log(`${preset.id}/${label}: ${group.synced}/${group.total} (${pct}%) synced`)
+
+      if (unsupported.length > 0) {
+        const ruleNames = unsupported.map((g) => g.ruleName)
+        console.log(`  unsupported: ${ruleNames.join(', ')}`)
+        notSupportedByGroup.push({ preset: preset.id, rules: ruleNames })
+      }
     }
   }
+
+  if (notSupportedByGroup.length > 0) {
+    const totalUnsupported = notSupportedByGroup.reduce((sum, g) => sum + g.rules.length, 0)
+    console.log(`\n${totalUnsupported} unsupported rule(s) across ${notSupportedByGroup.length} group(s).`)
+  } else {
+    console.log('\nAll rules are supported by oxlint.')
+  }
+}
+
+const UNSCANNED_PLUGIN_TABLE = [
+  '| Config | Reason |',
+  '|--------|--------|',
+  '| `command.ts` | Codemod for ESLint only, cannot be migrated |',
+  '| `comments.ts` | Plugin that comments out eslint-disable directives |',
+  '| `gitignore.ts` | File-based ignores, handled by Oxlint config |',
+  '| `ignores.ts` | File ignore patterns |',
+  '| `import-sort.ts` | Replaced by Oxlint built-in `import/sort` |',
+  '| `prettier.ts` | Formatting concern, handled by oxfmt |',
+  '| `unused-imports.ts` | Requires type information, `jsPlugins` does not support |',
+].join('\n')
+
+function formatMigrationTable(reports: MigrationPresetReport[]): string {
+  const lines = ['| Preset | Synced | Total | Coverage |', '|--------|--------|-------|----------|']
+
+  for (const preset of reports) {
+    for (const group of preset.groups) {
+      const pct = group.total > 0 ? ((group.synced / group.total) * 100).toFixed(1) : '0.0'
+      const raw = group.sourceConfigNames[0] ?? ''
+      const label = `${preset.id}/${raw.split('/').slice(1).join('/')}`
+
+      lines.push(`| \`${label}\` | ${group.synced} | ${group.total} | ${pct}% |`)
+    }
+  }
+
+  return lines.join('\n')
+}
+
+async function updateReadmeReport(supportedRules: RuleLookup) {
+  const reports = await generateMigrationReport(supportedRules)
+  const table = formatMigrationTable(reports)
+  const readmePath = resolveFromRoot('packages/oxlint-config/README.md')
+  const current = readFileSync(readmePath, 'utf-8')
+
+  const startMarker = '<!-- sync:report-start -->'
+  const endMarker = '<!-- sync:report-end -->'
+
+  const startIndex = current.indexOf(startMarker)
+  const endIndex = current.indexOf(endMarker)
+
+  if (startIndex === -1 || endIndex === -1) {
+    throw new Error(`Missing report markers (${startMarker} / ${endMarker}) in ${readmePath}`)
+  }
+
+  const content = [
+    startMarker,
+    '',
+    '### Synced (auto-generated)',
+    '',
+    table,
+    '',
+    '### Manually maintained (diff-only)',
+    '',
+    'These use `jsPlugins` and are checked for consistency via `sync:check`.',
+    '',
+    MANUAL_DIFF_MANIFEST.map((e) => `- \`${e.id}\``).join('\n'),
+    '',
+    '### Unscanned ESLint plugins',
+    '',
+    UNSCANNED_PLUGIN_TABLE,
+    '',
+    endMarker,
+  ].join('\n')
+
+  const updated = current.slice(0, startIndex) + content + current.slice(endIndex + endMarker.length)
+
+  writeFileSync(readmePath, updated)
+  console.log(`Updated ${path.relative(ROOT_DIR, readmePath)}`)
+}
+
+type OverrideLike = {
+  files?: unknown
+  plugins?: unknown
+  jsPlugins?: unknown
+  rules?: Record<string, unknown>
+}
+
+async function loadTargetOverrides(entry: PresetManifestEntry): Promise<OverrideLike[]> {
+  const moduleUrl = `${pathToFileURL(resolveFromRoot(entry.targetFilePath)).href}?t=${Date.now()}`
+  const targetModule = (await import(moduleUrl)) as Record<string, (...args: unknown[]) => unknown[]>
+  const factory = targetModule[entry.targetExportName]
+
+  if (typeof factory !== 'function') {
+    throw new TypeError(`Missing target export "${entry.targetExportName}" in ${entry.targetFilePath}`)
+  }
+
+  return factory(...(entry.targetArgs ?? [])) as OverrideLike[]
+}
+
+type DiffGroupResult = {
+  groupLabel: string
+  added: string[]
+  removed: string[]
+  changed: string[]
+}
+
+async function diffPreset(entry: PresetManifestEntry, supportedRules: RuleLookup): Promise<DiffGroupResult[]> {
+  const sourceConfigs = await loadSourceConfigs(entry)
+  const targetOverrides = await loadTargetOverrides(entry)
+  const results: DiffGroupResult[] = []
+
+  let groupIndex = 0
+
+  for (const group of entry.groups) {
+    const eslintRules = collectRulesForGroup(sourceConfigs, group)
+    const syncedRules = mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
+      preserveOffRules: group.preserveOffRules,
+    })
+
+    const targetRules = normalizeRules(targetOverrides[groupIndex]?.rules ?? {})
+
+    const allKeys = new Set([...Object.keys(syncedRules), ...Object.keys(targetRules)])
+    const added: string[] = []
+    const removed: string[] = []
+    const changed: string[] = []
+
+    for (const key of allKeys) {
+      const synced = JSON.stringify(syncedRules[key])
+      const target = JSON.stringify(targetRules[key])
+
+      if (synced === target) continue
+
+      if (key in targetRules && key in syncedRules) {
+        changed.push(key)
+      } else if (key in targetRules) {
+        removed.push(key)
+      } else {
+        added.push(key)
+      }
+    }
+
+    results.push({
+      groupLabel: group.sourceConfigNames.join('+'),
+      added,
+      removed,
+      changed,
+    })
+
+    groupIndex += 1
+  }
+
+  return results
+}
+
+async function diffManualEntry(entry: DiffOnlyManifestEntry): Promise<DiffGroupResult[]> {
+  const sourceConfigs = await loadSourceConfigs(entry as unknown as PresetManifestEntry)
+  const targetOverrides = await loadTargetOverrides(entry as unknown as PresetManifestEntry)
+  const results: DiffGroupResult[] = []
+  let groupIndex = 0
+
+  for (const group of entry.groups) {
+    const eslintRules = collectRulesForGroup(sourceConfigs, group as RuleGroupManifest)
+
+    const sourceRules: Record<string, unknown> = {}
+    for (const [ruleName, value] of Object.entries(eslintRules)) {
+      const remapped = entry.remapRuleName(ruleName)
+      if (!remapped) continue
+      sourceRules[remapped] = normalizeRuleValue(value)
+    }
+
+    const targetRules = normalizeRules(targetOverrides[groupIndex]?.rules ?? {})
+
+    const allKeys = new Set([...Object.keys(sourceRules), ...Object.keys(targetRules)])
+    const added: string[] = []
+    const removed: string[] = []
+    const changed: string[] = []
+
+    for (const key of allKeys) {
+      const source = JSON.stringify(sourceRules[key])
+      const target = JSON.stringify(targetRules[key])
+
+      if (source === target) continue
+
+      if (key in targetRules && key in sourceRules) {
+        changed.push(key)
+      } else if (key in targetRules) {
+        removed.push(key)
+      } else {
+        added.push(key)
+      }
+    }
+
+    results.push({
+      groupLabel: group.sourceConfigNames.join('+'),
+      added,
+      removed,
+      changed,
+    })
+
+    groupIndex += 1
+  }
+
+  return results
+}
+
+function printDiffReport(allResults: Array<{ id: string; groups: DiffGroupResult[] }>): boolean {
+  let hasDiff = false
+
+  for (const { id, groups } of allResults) {
+    for (const group of groups) {
+      if (group.added.length === 0 && group.removed.length === 0 && group.changed.length === 0) {
+        console.log(`${id}/${group.groupLabel}: in sync`)
+        continue
+      }
+
+      hasDiff = true
+      console.log(`${id}/${group.groupLabel}:`)
+      for (const r of group.added) {
+        console.log(`  + ${r}`)
+      }
+      for (const r of group.removed) {
+        console.log(`  - ${r}`)
+      }
+      for (const r of group.changed) {
+        console.log(`  ~ ${r}`)
+      }
+    }
+  }
+
+  if (!hasDiff) {
+    console.log('All configs are in sync.')
+  }
+
+  return hasDiff
 }
 
 async function main() {
+  const report = process.argv.includes('--report')
+  const diff = process.argv.includes('--diff')
   const check = process.argv.includes('--check')
-  const result = await syncOxlintEslint({ check })
 
-  logUnsupportedRuleSummary(result.unsupportedRules)
+  if (report) {
+    const supportedRules = buildSupportedRuleLookup(readRulesFromCommand())
+    const reports = await generateMigrationReport(supportedRules)
+    printMigrationReport(reports)
+
+    if (process.argv.includes('--write')) {
+      await updateReadmeReport(supportedRules)
+    }
+
+    return
+  }
+
+  if (diff) {
+    const supportedRules = buildSupportedRuleLookup(readRulesFromCommand())
+    const autoResults = await Promise.all(
+      PRESET_MANIFEST.map(async (entry) => ({
+        id: entry.id,
+        groups: await diffPreset(entry, supportedRules),
+      })),
+    )
+    const manualResults = await Promise.all(
+      MANUAL_DIFF_MANIFEST.map(async (entry) => ({
+        id: entry.id,
+        groups: await diffManualEntry(entry),
+      })),
+    )
+    const hasDiff = printDiffReport([...autoResults, ...manualResults])
+    if (hasDiff) process.exitCode = 1
+    return
+  }
+
+  const result = await syncOxlintEslint({ check })
 
   if (check && result.staleFilePaths.length > 0) {
     console.error('Oxlint preset files are out of sync:')
