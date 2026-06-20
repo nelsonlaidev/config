@@ -29,6 +29,8 @@ export default defineConfig({
 
 This package follows `eslint-config` as the source of truth. When a rule is enabled there, we enable the corresponding Oxlint rule here when Oxlint supports it.
 
+`unused-imports` is intentionally not included. Oxlint's built-in `no-unused-vars` rule with `fix.imports: "safe-fix"` accomplishes the same goal natively.
+
 If you are using pnpm, add the following to your `.npmrc` to hoist ESLint plugin dependencies so the Oxlint can resolve them:
 
 ```ini

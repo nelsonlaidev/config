@@ -767,7 +767,7 @@ const UNSCANNED_PLUGIN_TABLE = [
   '| `ignores.ts` | File ignore patterns |',
   '| `import-sort.ts` | Replaced by Oxlint built-in `import/sort` |',
   '| `prettier.ts` | Formatting concern, handled by oxfmt |',
-  '| `unused-imports.ts` | Requires type information, `jsPlugins` does not support |',
+  '  | `unused-imports.ts` | Replaced by Oxlint built-in `no-unused-vars` with `fix.imports` |',
 ].join('\n')
 
 function formatMigrationTable(reports: MigrationPresetReport[]): string {
