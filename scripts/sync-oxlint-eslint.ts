@@ -34,6 +34,7 @@ type RuleGroupManifest = {
   pluginsExpression: string
   commentByRuleName?: Record<string, string[]>
   preserveOffRules?: boolean
+  dropRuleOptions?: string[]
 }
 
 type PresetManifestEntry = {
@@ -243,6 +244,7 @@ export const PRESET_MANIFEST: PresetManifestEntry[] = [
         sourceConfigNames: ['nelsonlaidev/jsx-a11y/rules'],
         filesExpression: '[GLOB_SRC]',
         pluginsExpression: "['jsx-a11y']",
+        dropRuleOptions: ['jsx-a11y/no-noninteractive-element-to-interactive-role'],
       },
     ],
   },
@@ -494,8 +496,9 @@ export function mapToSupportedOxlintRules(
   rules: Record<string, unknown>,
   entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
   supportedRules: RuleLookup,
-  { preserveOffRules = false }: { preserveOffRules?: boolean } = {},
+  { preserveOffRules = false, dropRuleOptions = [] }: { preserveOffRules?: boolean; dropRuleOptions?: string[] } = {},
 ): Record<string, SyncedRuleValue> {
+  const dropSet = new Set(dropRuleOptions)
   const syncedRules = new Map<string, SyncedRuleValue>()
 
   for (const [eslintRuleName, rawValue] of Object.entries(rules)) {
@@ -517,7 +520,9 @@ export function mapToSupportedOxlintRules(
       continue
     }
 
-    syncedRules.set(oxlintRuleName, normalizedValue)
+    const finalValue = dropSet.has(oxlintRuleName) && normalizedValue !== 'off' ? 'error' : normalizedValue
+
+    syncedRules.set(oxlintRuleName, finalValue)
   }
 
   return Object.fromEntries(
@@ -646,6 +651,7 @@ export async function generatePresetContent(entry: PresetManifestEntry, supporte
     const eslintRules = collectRulesForGroup(sourceConfigs, group)
     const syncedRules = mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
       preserveOffRules: group.preserveOffRules,
+      dropRuleOptions: group.dropRuleOptions,
     })
     return renderOverride(group, syncedRules)
   })
@@ -859,6 +865,7 @@ async function diffPreset(entry: PresetManifestEntry, supportedRules: RuleLookup
     const eslintRules = collectRulesForGroup(sourceConfigs, group)
     const syncedRules = mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
       preserveOffRules: group.preserveOffRules,
+      dropRuleOptions: group.dropRuleOptions,
     })
 
     const targetRules = normalizeRules(targetOverrides[groupIndex]?.rules ?? {})
