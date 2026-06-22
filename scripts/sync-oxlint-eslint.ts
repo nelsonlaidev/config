@@ -418,6 +418,25 @@ export function buildSupportedRuleLookup(rules: OxlintRule[]): RuleLookup {
   return lookup
 }
 
+export function buildDefaultEnabledRuleLookup(rules: OxlintRule[]): RuleLookup {
+  const lookup = new Map<string, Set<string>>()
+
+  for (const rule of rules) {
+    if (rule.category !== 'correctness') continue
+
+    const defaultRules = lookup.get(rule.scope) ?? new Set<string>()
+    defaultRules.add(rule.value)
+    lookup.set(rule.scope, defaultRules)
+  }
+
+  return lookup
+}
+
+function scopeToPluginName(scope: string): string {
+  if (scope === 'jsx_a11y') return 'jsx-a11y'
+  return scope
+}
+
 export function normalizeRuleValue(rawValue: unknown): SyncedRuleValue {
   if (Array.isArray(rawValue)) {
     const [level, ...options] = rawValue as readonly unknown[]
@@ -508,6 +527,7 @@ export function mapToSupportedOxlintRules(
     dropRuleOptions?: string[]
     augmentRuleOptions?: Record<string, Record<string, unknown>>
   } = {},
+  defaultEnabledRules?: RuleLookup,
 ): Record<string, SyncedRuleValue> {
   const dropSet = new Set(dropRuleOptions)
   const syncedRules = new Map<string, SyncedRuleValue>()
@@ -541,6 +561,23 @@ export function mapToSupportedOxlintRules(
     }
 
     syncedRules.set(oxlintRuleName, finalValue)
+  }
+
+  if (defaultEnabledRules && !preserveOffRules) {
+    const scopeDefaults = defaultEnabledRules.get(entry.oxlintScope)
+    if (scopeDefaults) {
+      for (const ruleValue of scopeDefaults) {
+        if (!supportedRules.get(entry.oxlintScope)?.has(ruleValue)) continue
+
+        // eslint core rules may use unprefixed names; check both formats
+        const prefixedName = `${scopeToPluginName(entry.oxlintScope)}/${ruleValue}`
+        if (syncedRules.has(prefixedName) || syncedRules.has(ruleValue)) continue
+
+        // eslint core scope uses unprefixed names, other scopes use prefixed
+        const name = entry.oxlintScope === 'eslint' ? ruleValue : prefixedName
+        syncedRules.set(name, 'off')
+      }
+    }
   }
 
   return Object.fromEntries(
@@ -663,15 +700,25 @@ async function formatGeneratedSource(source: string, targetFilePath: string) {
   })
 }
 
-export async function generatePresetContent(entry: PresetManifestEntry, supportedRules: RuleLookup): Promise<string> {
+export async function generatePresetContent(
+  entry: PresetManifestEntry,
+  supportedRules: RuleLookup,
+  defaultEnabledRules?: RuleLookup,
+): Promise<string> {
   const sourceConfigs = await loadSourceConfigs(entry)
   const renderedOverrides = entry.groups.map((group) => {
     const eslintRules = collectRulesForGroup(sourceConfigs, group)
-    const syncedRules = mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
-      preserveOffRules: group.preserveOffRules,
-      dropRuleOptions: group.dropRuleOptions,
-      augmentRuleOptions: group.augmentRuleOptions,
-    })
+    const syncedRules = mapToSupportedOxlintRules(
+      eslintRules,
+      entry,
+      supportedRules,
+      {
+        preserveOffRules: group.preserveOffRules,
+        dropRuleOptions: group.dropRuleOptions,
+        augmentRuleOptions: group.augmentRuleOptions,
+      },
+      defaultEnabledRules,
+    )
     return renderOverride(group, syncedRules)
   })
 
@@ -689,18 +736,20 @@ export async function generatePresetContent(entry: PresetManifestEntry, supporte
   return formatGeneratedSource(source, entry.targetFilePath)
 }
 
-export async function generatePresetOutputs(supportedRules: RuleLookup) {
+export async function generatePresetOutputs(supportedRules: RuleLookup, defaultEnabledRules?: RuleLookup) {
   return Promise.all(
     PRESET_MANIFEST.map(async (entry) => ({
       entry,
-      content: await generatePresetContent(entry, supportedRules),
+      content: await generatePresetContent(entry, supportedRules, defaultEnabledRules),
     })),
   )
 }
 
 export async function syncOxlintEslint({ check = false }: { check?: boolean } = {}): Promise<SyncResult> {
-  const supportedRules = buildSupportedRuleLookup(readRulesFromCommand())
-  const presetOutputs = await generatePresetOutputs(supportedRules)
+  const rules = readRulesFromCommand()
+  const supportedRules = buildSupportedRuleLookup(rules)
+  const defaultEnabledRules = buildDefaultEnabledRuleLookup(rules)
+  const presetOutputs = await generatePresetOutputs(supportedRules, defaultEnabledRules)
 
   const staleFilePaths: string[] = []
   const updatedFilePaths: string[] = []
@@ -880,7 +929,11 @@ type DiffGroupResult = {
   changed: string[]
 }
 
-async function diffPreset(entry: PresetManifestEntry, supportedRules: RuleLookup): Promise<DiffGroupResult[]> {
+async function diffPreset(
+  entry: PresetManifestEntry,
+  supportedRules: RuleLookup,
+  defaultEnabledRules?: RuleLookup,
+): Promise<DiffGroupResult[]> {
   const sourceConfigs = await loadSourceConfigs(entry)
   const targetOverrides = await loadTargetOverrides(entry)
   const results: DiffGroupResult[] = []
@@ -889,11 +942,17 @@ async function diffPreset(entry: PresetManifestEntry, supportedRules: RuleLookup
 
   for (const group of entry.groups) {
     const eslintRules = collectRulesForGroup(sourceConfigs, group)
-    const syncedRules = mapToSupportedOxlintRules(eslintRules, entry, supportedRules, {
-      preserveOffRules: group.preserveOffRules,
-      dropRuleOptions: group.dropRuleOptions,
-      augmentRuleOptions: group.augmentRuleOptions,
-    })
+    const syncedRules = mapToSupportedOxlintRules(
+      eslintRules,
+      entry,
+      supportedRules,
+      {
+        preserveOffRules: group.preserveOffRules,
+        dropRuleOptions: group.dropRuleOptions,
+        augmentRuleOptions: group.augmentRuleOptions,
+      },
+      defaultEnabledRules,
+    )
 
     const targetRules = normalizeRules(targetOverrides[groupIndex]?.rules ?? {})
 
@@ -1030,11 +1089,13 @@ async function main() {
   }
 
   if (diff) {
-    const supportedRules = buildSupportedRuleLookup(readRulesFromCommand())
+    const rules = readRulesFromCommand()
+    const supportedRules = buildSupportedRuleLookup(rules)
+    const defaultEnabledRules = buildDefaultEnabledRuleLookup(rules)
     const autoResults = await Promise.all(
       PRESET_MANIFEST.map(async (entry) => ({
         id: entry.id,
-        groups: await diffPreset(entry, supportedRules),
+        groups: await diffPreset(entry, supportedRules, defaultEnabledRules),
       })),
     )
     const manualResults = await Promise.all(

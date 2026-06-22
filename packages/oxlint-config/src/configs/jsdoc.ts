@@ -10,8 +10,16 @@ export const jsdoc = (): OxlintOverride[] => [
     files: [GLOB_SRC],
     plugins: ['jsdoc'],
     rules: {
+      'jsdoc/check-property-names': 'off',
       'jsdoc/check-tag-names': 'error',
       'jsdoc/empty-tags': 'error',
+      'jsdoc/implements-on-classes': 'off',
+      'jsdoc/no-defaults': 'off',
+      'jsdoc/require-property': 'off',
+      'jsdoc/require-property-description': 'off',
+      'jsdoc/require-property-name': 'off',
+      'jsdoc/require-property-type': 'off',
+      'jsdoc/require-yields': 'off',
     },
   },
 ]

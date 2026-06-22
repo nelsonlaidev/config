@@ -18,6 +18,7 @@ export const eslint = (): OxlintOverride[] => [
       'no-alert': 'error',
       'no-async-promise-executor': 'error',
       'no-await-in-loop': 'error',
+      'no-caller': 'off',
       'no-case-declarations': 'error',
       'no-class-assign': 'error',
       'no-compare-neg-zero': 'error',
@@ -46,6 +47,7 @@ export const eslint = (): OxlintOverride[] => [
       'no-import-assign': 'error',
       'no-invalid-regexp': 'error',
       'no-irregular-whitespace': 'error',
+      'no-iterator': 'off',
       'no-label-var': 'error',
       'no-labels': 'error',
       'no-lone-blocks': 'error',
@@ -85,6 +87,7 @@ export const eslint = (): OxlintOverride[] => [
       'no-unsafe-finally': 'error',
       'no-unsafe-negation': 'error',
       'no-unsafe-optional-chaining': 'error',
+      'no-unused-expressions': 'off',
       'no-unused-labels': 'error',
       'no-unused-private-class-members': 'error',
       'no-unused-vars': [
