@@ -248,7 +248,6 @@ export const PRESET_MANIFEST: PresetManifestEntry[] = [
         sourceConfigNames: ['nelsonlaidev/jsx-a11y/rules'],
         filesExpression: '[GLOB_SRC]',
         pluginsExpression: "['jsx-a11y']",
-        dropRuleOptions: ['jsx-a11y/no-noninteractive-element-to-interactive-role'],
       },
     ],
   },
