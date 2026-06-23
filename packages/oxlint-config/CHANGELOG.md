@@ -1,5 +1,12 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.2.5
+
+### Patch Changes
+
+- 392e4e7: Explicitly disable oxlint default-enabled `correctness` rules not present in the ESLint config, preventing oxlint from warning about rules like `jsx-a11y/prefer-tag-over-role` that ESLint does not run
+- ef2dc9e: restore custom role options for `jsx-a11y/no-noninteractive-element-to-interactive-role` and enable `regexp/prefer-regex-literals` (oxlint 1.71.0 fixed both issues)
+
 ## 0.2.4
 
 ### Patch Changes
