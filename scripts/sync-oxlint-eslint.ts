@@ -1,6 +1,8 @@
 // Inspired by @oxlint/migrate
 // https://github.com/oxc-project/oxlint-migrate/blob/5e7463f9cc49d1074efe2230264b0068cb89ecfc/scripts/traverse-rules.ts
 
+import type { FormatConfig } from 'oxfmt'
+
 import { execSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
@@ -347,6 +349,15 @@ export const MANUAL_DIFF_MANIFEST: DiffOnlyManifestEntry[] = [
     groups: [{ sourceConfigNames: ['nelsonlaidev/zod/rules'] }],
   },
   {
+    id: 'command',
+    sourceModulePath: 'packages/eslint-config/src/configs/command.ts',
+    sourceExportName: 'command',
+    targetFilePath: 'packages/oxlint-config/src/configs/command.ts',
+    targetExportName: 'command',
+    remapRuleName: identityRemapper,
+    groups: [{ sourceConfigNames: ['nelsonlaidev/command/rules'] }],
+  },
+  {
     id: 'stylistic',
     sourceModulePath: 'packages/eslint-config/src/configs/stylistic.ts',
     sourceExportName: 'stylistic',
@@ -690,9 +701,22 @@ function renderOverride(group: RuleGroupManifest, rules: Record<string, SyncedRu
   ].join('\n')
 }
 
+let oxfmtConfig: FormatConfig | undefined
+
+async function getOxfmtConfig(): Promise<FormatConfig> {
+  if (oxfmtConfig) return oxfmtConfig
+
+  const configUrl = pathToFileURL(resolveFromRoot('oxfmt.config.ts')).href
+  const mod = (await import(configUrl)) as { default: FormatConfig }
+
+  oxfmtConfig = mod.default
+  return oxfmtConfig
+}
+
 async function formatGeneratedSource(source: string, targetFilePath: string) {
   const absoluteTargetPath = resolveFromRoot(targetFilePath)
-  const result = await format(absoluteTargetPath, source)
+  const config = await getOxfmtConfig()
+  const result = await format(absoluteTargetPath, source, config)
   return result.code
 }
 
@@ -825,7 +849,6 @@ export function printMigrationReport(reports: MigrationPresetReport[]) {
 const UNSCANNED_PLUGIN_TABLE = [
   '| Config | Reason |',
   '|--------|--------|',
-  '| `command.ts` | Codemod for ESLint only, cannot be migrated |',
   '| `comments.ts` | Plugin that comments out eslint-disable directives |',
   '| `gitignore.ts` | File-based ignores, handled by Oxlint config |',
   '| `ignores.ts` | File ignore patterns |',
@@ -888,7 +911,8 @@ async function updateReadmeReport(supportedRules: RuleLookup) {
 
   const updated = current.slice(0, startIndex) + content + current.slice(endIndex + endMarker.length)
 
-  const result = await format(readmePath, updated)
+  const config = await getOxfmtConfig()
+  const result = await format(readmePath, updated, config)
   const formatted = result.code
 
   writeFileSync(readmePath, formatted)
