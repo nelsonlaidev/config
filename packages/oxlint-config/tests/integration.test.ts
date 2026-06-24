@@ -20,6 +20,14 @@ type OxlintResult = {
   start_time: number
 }
 
+function parseOxlintOutput(output: string): OxlintResult {
+  const start = output.indexOf('{')
+  if (start === -1) {
+    throw new Error(`No JSON found in oxlint output:\n${output}`)
+  }
+  return JSON.parse(output.slice(start)) as OxlintResult
+}
+
 function runOxlint(file: string) {
   const command = `pnpm exec oxlint --config tests/fixtures/integration/config.ts tests/fixtures/integration/${file} --format json`
 
@@ -29,12 +37,12 @@ function runOxlint(file: string) {
       stdio: 'pipe',
     })
 
-    return JSON.parse(result) as OxlintResult
+    return parseOxlintOutput(result)
   } catch (error) {
     const execError = error as { stderr?: string; stdout?: string }
 
     if (execError.stdout) {
-      return JSON.parse(execError.stdout) as OxlintResult
+      return parseOxlintOutput(execError.stdout)
     }
     throw error
   }
