@@ -5,21 +5,24 @@
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
+  "license": "MIT",
+  "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nelsonlaidev/config.git",
     "directory": "packages/oxfmt-config"
   },
-  "license": "MIT",
-  "author": "Nelson Lai <me@nelsonlai.dev> (https://github.com/nelsonlaidev/)",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "exports": {
     "types": "./dist/index.d.mts",
     "import": "./dist/index.mjs"
   },
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsdown",
     "clean": "rm -rf .turbo dist",
@@ -32,8 +35,5 @@
   },
   "peerDependencies": {
     "oxfmt": "^0.47.0"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

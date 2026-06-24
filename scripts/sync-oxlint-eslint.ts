@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-import { format, resolveConfig } from 'prettier'
+import { format } from 'oxfmt'
 
 type OxlintRule = {
   value: string
@@ -692,12 +692,8 @@ function renderOverride(group: RuleGroupManifest, rules: Record<string, SyncedRu
 
 async function formatGeneratedSource(source: string, targetFilePath: string) {
   const absoluteTargetPath = resolveFromRoot(targetFilePath)
-  const prettierConfig = (await resolveConfig(absoluteTargetPath)) ?? {}
-  return format(source, {
-    ...prettierConfig,
-    filepath: absoluteTargetPath,
-    parser: 'typescript',
-  })
+  const result = await format(absoluteTargetPath, source)
+  return result.code
 }
 
 export async function generatePresetContent(
@@ -892,12 +888,8 @@ async function updateReadmeReport(supportedRules: RuleLookup) {
 
   const updated = current.slice(0, startIndex) + content + current.slice(endIndex + endMarker.length)
 
-  const prettierConfig = (await resolveConfig(readmePath)) ?? {}
-  const formatted = await format(updated, {
-    ...prettierConfig,
-    filepath: readmePath,
-    parser: 'markdown',
-  })
+  const result = await format(readmePath, updated)
+  const formatted = result.code
 
   writeFileSync(readmePath, formatted)
   console.log(`Updated ${path.relative(ROOT_DIR, readmePath)}`)

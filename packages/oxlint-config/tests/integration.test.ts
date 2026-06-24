@@ -24,7 +24,6 @@ function runOxlint(file: string) {
   const command = `pnpm exec oxlint --config tests/fixtures/integration/config.ts tests/fixtures/integration/${file} --format json`
 
   try {
-    // eslint-disable-next-line sonarjs/os-command
     const result = execSync(command, {
       encoding: 'utf-8',
       stdio: 'pipe',
