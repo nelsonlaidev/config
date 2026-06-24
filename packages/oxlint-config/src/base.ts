@@ -6,6 +6,7 @@ import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
 import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/types'
 import { isPackageExists } from 'local-pkg'
 
+import { command } from './configs/command'
 import { deMorgan } from './configs/de-morgan'
 import { eslint } from './configs/eslint'
 import { importSort } from './configs/import-sort'
@@ -48,6 +49,7 @@ export const defineConfig = ({ config = {}, custom: userConfig = {} }: DefineCon
   const overrides = [
     ...oxc(),
     ...eslint(),
+    ...command(),
     ...typescript(),
     ...unicorn(),
     ...promise(),

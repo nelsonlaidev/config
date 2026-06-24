@@ -96,6 +96,7 @@ These use `jsPlugins` and are checked for consistency via `sync:check`.
 - `playwright`
 - `sonarjs`
 - `zod`
+- `command`
 - `stylistic`
 - `de-morgan`
 - `tailwindcss`
@@ -106,7 +107,6 @@ These use `jsPlugins` and are checked for consistency via `sync:check`.
 
 | Config              | Reason                                                          |
 | ------------------- | --------------------------------------------------------------- |
-| `command.ts`        | Codemod for ESLint only, cannot be migrated                     |
 | `comments.ts`       | Plugin that comments out eslint-disable directives              |
 | `gitignore.ts`      | File-based ignores, handled by Oxlint config                    |
 | `ignores.ts`        | File ignore patterns                                            |

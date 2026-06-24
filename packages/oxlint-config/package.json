@@ -41,6 +41,7 @@
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "catalog:dev",
     "eslint-plugin-better-tailwindcss": "^4.3.2",
+    "eslint-plugin-command": "^3.5.2",
     "eslint-plugin-de-morgan": "^2.1.1",
     "eslint-plugin-import-zod": "^1.2.1",
     "eslint-plugin-playwright": "^2.10.1",
@@ -58,6 +59,7 @@
     "@nelsonlaidev/eslint-plugin": "^0.2.4",
     "@stylistic/eslint-plugin": "^5.10.0",
     "eslint-plugin-better-tailwindcss": "^4.3.2",
+    "eslint-plugin-command": "^3.5.2",
     "eslint-plugin-de-morgan": "^2.1.1",
     "eslint-plugin-import-zod": "^1.2.1",
     "eslint-plugin-playwright": "^2.10.1",
@@ -79,6 +81,9 @@
       "optional": true
     },
     "eslint-plugin-better-tailwindcss": {
+      "optional": true
+    },
+    "eslint-plugin-command": {
       "optional": true
     },
     "eslint-plugin-de-morgan": {

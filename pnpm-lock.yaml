@@ -251,6 +251,9 @@ importers:
       eslint-plugin-better-tailwindcss:
         specifier: ^4.3.2
         version: 4.6.0(eslint@10.5.0(jiti@2.7.0))(oxlint@1.71.0(oxlint-tsgolint@0.23.0))(tailwindcss@4.3.1)(typescript@6.0.3)
+      eslint-plugin-command:
+        specifier: ^3.5.2
+        version: 3.5.2(@typescript-eslint/rule-tester@8.62.0(eslint@10.5.0(jiti@2.7.0))(typescript@6.0.3))(@typescript-eslint/typescript-estree@8.62.0(typescript@6.0.3))(@typescript-eslint/utils@8.62.0(eslint@10.5.0(jiti@2.7.0))(typescript@6.0.3))(eslint@10.5.0(jiti@2.7.0))
       eslint-plugin-de-morgan:
         specifier: ^2.1.1
         version: 2.1.2(eslint@10.5.0(jiti@2.7.0))
