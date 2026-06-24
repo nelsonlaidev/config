@@ -6,11 +6,11 @@ import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/type
 import { GLOB_SRC } from '../globs'
 import { tailwindcssPlugin } from '../plugins'
 
-const createSelectors = (names: string[], kind: SelectorKind) =>
+const createSelectors = <K extends SelectorKind>(names: string[], kind: K) =>
   names.map((name) => ({
     name,
     kind,
-    match: [{ type: MatcherType.String }, { type: MatcherType.ObjectValue }],
+    match: [{ type: MatcherType.String as const }, { type: MatcherType.ObjectValue as const }],
   }))
 
 export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
