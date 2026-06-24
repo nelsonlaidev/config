@@ -11,8 +11,10 @@ This monorepo contains shared configuration packages for various tools used acro
 A shared Oxlint configuration to enforce consistent code style and best practices.
 
 ```bash
-npm i -D @nelsonlaidev/oxlint-config
+npm i -D @nelsonlaidev/oxlint-config oxlint oxlint-tsgolint
 ```
+
+`oxlint-tsgolint` is optional — enables type-aware linting rules.
 
 ### [@nelsonlaidev/eslint-plugin](packages/eslint-plugin)
 

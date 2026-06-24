@@ -7,7 +7,15 @@ This package is synced from `eslint-config` and aims to enable every supported O
 ## Installation
 
 ```bash
-npm i -D @nelsonlaidev/oxlint-config oxlint
+npm i -D @nelsonlaidev/oxlint-config oxlint oxlint-tsgolint
+```
+
+`oxlint-tsgolint` is optional — it enables type-aware linting rules. Omit it if you set `typeAware: false` in your config.
+
+Some presets use Oxlint `jsPlugins`. Install the peer plugin packages for the presets you use:
+
+```bash
+npm i -D @eslint-react/eslint-plugin @nelsonlaidev/eslint-plugin @stylistic/eslint-plugin eslint-plugin-better-tailwindcss eslint-plugin-de-morgan eslint-plugin-import-zod eslint-plugin-playwright eslint-plugin-react-hooks eslint-plugin-regexp eslint-plugin-simple-import-sort eslint-plugin-sonarjs
 ```
 
 Create an `oxlint.config.ts` file with the following content:
@@ -30,12 +38,6 @@ export default defineConfig({
 This package follows `eslint-config` as the source of truth. When a rule is enabled there, we enable the corresponding Oxlint rule here when Oxlint supports it.
 
 `unused-imports` is intentionally not included. Oxlint's built-in `no-unused-vars` rule with `fix.imports: "safe-fix"` accomplishes the same goal natively.
-
-If you are using pnpm, add the following to your `.npmrc` to hoist ESLint plugin dependencies so the Oxlint can resolve them:
-
-```ini
-public-hoist-pattern[]=*eslint-plugin*
-```
 
 ### What's Included
 
