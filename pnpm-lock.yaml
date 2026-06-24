@@ -232,6 +232,13 @@ importers:
 
   packages/oxlint-config:
     dependencies:
+      es-toolkit:
+        specifier: ^1.45.1
+        version: 1.45.1
+      local-pkg:
+        specifier: ^1.1.2
+        version: 1.1.2
+    devDependencies:
       '@eslint-react/eslint-plugin':
         specifier: 4.0.2-beta.6
         version: 4.0.2-beta.6(eslint@10.1.0(jiti@2.6.1))(typescript@6.0.2)
@@ -241,9 +248,9 @@ importers:
       '@stylistic/eslint-plugin':
         specifier: ^5.10.0
         version: 5.10.0(eslint@10.1.0(jiti@2.6.1))
-      es-toolkit:
-        specifier: ^1.45.1
-        version: 1.45.1
+      '@types/node':
+        specifier: catalog:dev
+        version: 24.12.0
       eslint-plugin-better-tailwindcss:
         specifier: ^4.3.2
         version: 4.3.2(eslint@10.1.0(jiti@2.6.1))(oxlint@1.71.0(oxlint-tsgolint@0.23.0))(tailwindcss@4.2.2)(typescript@6.0.2)
@@ -268,13 +275,6 @@ importers:
       eslint-plugin-sonarjs:
         specifier: ^4.0.2
         version: 4.0.2(eslint@10.1.0(jiti@2.6.1))
-      local-pkg:
-        specifier: ^1.1.2
-        version: 1.1.2
-    devDependencies:
-      '@types/node':
-        specifier: catalog:dev
-        version: 24.12.0
       oxlint:
         specifier: catalog:dev
         version: 1.71.0(oxlint-tsgolint@0.23.0)
