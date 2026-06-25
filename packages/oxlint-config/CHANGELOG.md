@@ -1,5 +1,15 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.3.0
+
+### Minor Changes
+
+- d8dd387: Add eslint-plugin-command via Oxlint jsPlugins for comment-as-command codemod support
+
+### Patch Changes
+
+- 11ab540: List Oxlint `jsPlugins` as optional peer dependencies while keeping them as development dependencies.
+
 ## 0.2.5
 
 ### Patch Changes
