@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.3.1
+
+### Patch Changes
+
+- 856e6b4: Avoid importing optional Oxlint `jsPlugins` at package load time by snapshotting plugin recommended rules and Tailwind selector defaults into generated local data. Required default `jsPlugins` are now marked as non-optional peer dependencies, while conditional presets can remain optional.
+
 ## 0.3.0
 
 ### Minor Changes
