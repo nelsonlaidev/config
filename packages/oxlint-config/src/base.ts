@@ -2,8 +2,6 @@ import type { OxlintConfig } from 'oxlint'
 import type { DefineConfigOptions } from './types'
 
 import { mergeWith, pick } from 'es-toolkit/object'
-import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
-import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/types'
 import { isPackageExists } from 'local-pkg'
 
 import { command } from './configs/command'
@@ -28,12 +26,15 @@ import { typescript } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
+import { betterTailwindcssDefaultSelectors } from './generated/plugin-snapshots'
 
-const createSelectors = (names: string[], kind: SelectorKind) =>
+type BetterTailwindcssSelectorKind = 'attribute' | 'variable'
+
+const createSelectors = (names: string[], kind: BetterTailwindcssSelectorKind) =>
   names.map((name) => ({
     name,
     kind,
-    match: [{ type: MatcherType.String }, { type: MatcherType.ObjectValue }],
+    match: [{ type: 'strings' }, { type: 'objectValues' }],
   }))
 
 const concatArrays = (target: unknown, source: unknown) => {
@@ -116,9 +117,9 @@ export const defineConfig = ({ config = {}, custom: userConfig = {} }: DefineCon
             detectComponentClasses: false,
             rootFontSize: 16,
             selectors: [
-              ...getDefaultSelectors(),
-              ...createSelectors(['classNames', '.+ClassNames'], SelectorKind.Attribute),
-              ...createSelectors(['.+ClassName', '.+ClassNames'], SelectorKind.Variable),
+              ...betterTailwindcssDefaultSelectors,
+              ...createSelectors(['classNames', '.+ClassNames'], 'attribute'),
+              ...createSelectors(['.+ClassName', '.+ClassNames'], 'variable'),
             ],
           },
         }),

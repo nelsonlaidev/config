@@ -7,6 +7,9 @@
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
+    "sync": {},
+    "sync:check": {},
+    "sync:report": {},
     "test": {
       "dependsOn": ["build"],
       "inputs": ["$TURBO_DEFAULT$"]

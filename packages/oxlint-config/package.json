@@ -29,7 +29,10 @@
     "dev": "tsdown --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sync": "tsx scripts/sync-oxlint-eslint.ts && tsx scripts/generate-oxlint-plugin-snapshots.ts",
+    "sync:check": "tsx scripts/sync-oxlint-eslint.ts --diff && tsx scripts/generate-oxlint-plugin-snapshots.ts --check",
+    "sync:report": "tsx scripts/sync-oxlint-eslint.ts --report --write"
   },
   "dependencies": {
     "es-toolkit": "^1.45.1",
@@ -52,6 +55,7 @@
     "oxlint": "catalog:dev",
     "oxlint-tsgolint": "catalog:dev",
     "tsdown": "catalog:dev",
+    "tsx": "^4.22.4",
     "vitest": "catalog:dev"
   },
   "peerDependencies": {
@@ -74,37 +78,13 @@
     "@eslint-react/eslint-plugin": {
       "optional": true
     },
-    "@nelsonlaidev/eslint-plugin": {
-      "optional": true
-    },
-    "@stylistic/eslint-plugin": {
-      "optional": true
-    },
     "eslint-plugin-better-tailwindcss": {
-      "optional": true
-    },
-    "eslint-plugin-command": {
-      "optional": true
-    },
-    "eslint-plugin-de-morgan": {
-      "optional": true
-    },
-    "eslint-plugin-import-zod": {
       "optional": true
     },
     "eslint-plugin-playwright": {
       "optional": true
     },
     "eslint-plugin-react-hooks": {
-      "optional": true
-    },
-    "eslint-plugin-regexp": {
-      "optional": true
-    },
-    "eslint-plugin-simple-import-sort": {
-      "optional": true
-    },
-    "eslint-plugin-sonarjs": {
       "optional": true
     },
     "oxlint-tsgolint": {
