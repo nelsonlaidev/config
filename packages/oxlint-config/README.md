@@ -12,10 +12,10 @@ npm i -D @nelsonlaidev/oxlint-config oxlint oxlint-tsgolint
 
 `oxlint-tsgolint` is optional — it enables type-aware linting rules. Omit it if you set `typeAware: false` in your config.
 
-Some presets use Oxlint `jsPlugins`. Install the peer plugin packages for the presets you use:
+Some presets use Oxlint `jsPlugins`. These are declared as peer dependencies and most modern package managers (npm >=7, pnpm, yarn) install them automatically. Only run the command below if your package manager does not auto-install peers:
 
 ```bash
-npm i -D @eslint-react/eslint-plugin @nelsonlaidev/eslint-plugin @stylistic/eslint-plugin eslint-plugin-better-tailwindcss eslint-plugin-de-morgan eslint-plugin-import-zod eslint-plugin-playwright eslint-plugin-react-hooks eslint-plugin-regexp eslint-plugin-simple-import-sort eslint-plugin-sonarjs
+npm i -D @nelsonlaidev/eslint-plugin @stylistic/eslint-plugin eslint-plugin-command eslint-plugin-de-morgan eslint-plugin-import-zod eslint-plugin-regexp eslint-plugin-simple-import-sort eslint-plugin-sonarjs
 ```
 
 Create an `oxlint.config.ts` file with the following content:

@@ -1,7 +1,11 @@
 import type { OxlintOverride } from 'oxlint'
 
+import {
+  reactAllRules,
+  reactDisableConflictReactHooksRules,
+  reactHooksRecommendedLatestRules,
+} from '../generated/plugin-snapshots'
 import { GLOB_SRC } from '../globs'
-import { reactHooksPlugin, reactPlugin } from '../plugins'
 import { remapRuleNames } from '../utils'
 
 export const react = (): OxlintOverride[] => [
@@ -12,14 +16,10 @@ export const react = (): OxlintOverride[] => [
       { name: 'react-hooks-js', specifier: 'eslint-plugin-react-hooks' },
     ],
     rules: {
-      ...remapRuleNames(reactHooksPlugin.configs['recommended-latest'].rules, 'react-hooks', 'react-hooks-js'),
+      ...remapRuleNames(reactHooksRecommendedLatestRules, 'react-hooks', 'react-hooks-js'),
 
-      ...reactPlugin.configs.all.rules,
-      ...remapRuleNames(
-        reactPlugin.configs['disable-conflict-eslint-plugin-react-hooks'].rules,
-        'react-hooks',
-        'react-hooks-js',
-      ),
+      ...reactAllRules,
+      ...remapRuleNames(reactDisableConflictReactHooksRules, 'react-hooks', 'react-hooks-js'),
 
       '@eslint-react/immutability': 'error',
       '@eslint-react/refs': 'error',

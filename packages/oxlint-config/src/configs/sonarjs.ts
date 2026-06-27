@@ -1,14 +1,14 @@
 import type { OxlintOverride } from 'oxlint'
 
+import { sonarjsRecommendedRules } from '../generated/plugin-snapshots'
 import { GLOB_SRC } from '../globs'
-import { sonarjsPlugin } from '../plugins'
 
 export const sonarjs = (): OxlintOverride[] => [
   {
     files: [GLOB_SRC],
     jsPlugins: ['eslint-plugin-sonarjs'],
     rules: {
-      ...sonarjsPlugin.configs.recommended.rules,
+      ...sonarjsRecommendedRules,
 
       // Disable due to poor performance
       // https://community.sonarsource.com/t/eslint-plugin-sonarjs-performance-issues-on-large-codebase/138392

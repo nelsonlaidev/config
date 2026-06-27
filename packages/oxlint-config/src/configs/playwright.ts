@@ -1,14 +1,14 @@
 import type { OxlintOverride } from 'oxlint'
 import type { PlaywrightConfig } from '../types/playwright'
 
-import { playwrightPlugin } from '../plugins'
+import { playwrightRecommendedRules } from '../generated/plugin-snapshots'
 
 export const playwright = (config: PlaywrightConfig): OxlintOverride[] => [
   {
     files: config.files,
     jsPlugins: ['eslint-plugin-playwright'],
     rules: {
-      ...playwrightPlugin.configs.recommended.rules,
+      ...playwrightRecommendedRules,
 
       'playwright/expect-expect': [
         'error',
