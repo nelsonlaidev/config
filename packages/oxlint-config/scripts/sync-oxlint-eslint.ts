@@ -149,17 +149,27 @@ export const PRESET_MANIFEST: PresetManifestEntry[] = [
     functionSignature: '(): OxlintOverride[]',
     imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
     oxlintScope: 'typescript',
-    remapRuleName: createPrefixRemapper('@typescript-eslint/', 'typescript/'),
+    oxlintFallbackScopes: ['eslint'],
+    remapRuleName: (ruleName) => {
+      if (ruleName.startsWith('@typescript-eslint/')) {
+        return `typescript/${ruleName.slice('@typescript-eslint/'.length)}`
+      }
+      if (!ruleName.includes('/')) {
+        return `eslint/${ruleName}`
+      }
+      return null
+    },
     groups: [
       {
         sourceConfigNames: ['nelsonlaidev/typescript/rules'],
         filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['typescript']",
+        pluginsExpression: "['eslint', 'typescript']",
+        preserveOffRules: true,
       },
       {
         sourceConfigNames: ['nelsonlaidev/typescript/declarations'],
         filesExpression: "['**/*.d.ts']",
-        pluginsExpression: "['typescript']",
+        pluginsExpression: "['eslint', 'typescript']",
         commentByRuleName: {
           'typescript/consistent-type-definitions': [
             '// We sometimes need to use `interface` in declaration files,',
@@ -444,6 +454,11 @@ function scopeToPluginName(scope: string): string {
   return scope
 }
 
+function pluginNameToScope(name: string): string {
+  if (name === 'jsx-a11y') return 'jsx_a11y'
+  return name
+}
+
 export function normalizeRuleValue(rawValue: unknown): SyncedRuleValue {
   if (Array.isArray(rawValue)) {
     const [level, ...options] = rawValue as readonly unknown[]
@@ -515,6 +530,11 @@ export function collectRulesForGroup(configs: EslintFlatConfig[], group: RuleGro
 function getScopedRuleValue(ruleName: string) {
   const slashIndex = ruleName.indexOf('/')
   return slashIndex === -1 ? ruleName : ruleName.slice(slashIndex + 1)
+}
+
+function getScopedRuleScope(ruleName: string): string | null {
+  const slashIndex = ruleName.indexOf('/')
+  return slashIndex === -1 ? null : ruleName.slice(0, slashIndex)
 }
 
 export function mapToSupportedOxlintRules(
@@ -595,7 +615,7 @@ export function analyzeGroupMigration(
   rules: Record<string, unknown>,
   entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
   supportedRules: RuleLookup,
-  { preserveOffRules = false }: { preserveOffRules?: boolean } = {},
+  { preserveOffRules = true }: { preserveOffRules?: boolean } = {},
 ): { synced: string[]; unsupported: MigrationGap[] } {
   const synced: string[] = []
   const unsupported: MigrationGap[] = []
@@ -633,6 +653,23 @@ function resolveSupportedOxlintRuleName(
   supportedRules: RuleLookup,
 ) {
   const ruleValue = getScopedRuleValue(ruleName)
+  const explicitScope = getScopedRuleScope(ruleName)
+
+  if (explicitScope) {
+    const lookupScope = pluginNameToScope(explicitScope)
+    if (supportedRules.get(lookupScope)?.has(ruleValue)) {
+      return ruleName
+    }
+
+    for (const fallbackScope of entry.oxlintFallbackScopes ?? []) {
+      if (fallbackScope === lookupScope) continue
+      if (supportedRules.get(fallbackScope)?.has(ruleValue)) {
+        return `${fallbackScope}/${ruleValue}`
+      }
+    }
+
+    return null
+  }
 
   if (supportedRules.get(entry.oxlintScope)?.has(ruleValue)) {
     return ruleName

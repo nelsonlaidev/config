@@ -8,8 +8,42 @@ import { GLOB_SRC } from '../globs'
 export const typescript = (): OxlintOverride[] => [
   {
     files: [GLOB_SRC],
-    plugins: ['typescript'],
+    plugins: ['eslint', 'typescript'],
     rules: {
+      'eslint/class-methods-use-this': 'error',
+      'eslint/constructor-super': 'off',
+      'eslint/default-param-last': 'error',
+      'eslint/getter-return': 'off',
+      'eslint/no-array-constructor': 'error',
+      'eslint/no-class-assign': 'off',
+      'eslint/no-const-assign': 'off',
+      'eslint/no-dupe-class-members': 'off',
+      'eslint/no-dupe-keys': 'off',
+      'eslint/no-empty-function': 'error',
+      'eslint/no-func-assign': 'off',
+      'eslint/no-implied-eval': 'off',
+      'eslint/no-import-assign': 'off',
+      'eslint/no-loop-func': 'error',
+      'eslint/no-new-native-nonconstructor': 'off',
+      'eslint/no-obj-calls': 'off',
+      'eslint/no-redeclare': 'off',
+      'eslint/no-setter-return': 'off',
+      'eslint/no-shadow': 'error',
+      'eslint/no-this-before-super': 'off',
+      'eslint/no-throw-literal': 'off',
+      'eslint/no-undef': 'off',
+      'eslint/no-unreachable': 'off',
+      'eslint/no-unsafe-negation': 'off',
+      'eslint/no-unused-expressions': 'error',
+      'eslint/no-unused-vars': 'error',
+      'eslint/no-useless-constructor': 'error',
+      'eslint/no-var': 'error',
+      'eslint/no-with': 'off',
+      'eslint/prefer-const': 'error',
+      'eslint/prefer-promise-reject-errors': 'off',
+      'eslint/prefer-rest-params': 'error',
+      'eslint/prefer-spread': 'error',
+      'eslint/require-await': 'off',
       'typescript/adjacent-overload-signatures': 'error',
       'typescript/array-type': [
         'error',
@@ -165,7 +199,7 @@ export const typescript = (): OxlintOverride[] => [
   },
   {
     files: ['**/*.d.ts'],
-    plugins: ['typescript'],
+    plugins: ['eslint', 'typescript'],
     rules: {
       // Similar to the above rule, interfaces support index signatures only when
       // we define object types with them.
