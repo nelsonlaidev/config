@@ -149,17 +149,27 @@ export const PRESET_MANIFEST: PresetManifestEntry[] = [
     functionSignature: '(): OxlintOverride[]',
     imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
     oxlintScope: 'typescript',
-    remapRuleName: createPrefixRemapper('@typescript-eslint/', 'typescript/'),
+    oxlintFallbackScopes: ['eslint'],
+    remapRuleName: (ruleName) => {
+      if (ruleName.startsWith('@typescript-eslint/')) {
+        return `typescript/${ruleName.slice('@typescript-eslint/'.length)}`
+      }
+      if (!ruleName.includes('/')) {
+        return `eslint/${ruleName}`
+      }
+      return null
+    },
     groups: [
       {
         sourceConfigNames: ['nelsonlaidev/typescript/rules'],
         filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['typescript']",
+        pluginsExpression: "['eslint', 'typescript']",
+        preserveOffRules: true,
       },
       {
         sourceConfigNames: ['nelsonlaidev/typescript/declarations'],
         filesExpression: "['**/*.d.ts']",
-        pluginsExpression: "['typescript']",
+        pluginsExpression: "['eslint', 'typescript']",
         commentByRuleName: {
           'typescript/consistent-type-definitions': [
             '// We sometimes need to use `interface` in declaration files,',
@@ -595,7 +605,7 @@ export function analyzeGroupMigration(
   rules: Record<string, unknown>,
   entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
   supportedRules: RuleLookup,
-  { preserveOffRules = false }: { preserveOffRules?: boolean } = {},
+  { preserveOffRules = true }: { preserveOffRules?: boolean } = {},
 ): { synced: string[]; unsupported: MigrationGap[] } {
   const synced: string[] = []
   const unsupported: MigrationGap[] = []
