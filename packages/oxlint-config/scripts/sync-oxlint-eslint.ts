@@ -454,6 +454,11 @@ function scopeToPluginName(scope: string): string {
   return scope
 }
 
+function pluginNameToScope(name: string): string {
+  if (name === 'jsx-a11y') return 'jsx_a11y'
+  return name
+}
+
 export function normalizeRuleValue(rawValue: unknown): SyncedRuleValue {
   if (Array.isArray(rawValue)) {
     const [level, ...options] = rawValue as readonly unknown[]
@@ -525,6 +530,11 @@ export function collectRulesForGroup(configs: EslintFlatConfig[], group: RuleGro
 function getScopedRuleValue(ruleName: string) {
   const slashIndex = ruleName.indexOf('/')
   return slashIndex === -1 ? ruleName : ruleName.slice(slashIndex + 1)
+}
+
+function getScopedRuleScope(ruleName: string): string | null {
+  const slashIndex = ruleName.indexOf('/')
+  return slashIndex === -1 ? null : ruleName.slice(0, slashIndex)
 }
 
 export function mapToSupportedOxlintRules(
@@ -643,6 +653,23 @@ function resolveSupportedOxlintRuleName(
   supportedRules: RuleLookup,
 ) {
   const ruleValue = getScopedRuleValue(ruleName)
+  const explicitScope = getScopedRuleScope(ruleName)
+
+  if (explicitScope) {
+    const lookupScope = pluginNameToScope(explicitScope)
+    if (supportedRules.get(lookupScope)?.has(ruleValue)) {
+      return ruleName
+    }
+
+    for (const fallbackScope of entry.oxlintFallbackScopes ?? []) {
+      if (fallbackScope === lookupScope) continue
+      if (supportedRules.get(fallbackScope)?.has(ruleValue)) {
+        return `${fallbackScope}/${ruleValue}`
+      }
+    }
+
+    return null
+  }
 
   if (supportedRules.get(entry.oxlintScope)?.has(ruleValue)) {
     return ruleName

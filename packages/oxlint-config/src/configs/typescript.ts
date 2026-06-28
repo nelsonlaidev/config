@@ -13,7 +13,6 @@ export const typescript = (): OxlintOverride[] => [
       'eslint/class-methods-use-this': 'error',
       'eslint/constructor-super': 'off',
       'eslint/default-param-last': 'error',
-      'eslint/dot-notation': 'off',
       'eslint/getter-return': 'off',
       'eslint/no-array-constructor': 'error',
       'eslint/no-class-assign': 'off',
