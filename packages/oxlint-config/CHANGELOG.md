@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.3.2
+
+### Patch Changes
+
+- 5db9f96: Sync `eslint-recommended` off rules from typescript ESLint config to oxlint config, properly disabling conflicting ESLint core rules (e.g. `no-undef`, `no-redeclare`, `constructor-super`) in TypeScript files.
+
 ## 0.3.1
 
 ### Patch Changes
