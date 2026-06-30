@@ -20,6 +20,8 @@ export const unicorn = (): FlatConfig[] => [
       // Unnecessary
       'unicorn/no-document-cookie': 'off',
       'unicorn/prefer-string-raw': 'off',
+      'unicorn/prefer-number-coercion': 'off',
+      'unicorn/max-nested-calls': 'off',
     },
   },
 ]

@@ -21,6 +21,10 @@ export const react = (): OxlintOverride[] => [
       ...reactAllRules,
       ...remapRuleNames(reactDisableConflictReactHooksRules, 'react-hooks', 'react-hooks-js'),
 
+      '@eslint-react/static-components': 'off',
+      // Keep or remove once https://github.com/Rel1cx/eslint-react/issues/1884 is resolved
+      'react-hooks-js/static-components': 'off',
+
       '@eslint-react/immutability': 'error',
       '@eslint-react/refs': 'error',
     },
