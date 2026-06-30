@@ -134,6 +134,7 @@ export const defineConfig = ({ config = {}, custom: userConfig = {} }: DefineCon
             'entryPoint',
             'tailwindConfig',
             'tsconfig',
+            'cwd',
             'detectComponentClasses',
             'rootFontSize',
             'messageStyle',
