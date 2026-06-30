@@ -19,7 +19,6 @@ export const tailwindcss = (options: TailwindCSSConfig): OxlintOverride[] => {
           },
         ],
         'better-tailwindcss/enforce-consistent-variant-order': 'error',
-        'better-tailwindcss/enforce-logical-properties': 'error',
 
         // Recommended to be disabled to avoid duplicate reports
         // when the canonical classes rule is enabled
