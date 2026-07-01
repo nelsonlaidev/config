@@ -1,7 +1,7 @@
 {
   "name": "@nelsonlaidev/oxlint-config",
   "version": "0.3.2",
-  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/oxlint-config/README.md",
+  "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/oxlint-config",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
