@@ -35,5 +35,8 @@
   },
   "peerDependencies": {
     "oxfmt": "^0.47.0"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
