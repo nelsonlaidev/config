@@ -27,6 +27,7 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
           entryPoint: options.entryPoint,
           tailwindConfig: options.tailwindConfig,
           tsconfig: options.tsconfig,
+          cwd: options.cwd,
           detectComponentClasses: options.detectComponentClasses ?? false,
           rootFontSize: options.rootFontSize ?? 16,
           messageStyle: options.messageStyle,
@@ -50,6 +51,7 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
             logical: options.canonical?.logical ?? true,
           },
         ],
+        'better-tailwindcss/enforce-consistent-variant-order': 'error',
 
         // Recommended to be disabled to avoid duplicate reports
         // when the canonical classes rule is enabled

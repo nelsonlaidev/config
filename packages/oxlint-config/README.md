@@ -77,15 +77,15 @@ This config includes opinionated rules from the following plugins:
 | Preset                               | Synced | Total | Coverage |
 | ------------------------------------ | ------ | ----- | -------- |
 | `eslint/javascript/rules`            | 93     | 95    | 97.9%    |
-| `unicorn/unicorn/rules`              | 125    | 133   | 94.0%    |
-| `typescript/typescript/rules`        | 94     | 108   | 87.0%    |
+| `unicorn/unicorn/rules`              | 134    | 319   | 42.0%    |
+| `typescript/typescript/rules`        | 133    | 138   | 96.4%    |
 | `typescript/typescript/declarations` | 2      | 2     | 100.0%   |
-| `import/import-x/rules`              | 17     | 23    | 73.9%    |
+| `import/import-x/rules`              | 20     | 26    | 76.9%    |
 | `jsdoc/jsdoc/rules`                  | 2      | 2     | 100.0%   |
 | `vitest/vitest/rules`                | 20     | 20    | 100.0%   |
-| `jsx-a11y/jsx-a11y/rules`            | 33     | 33    | 100.0%   |
+| `jsx-a11y/jsx-a11y/rules`            | 35     | 36    | 97.2%    |
 | `nextjs/nextjs/rules`                | 21     | 21    | 100.0%   |
-| `promise/promise/rules`              | 15     | 15    | 100.0%   |
+| `promise/promise/rules`              | 16     | 17    | 94.1%    |
 | `node/node/rules`                    | 2      | 6     | 33.3%    |
 
 ### Manually maintained (diff-only)

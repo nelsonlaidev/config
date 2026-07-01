@@ -82,13 +82,15 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     configs.push(...tailwindcss(options.tailwindcss))
   }
 
-  configs.push(...userConfigs)
+  const normalized = makeAllErrors(configs)
+
+  normalized.push(...userConfigs)
 
   if (isPrettierEnabled) {
     // Must be added as the last item
     // https://github.com/prettier/eslint-config-prettier#installation
-    configs.push(...prettier())
+    normalized.push(...prettier())
   }
 
-  return makeAllErrors(configs)
+  return normalized
 }

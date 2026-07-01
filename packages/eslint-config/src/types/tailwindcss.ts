@@ -14,6 +14,10 @@ export type TailwindCSSOptions = {
    */
   tsconfig?: string
   /**
+   * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#cwd) for more details.
+   */
+  cwd?: string
+  /**
    * See [official docs](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/settings/settings.md#detectcomponentclasses) for more details.
    * @default false
    */
