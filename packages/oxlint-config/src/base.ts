@@ -27,6 +27,7 @@ import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
 import { betterTailwindcssDefaultSelectors } from './generated/plugin-snapshots'
+import { makeAllErrors } from './utils'
 
 type BetterTailwindcssSelectorKind = 'attribute' | 'variable'
 
@@ -101,7 +102,7 @@ export const defineConfig = ({ config = {}, custom: userConfig = {} }: DefineCon
         es2022: true,
       },
       ignorePatterns: ['**/routeTree.gen.ts'],
-      overrides,
+      overrides: makeAllErrors(overrides),
       settings: {
         'jsx-a11y': {
           components: {
