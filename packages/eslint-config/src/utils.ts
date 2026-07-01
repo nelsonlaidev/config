@@ -1,4 +1,4 @@
-import type { RuleConfig } from '@eslint/core'
+import type { Linter } from 'eslint'
 import type { FlatConfig } from './types'
 
 export function makeAllErrors(configs: FlatConfig[]): FlatConfig[] {
@@ -9,7 +9,7 @@ export function makeAllErrors(configs: FlatConfig[]): FlatConfig[] {
       ...config,
       rules: Object.fromEntries(
         Object.entries(config.rules).map(([rule, rawValue]) => {
-          const value = rawValue as RuleConfig
+          const value = rawValue
 
           if (Array.isArray(value)) {
             const [level, ...rest] = value
@@ -18,7 +18,7 @@ export function makeAllErrors(configs: FlatConfig[]): FlatConfig[] {
 
           return [rule, value === 'warn' || value === 1 ? 'error' : value]
         }),
-      ) as Record<string, RuleConfig>,
+      ) as Record<string, Linter.RuleEntry<unknown[]>>,
     }
   })
 }
