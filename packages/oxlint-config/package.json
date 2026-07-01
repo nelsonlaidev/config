@@ -1,6 +1,7 @@
 {
   "name": "@nelsonlaidev/oxlint-config",
   "version": "0.3.2",
+  "description": "Nelson Lai's oxlint config preset",
   "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/oxlint-config",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"

@@ -1,6 +1,7 @@
 {
   "name": "@nelsonlaidev/typescript-config",
   "version": "1.2.1",
+  "description": "Nelson Lai's TypeScript config preset",
   "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/typescript-config",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"

@@ -1,6 +1,7 @@
 {
   "name": "@nelsonlaidev/oxfmt-config",
   "version": "0.1.4",
+  "description": "Nelson Lai's oxfmt config preset",
   "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/oxfmt-config",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
