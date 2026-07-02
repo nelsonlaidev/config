@@ -1,1146 +1,382 @@
-// Inspired by @oxlint/migrate
-// https://github.com/oxc-project/oxlint-migrate/blob/5e7463f9cc49d1074efe2230264b0068cb89ecfc/scripts/traverse-rules.ts
+import type { RuleConfig, RulesConfig, Severity, SeverityName } from '@eslint/core'
+import type { ExternalPluginEntry } from 'oxlint'
+import type { RuleMigrationDecision, RuleMigrationStatus } from './rule-migration-decisions'
 
-import { execSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath, pathToFileURL } from 'node:url'
+import { stdin as input, stdout as output } from 'node:process'
+import { createInterface } from 'node:readline/promises'
+import { pathToFileURL } from 'node:url'
 
 import { format } from 'oxfmt'
+import { x } from 'tinyexec'
 
-import { createGeneratedHeader, formatSourceForFile, getOxfmtConfig, resolveFromRoot, ROOT_DIR } from './utils'
+import { ruleMigrationDecisions } from './rule-migration-decisions'
+import { createGeneratedHeader, getOxfmtConfig, resolveFromRoot, ROOT_DIR } from './utils'
 
-type OxlintRule = {
-  value: string
+type ConfigModule = Record<string, (...args: unknown[]) => unknown[]>
+type FlatConfig = { name?: string; rules?: RulesConfig }
+export type RuleValue = RuleConfig
+type RawRuleValue = { raw: string }
+export type Rule = [string, RuleValue | RawRuleValue]
+type SourceRule = [string, RuleValue]
+type RuleValueOverride = RuleValue | RawRuleValue
+type NamedExternalPluginEntry = Exclude<ExternalPluginEntry, string>
+export type DropReason = 'not_supported' | 'typescript_compatible_eslint_off' | 'disabled_in_source'
+export type RuleSyncResult =
+  | {
+      status: 'synced'
+      sourceRuleName: string
+      normalizedRuleName: string
+      rule: Rule
+    }
+  | {
+      status: 'dropped'
+      sourceRuleName: string
+      normalizedRuleName: string
+      dropReason: DropReason
+      sourceValue: RuleValue
+    }
+export type DroppedRuleSyncResult = Extract<RuleSyncResult, { status: 'dropped' }>
+export type SyncedRuleSyncResult = Extract<RuleSyncResult, { status: 'synced' }>
+type PresetOutput = {
+  filePath: string
+  content: string
+}
+export type PresetAnalysis = {
+  presetId: string
+  groups: RuleGroupAnalysis[]
+}
+export type RuleGroupAnalysis = {
+  groupName: string
+  files: string
+  results: RuleSyncResult[]
+}
+export type ReportGroup = {
+  preset: string
+  synced: number
+  dropped: number
+  covered: number
+  classified: number
+  unclassified: number
+  coverage: string
+}
+type OxlintRuleInfo = {
   scope: string
+  value: string
   category: string
   type_aware: boolean
-  fix?: string
-  default?: boolean
-  docs_url?: string
-}
-
-type EslintFlatConfig = {
-  name?: string
-  rules?: Record<string, unknown>
-}
-
-type EnabledRuleValue = 'error' | ['error', ...unknown[]]
-type SyncedRuleValue = 'off' | EnabledRuleValue
-
-type RuleLookup = Map<string, Set<string>>
-
-type RuleGroupManifest = {
-  sourceConfigNames: string[]
-  filesExpression: string
-  pluginsExpression: string
-  commentByRuleName?: Record<string, string[]>
-  preserveOffRules?: boolean
-  dropRuleOptions?: string[]
-  augmentRuleOptions?: Record<string, Record<string, unknown>>
-}
-
-type PresetManifestEntry = {
-  id: string
-  sourceModulePath: string
-  sourceExportName: string
-  sourceArgs?: unknown[]
-  targetFilePath: string
-  targetExportName: string
-  targetArgs?: unknown[]
-  functionSignature: string
-  imports: string[]
-  oxlintScope: string
-  oxlintFallbackScopes?: string[]
-  remapRuleName: (ruleName: string) => string | null
-  groups: RuleGroupManifest[]
-}
-
-type DiffOnlyManifestEntry = {
-  id: string
-  sourceModulePath: string
-  sourceExportName: string
-  sourceArgs?: unknown[]
-  targetFilePath: string
-  targetExportName: string
-  targetArgs?: unknown[]
-  remapRuleName: (ruleName: string) => string | null
-  groups: Array<Pick<RuleGroupManifest, 'sourceConfigNames'>>
-}
-
-type SyncResult = {
-  staleFilePaths: string[]
-  updatedFilePaths: string[]
-}
-
-type MigrationGap = {
-  ruleName: string
-  reason: 'off' | 'not_remapped' | 'not_supported'
-}
-
-type MigrationGroupReport = {
-  sourceConfigNames: string[]
-  total: number
-  synced: number
-  unsupported: MigrationGap[]
-}
-
-type MigrationPresetReport = {
-  id: string
-  groups: MigrationGroupReport[]
+  fix: string
+  default: boolean
+  docs_url: string
 }
 
 const GENERATED_HEADER = createGeneratedHeader('scripts/sync-oxlint-eslint.ts')
+const README_REPORT_START = '<!-- sync:report-start -->'
+const README_REPORT_END = '<!-- sync:report-end -->'
+const RULE_MIGRATION_DECISIONS_PATH = 'packages/oxlint-config/scripts/rule-migration-decisions.ts'
+const RULE_MIGRATION_STATUSES: RuleMigrationStatus[] = [
+  'not_implemented',
+  'deprecated',
+  'replaced_by',
+  'intentionally_omitted',
+]
 
-function identityRemapper(ruleName: string) {
-  return ruleName
+// Source: https://github.com/oxc-project/oxc/blob/aa44c0bab776b1749640073ec61394cbb4015a06/crates/oxc_linter/src/utils/mod.rs#L44-L87
+const TYPESCRIPT_COMPATIBLE_ESLINT_RULES = new Set([
+  'class-methods-use-this',
+  'default-param-last',
+  'init-declarations',
+  'max-params',
+  'no-array-constructor',
+  'no-dupe-class-members',
+  'no-empty-function',
+  'no-invalid-this',
+  'no-loop-func',
+  'no-loss-of-precision',
+  'no-magic-numbers',
+  'no-redeclare',
+  'no-restricted-imports',
+  'no-shadow',
+  'no-unused-expressions',
+  'no-unused-vars',
+  'no-use-before-define',
+  'no-useless-constructor',
+])
+
+type PresetGroupEntry = {
+  group: string
+  files?: string
 }
 
-function createPrefixRemapper(from: string, to: string) {
-  return (ruleName: string) => (ruleName.startsWith(from) ? `${to}${ruleName.slice(from.length)}` : null)
+type TargetParam = {
+  name: string
+  type: string
+  import: string
 }
 
-export const PRESET_MANIFEST: PresetManifestEntry[] = [
+export type PresetEntry = {
+  // Source: eslint config
+  source: string
+  sourceExport?: string
+  sourceArgs?: unknown[]
+  groups: PresetGroupEntry[]
+
+  // Target: oxlint generated output
+  target?: string
+  targetExport?: string
+  targetParam?: TargetParam
+  scope?: string
+  jsPlugins?: NamedExternalPluginEntry[]
+
+  // Options
+  overrides?: Record<string, RuleValueOverride>
+  scopeRemap?: Record<string, string>
+  stripOptions?: Record<string, string[]>
+}
+
+const PRESETS: PresetEntry[] = [
   {
-    id: 'eslint',
-    sourceModulePath: 'packages/eslint-config/src/configs/javascript.ts',
-    sourceExportName: 'javascript',
-    targetFilePath: 'packages/oxlint-config/src/configs/eslint.ts',
-    targetExportName: 'eslint',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'eslint',
-    remapRuleName: identityRemapper,
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/javascript/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['eslint']",
-        augmentRuleOptions: {
-          'no-unused-vars': { fix: { imports: 'safe-fix' } },
-        },
-      },
-    ],
+    source: 'command',
+    jsPlugins: [{ name: 'command', specifier: 'eslint-plugin-command' }],
+    groups: [{ group: 'nelsonlaidev/command/rules' }],
   },
   {
-    id: 'unicorn',
-    sourceModulePath: 'packages/eslint-config/src/configs/unicorn.ts',
-    sourceExportName: 'unicorn',
-    targetFilePath: 'packages/oxlint-config/src/configs/unicorn.ts',
-    targetExportName: 'unicorn',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'unicorn',
-    remapRuleName: identityRemapper,
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/unicorn/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['unicorn']",
-      },
-    ],
+    source: 'de-morgan',
+    sourceExport: 'deMorgan',
+    jsPlugins: [{ name: 'de-morgan', specifier: 'eslint-plugin-de-morgan' }],
+    groups: [{ group: 'nelsonlaidev/de-morgan/rules' }],
   },
   {
-    id: 'typescript',
-    sourceModulePath: 'packages/eslint-config/src/configs/typescript.ts',
-    sourceExportName: 'typescript',
-    targetFilePath: 'packages/oxlint-config/src/configs/typescript.ts',
-    targetExportName: 'typescript',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'typescript',
-    oxlintFallbackScopes: ['eslint'],
-    remapRuleName: (ruleName) => {
-      if (ruleName.startsWith('@typescript-eslint/')) {
-        return `typescript/${ruleName.slice('@typescript-eslint/'.length)}`
-      }
-      if (!ruleName.includes('/')) {
-        return `eslint/${ruleName}`
-      }
-      return null
+    source: 'javascript',
+    target: 'eslint',
+    targetExport: 'eslint',
+    scope: 'eslint',
+    groups: [{ group: 'nelsonlaidev/javascript/rules' }],
+    overrides: {
+      'eslint/no-unused-vars': ['error', { fix: { imports: 'safe-fix' } }],
     },
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/typescript/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['eslint', 'typescript']",
-        preserveOffRules: true,
+  },
+  {
+    source: 'import-sort',
+    sourceExport: 'importSort',
+    targetExport: 'importSort',
+    jsPlugins: [{ name: 'import-sort', specifier: 'eslint-plugin-simple-import-sort' }],
+    groups: [{ group: 'nelsonlaidev/import-sort/rules' }],
+  },
+  {
+    source: 'import-x',
+    sourceExport: 'importX',
+    target: 'imports',
+    targetExport: 'imports',
+    scope: 'import',
+    groups: [{ group: 'nelsonlaidev/import-x/rules' }],
+  },
+  {
+    source: 'jsdoc',
+    groups: [{ group: 'nelsonlaidev/jsdoc/rules' }],
+  },
+  {
+    source: 'jsx-a11y',
+    sourceExport: 'jsxA11y',
+    groups: [{ group: 'nelsonlaidev/jsx-a11y/rules' }],
+    stripOptions: {
+      'jsx-a11y/control-has-associated-label': ['includeRoles'],
+    },
+  },
+  {
+    source: 'nelsonlaidev',
+    jsPlugins: [{ name: 'nelsonlaidev', specifier: '@nelsonlaidev/eslint-plugin' }],
+    groups: [{ group: 'nelsonlaidev/nelsonlaidev/rules' }],
+  },
+  {
+    source: 'nextjs',
+    scope: 'nextjs',
+    groups: [{ group: 'nelsonlaidev/nextjs/rules' }],
+  },
+  {
+    source: 'node',
+    scope: 'node',
+    groups: [{ group: 'nelsonlaidev/node/rules' }],
+  },
+  {
+    source: 'playwright',
+    sourceArgs: [{ files: [] }],
+    groups: [{ group: 'nelsonlaidev/playwright/rules', files: 'config.files' }],
+    targetParam: {
+      name: 'config',
+      type: 'PlaywrightConfig',
+      import: '../types/playwright',
+    },
+    jsPlugins: [{ name: 'playwright', specifier: 'eslint-plugin-playwright' }],
+    overrides: {
+      'playwright/expect-expect': {
+        raw: `[
+          'error',
+          {
+            assertFunctionNames: config.assertFunctionNames ?? [],
+            assertFunctionPatterns: config.assertFunctionPatterns ?? [],
+          },
+        ]`,
       },
-      {
-        sourceConfigNames: ['nelsonlaidev/typescript/declarations'],
-        filesExpression: "['**/*.d.ts']",
-        pluginsExpression: "['eslint', 'typescript']",
-        commentByRuleName: {
-          'typescript/consistent-type-definitions': [
-            '// We sometimes need to use `interface` in declaration files,',
-            '// especially when we want to extend from a type from another package,',
-            '// and that type is an interface.',
-          ],
-          'typescript/consistent-indexed-object-style': [
-            '// Similar to the above rule, interfaces support index signatures only when',
-            '// we define object types with them.',
-          ],
-        },
-        preserveOffRules: true,
-      },
+    },
+  },
+  {
+    source: 'promise',
+    groups: [{ group: 'nelsonlaidev/promise/rules' }],
+  },
+  {
+    source: 'react',
+    jsPlugins: [
+      { name: '@eslint-react', specifier: '@eslint-react/eslint-plugin' },
+      { name: 'react-hooks-js', specifier: 'eslint-plugin-react-hooks' },
     ],
+    scopeRemap: {
+      'react-hooks': 'react-hooks-js',
+    },
+    groups: [{ group: 'nelsonlaidev/react/rules' }],
   },
   {
-    id: 'import',
-    sourceModulePath: 'packages/eslint-config/src/configs/import-x.ts',
-    sourceExportName: 'importX',
-    targetFilePath: 'packages/oxlint-config/src/configs/imports.ts',
-    targetExportName: 'imports',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'import',
-    remapRuleName: createPrefixRemapper('import-x/', 'import/'),
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/import-x/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['import']",
-      },
-    ],
+    source: 'regexp',
+    jsPlugins: [{ name: 'regexp', specifier: 'eslint-plugin-regexp' }],
+    groups: [{ group: 'nelsonlaidev/regexp/rules' }],
   },
   {
-    id: 'jsdoc',
-    sourceModulePath: 'packages/eslint-config/src/configs/jsdoc.ts',
-    sourceExportName: 'jsdoc',
-    targetFilePath: 'packages/oxlint-config/src/configs/jsdoc.ts',
-    targetExportName: 'jsdoc',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'jsdoc',
-    remapRuleName: identityRemapper,
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/jsdoc/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['jsdoc']",
-      },
-    ],
+    source: 'sonarjs',
+    jsPlugins: [{ name: 'sonarjs', specifier: 'eslint-plugin-sonarjs' }],
+    groups: [{ group: 'nelsonlaidev/sonarjs/rules' }],
   },
   {
-    id: 'vitest',
-    sourceModulePath: 'packages/eslint-config/src/configs/vitest.ts',
-    sourceExportName: 'vitest',
-    sourceArgs: [{ files: ['__SYNC_PLACEHOLDER__'] }],
-    targetFilePath: 'packages/oxlint-config/src/configs/vitest.ts',
-    targetExportName: 'vitest',
-    targetArgs: [{ files: ['**/*.test.ts'] }],
-    functionSignature: '(config: VitestConfig): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", "import type { VitestConfig } from '../types/vitest'"],
-    oxlintScope: 'vitest',
-    remapRuleName: identityRemapper,
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/vitest/rules'],
-        filesExpression: 'config.files',
-        pluginsExpression: "['vitest']",
-      },
-    ],
+    source: 'stylistic',
+    jsPlugins: [{ name: '@stylistic', specifier: '@stylistic/eslint-plugin' }],
+    groups: [{ group: 'nelsonlaidev/stylistic/rules' }],
   },
   {
-    id: 'jsx-a11y',
-    sourceModulePath: 'packages/eslint-config/src/configs/jsx-a11y.ts',
-    sourceExportName: 'jsxA11y',
-    targetFilePath: 'packages/oxlint-config/src/configs/jsx-a11y.ts',
-    targetExportName: 'jsxA11y',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'jsx_a11y',
-    remapRuleName: identityRemapper,
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/jsx-a11y/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['jsx-a11y']",
-      },
-    ],
-  },
-  {
-    id: 'nextjs',
-    sourceModulePath: 'packages/eslint-config/src/configs/nextjs.ts',
-    sourceExportName: 'nextjs',
-    targetFilePath: 'packages/oxlint-config/src/configs/nextjs.ts',
-    targetExportName: 'nextjs',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'nextjs',
-    remapRuleName: createPrefixRemapper('@next/next/', 'nextjs/'),
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/nextjs/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['nextjs']",
-      },
-    ],
-  },
-  {
-    id: 'promise',
-    sourceModulePath: 'packages/eslint-config/src/configs/promise.ts',
-    sourceExportName: 'promise',
-    targetFilePath: 'packages/oxlint-config/src/configs/promise.ts',
-    targetExportName: 'promise',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'promise',
-    remapRuleName: identityRemapper,
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/promise/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['promise']",
-      },
-    ],
-  },
-  {
-    id: 'node',
-    sourceModulePath: 'packages/eslint-config/src/configs/node.ts',
-    sourceExportName: 'node',
-    targetFilePath: 'packages/oxlint-config/src/configs/node.ts',
-    targetExportName: 'node',
-    functionSignature: '(): OxlintOverride[]',
-    imports: ["import type { OxlintOverride } from 'oxlint'", '', "import { GLOB_SRC } from '../globs'"],
-    oxlintScope: 'node',
-    remapRuleName: createPrefixRemapper('n/', 'node/'),
-    groups: [
-      {
-        sourceConfigNames: ['nelsonlaidev/node/rules'],
-        filesExpression: '[GLOB_SRC]',
-        pluginsExpression: "['node']",
-      },
-    ],
-  },
-]
-
-export const MANUAL_DIFF_MANIFEST: DiffOnlyManifestEntry[] = [
-  {
-    id: 'regexp',
-    sourceModulePath: 'packages/eslint-config/src/configs/regexp.ts',
-    sourceExportName: 'regexp',
-    targetFilePath: 'packages/oxlint-config/src/configs/regexp.ts',
-    targetExportName: 'regexp',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/regexp/rules'] }],
-  },
-  {
-    id: 'playwright',
-    sourceModulePath: 'packages/eslint-config/src/configs/playwright.ts',
-    sourceExportName: 'playwright',
-    sourceArgs: [{ files: ['__DIFF_PLACEHOLDER__'] }],
-    targetFilePath: 'packages/oxlint-config/src/configs/playwright.ts',
-    targetExportName: 'playwright',
-    targetArgs: [{ files: ['__DIFF_PLACEHOLDER__'] }],
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/playwright/rules'] }],
-  },
-  {
-    id: 'sonarjs',
-    sourceModulePath: 'packages/eslint-config/src/configs/sonarjs.ts',
-    sourceExportName: 'sonarjs',
-    targetFilePath: 'packages/oxlint-config/src/configs/sonarjs.ts',
-    targetExportName: 'sonarjs',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/sonarjs/rules'] }],
-  },
-  {
-    id: 'zod',
-    sourceModulePath: 'packages/eslint-config/src/configs/zod.ts',
-    sourceExportName: 'zod',
-    targetFilePath: 'packages/oxlint-config/src/configs/zod.ts',
-    targetExportName: 'zod',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/zod/rules'] }],
-  },
-  {
-    id: 'command',
-    sourceModulePath: 'packages/eslint-config/src/configs/command.ts',
-    sourceExportName: 'command',
-    targetFilePath: 'packages/oxlint-config/src/configs/command.ts',
-    targetExportName: 'command',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/command/rules'] }],
-  },
-  {
-    id: 'stylistic',
-    sourceModulePath: 'packages/eslint-config/src/configs/stylistic.ts',
-    sourceExportName: 'stylistic',
-    targetFilePath: 'packages/oxlint-config/src/configs/stylistic.ts',
-    targetExportName: 'stylistic',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/stylistic/rules'] }],
-  },
-  {
-    id: 'de-morgan',
-    sourceModulePath: 'packages/eslint-config/src/configs/de-morgan.ts',
-    sourceExportName: 'deMorgan',
-    targetFilePath: 'packages/oxlint-config/src/configs/de-morgan.ts',
-    targetExportName: 'deMorgan',
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/de-morgan/rules'] }],
-  },
-  {
-    id: 'tailwindcss',
-    sourceModulePath: 'packages/eslint-config/src/configs/tailwindcss.ts',
-    sourceExportName: 'tailwindcss',
+    source: 'tailwindcss',
     sourceArgs: [{}],
-    targetFilePath: 'packages/oxlint-config/src/configs/tailwindcss.ts',
-    targetExportName: 'tailwindcss',
-    targetArgs: [{}],
-    remapRuleName: identityRemapper,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/tailwindcss/rules'] }],
+    groups: [{ group: 'nelsonlaidev/tailwindcss/rules' }],
+    targetParam: {
+      name: 'options',
+      type: 'TailwindCSSConfig',
+      import: '../types',
+    },
+    jsPlugins: [{ name: 'better-tailwindcss', specifier: 'eslint-plugin-better-tailwindcss' }],
+    overrides: {
+      'better-tailwindcss/enforce-canonical-classes': {
+        raw: `[
+          'error',
+          {
+            collapse: options.canonical?.collapse ?? true,
+            logical: options.canonical?.logical ?? true,
+          },
+        ]`,
+      },
+      'better-tailwindcss/enforce-consistent-class-order': {
+        raw: `[
+          'error',
+          {
+            order: options.classOrder?.order ?? 'official',
+            componentClassOrder: options.classOrder?.componentOrder ?? 'preserve',
+            componentClassPosition: options.classOrder?.componentPosition ?? 'start',
+            unknownClassOrder: options.classOrder?.unknownOrder ?? 'preserve',
+            unknownClassPosition: options.classOrder?.unknownPosition ?? 'start',
+          },
+        ]`,
+      },
+      'better-tailwindcss/enforce-shorthand-classes': {
+        raw: `(options.canonical?.logical ?? true) ? 'off' : 'error'`,
+      },
+      'better-tailwindcss/no-restricted-classes': {
+        raw: `['error', { restrict: options.restrict ?? [] }]`,
+      },
+      'better-tailwindcss/no-unknown-classes': {
+        raw: `['error', { ignore: options.ignore ?? [] }]`,
+      },
+      'better-tailwindcss/no-unnecessary-whitespace': {
+        raw: `[
+          'error',
+          {
+            allowMultiline: options.whitespace?.allowMultiline ?? true,
+          },
+        ]`,
+      },
+    },
   },
   {
-    id: 'react',
-    sourceModulePath: 'packages/eslint-config/src/configs/react.ts',
-    sourceExportName: 'react',
-    targetFilePath: 'packages/oxlint-config/src/configs/react.ts',
-    targetExportName: 'react',
-    remapRuleName: (ruleName) =>
-      ruleName.startsWith('react-hooks/') ? `react-hooks-js/${ruleName.slice('react-hooks/'.length)}` : ruleName,
-    groups: [{ sourceConfigNames: ['nelsonlaidev/react/rules'] }],
+    source: 'typescript',
+    scope: 'typescript',
+    groups: [
+      { group: 'nelsonlaidev/typescript/rules' },
+      {
+        group: 'nelsonlaidev/typescript/declarations',
+        files: `['**/*.d.ts']`,
+      },
+    ],
   },
   {
-    id: 'nelsonlaidev',
-    sourceModulePath: 'packages/eslint-config/src/configs/nelsonlaidev.ts',
-    sourceExportName: 'nelsonlaidev',
-    targetFilePath: 'packages/oxlint-config/src/configs/nelsonlaidev.ts',
-    targetExportName: 'nelsonlaidev',
-    remapRuleName: createPrefixRemapper('@nelsonlaidev/', 'nelsonlaidev/'),
-    groups: [{ sourceConfigNames: ['nelsonlaidev/nelsonlaidev/rules'] }],
+    source: 'unicorn',
+    groups: [{ group: 'nelsonlaidev/unicorn/rules' }],
+  },
+  {
+    source: 'vitest',
+    sourceArgs: [{ files: [] }],
+    groups: [{ group: 'nelsonlaidev/vitest/rules', files: 'config.files' }],
+    targetParam: {
+      name: 'config',
+      type: 'VitestConfig',
+      import: '../types/vitest',
+    },
+  },
+  {
+    source: 'zod',
+    jsPlugins: [{ name: 'import-zod', specifier: 'eslint-plugin-import-zod' }],
+    groups: [{ group: 'nelsonlaidev/zod/rules' }],
   },
 ]
 
-export function readRulesFromCommand(): OxlintRule[] {
-  const oxlintOutput = execSync(`pnpm exec oxlint --rules --format=json`, {
-    cwd: ROOT_DIR,
-    encoding: 'utf-8',
-    stdio: 'pipe',
-  })
+let oxlintLookup: Promise<Set<string>> | undefined
 
-  return JSON.parse(oxlintOutput) as OxlintRule[]
+async function getOxlintLookup(): Promise<Set<string>> {
+  oxlintLookup ??= createOxlintLookup()
+  return oxlintLookup
 }
 
-export function buildSupportedRuleLookup(rules: OxlintRule[]): RuleLookup {
-  const lookup = new Map<string, Set<string>>()
-
-  for (const rule of rules) {
-    const supportedRules = lookup.get(rule.scope) ?? new Set<string>()
-    supportedRules.add(rule.value)
-    lookup.set(rule.scope, supportedRules)
-  }
-
-  return lookup
-}
-
-export function buildDefaultEnabledRuleLookup(rules: OxlintRule[]): RuleLookup {
-  const lookup = new Map<string, Set<string>>()
-
-  for (const rule of rules) {
-    if (rule.category !== 'correctness') continue
-
-    const defaultRules = lookup.get(rule.scope) ?? new Set<string>()
-    defaultRules.add(rule.value)
-    lookup.set(rule.scope, defaultRules)
-  }
-
-  return lookup
-}
-
-function scopeToPluginName(scope: string): string {
-  if (scope === 'jsx_a11y') return 'jsx-a11y'
-  return scope
-}
-
-function pluginNameToScope(name: string): string {
-  if (name === 'jsx-a11y') return 'jsx_a11y'
-  return name
-}
-
-export function normalizeRuleValue(rawValue: unknown): SyncedRuleValue {
-  if (Array.isArray(rawValue)) {
-    const [level, ...options] = rawValue as readonly unknown[]
-    const normalizedLevel = normalizeSeverity(level)
-
-    if (normalizedLevel === 'off') {
-      return 'off'
-    }
-
-    return options.length === 0 ? 'error' : ['error', ...options]
-  }
-
-  return normalizeSeverity(rawValue)
-}
-
-function normalizeRules(rules: Record<string, unknown>): Record<string, SyncedRuleValue> {
-  const result: Record<string, SyncedRuleValue> = {}
-  for (const [key, value] of Object.entries(rules)) {
-    result[key] = normalizeRuleValue(value)
-  }
-  return result
-}
-
-function normalizeSeverity(level: unknown): 'error' | 'off' {
-  if (level === 'off' || level === 0) {
-    return 'off'
-  }
-
-  if (level === 'warn' || level === 1 || level === 'error' || level === 2) {
-    return 'error'
-  }
-
-  throw new Error(`Unsupported ESLint rule severity: ${JSON.stringify(level)}`)
-}
-
-async function loadSourceConfigs(entry: PresetManifestEntry): Promise<EslintFlatConfig[]> {
-  const moduleUrl = pathToFileURL(resolveFromRoot(entry.sourceModulePath)).href
-  const sourceModule = (await import(moduleUrl)) as Record<string, (...args: unknown[]) => EslintFlatConfig[]>
-  const sourceFactory = sourceModule[entry.sourceExportName]
-
-  if (typeof sourceFactory !== 'function') {
-    throw new TypeError(`Missing source export "${entry.sourceExportName}" in ${entry.sourceModulePath}`)
-  }
-
-  return sourceFactory(...(entry.sourceArgs ?? []))
-}
-
-function getConfigByName(configs: EslintFlatConfig[], configName: string): EslintFlatConfig {
-  const config = configs.find((item) => item.name === configName)
-
-  if (!config) {
-    throw new Error(`Unable to find ESLint config "${configName}"`)
-  }
-
-  return config
-}
-
-export function collectRulesForGroup(configs: EslintFlatConfig[], group: RuleGroupManifest): Record<string, unknown> {
-  const collectedRules: Record<string, unknown> = {}
-
-  for (const configName of group.sourceConfigNames) {
-    const config = getConfigByName(configs, configName)
-    Object.assign(collectedRules, config.rules)
-  }
-
-  return collectedRules
-}
-
-function getScopedRuleValue(ruleName: string) {
-  const slashIndex = ruleName.indexOf('/')
-  return slashIndex === -1 ? ruleName : ruleName.slice(slashIndex + 1)
-}
-
-function getScopedRuleScope(ruleName: string): string | null {
-  const slashIndex = ruleName.indexOf('/')
-  return slashIndex === -1 ? null : ruleName.slice(0, slashIndex)
-}
-
-export function mapToSupportedOxlintRules(
-  rules: Record<string, unknown>,
-  entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
-  supportedRules: RuleLookup,
-  {
-    preserveOffRules = false,
-    dropRuleOptions = [],
-    augmentRuleOptions = {},
-  }: {
-    preserveOffRules?: boolean
-    dropRuleOptions?: string[]
-    augmentRuleOptions?: Record<string, Record<string, unknown>>
-  } = {},
-  defaultEnabledRules?: RuleLookup,
-): Record<string, SyncedRuleValue> {
-  const dropSet = new Set(dropRuleOptions)
-  const syncedRules = new Map<string, SyncedRuleValue>()
-
-  for (const [eslintRuleName, rawValue] of Object.entries(rules)) {
-    const normalizedValue = normalizeRuleValue(rawValue)
-
-    if (normalizedValue === 'off' && !preserveOffRules) {
-      continue
-    }
-
-    const remappedRuleName = entry.remapRuleName(eslintRuleName)
-
-    if (!remappedRuleName) {
-      continue
-    }
-
-    const oxlintRuleName = resolveSupportedOxlintRuleName(remappedRuleName, entry, supportedRules)
-
-    if (!oxlintRuleName) {
-      continue
-    }
-
-    let finalValue: SyncedRuleValue =
-      dropSet.has(oxlintRuleName) && normalizedValue !== 'off' ? 'error' : normalizedValue
-
-    const augment = augmentRuleOptions[oxlintRuleName]
-    if (augment && finalValue !== 'off') {
-      const existingOptions = Array.isArray(finalValue) ? finalValue.slice(1) : []
-      finalValue = ['error', ...existingOptions, augment]
-    }
-
-    syncedRules.set(oxlintRuleName, finalValue)
-  }
-
-  if (defaultEnabledRules && !preserveOffRules) {
-    const scopeDefaults = defaultEnabledRules.get(entry.oxlintScope)
-    if (scopeDefaults) {
-      for (const ruleValue of scopeDefaults) {
-        if (!supportedRules.get(entry.oxlintScope)?.has(ruleValue)) continue
-
-        // eslint core rules may use unprefixed names; check both formats
-        const prefixedName = `${scopeToPluginName(entry.oxlintScope)}/${ruleValue}`
-        if (syncedRules.has(prefixedName) || syncedRules.has(ruleValue)) continue
-
-        // eslint core scope uses unprefixed names, other scopes use prefixed
-        const name = entry.oxlintScope === 'eslint' ? ruleValue : prefixedName
-        syncedRules.set(name, 'off')
-      }
-    }
-  }
-
-  return Object.fromEntries(
-    syncedRules
-      .entries()
-      .toArray()
-      .toSorted(([left], [right]) => left.localeCompare(right)),
-  )
-}
-
-export function analyzeGroupMigration(
-  rules: Record<string, unknown>,
-  entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes' | 'remapRuleName'>,
-  supportedRules: RuleLookup,
-  { preserveOffRules = true }: { preserveOffRules?: boolean } = {},
-): { synced: string[]; unsupported: MigrationGap[] } {
-  const synced: string[] = []
-  const unsupported: MigrationGap[] = []
-
-  for (const [eslintRuleName, rawValue] of Object.entries(rules)) {
-    const normalizedValue = normalizeRuleValue(rawValue)
-
-    if (normalizedValue === 'off' && !preserveOffRules) {
-      continue
-    }
-
-    const remappedRuleName = entry.remapRuleName(eslintRuleName)
-
-    if (!remappedRuleName) {
-      unsupported.push({ ruleName: eslintRuleName, reason: 'not_remapped' })
-      continue
-    }
-
-    const oxlintRuleName = resolveSupportedOxlintRuleName(remappedRuleName, entry, supportedRules)
-
-    if (!oxlintRuleName) {
-      unsupported.push({ ruleName: eslintRuleName, reason: 'not_supported' })
-      continue
-    }
-
-    synced.push(oxlintRuleName)
-  }
-
-  return { synced, unsupported }
-}
-
-function resolveSupportedOxlintRuleName(
-  ruleName: string,
-  entry: Pick<PresetManifestEntry, 'oxlintScope' | 'oxlintFallbackScopes'>,
-  supportedRules: RuleLookup,
-) {
-  const ruleValue = getScopedRuleValue(ruleName)
-  const explicitScope = getScopedRuleScope(ruleName)
-
-  if (explicitScope) {
-    const lookupScope = pluginNameToScope(explicitScope)
-    if (supportedRules.get(lookupScope)?.has(ruleValue)) {
-      return ruleName
-    }
-
-    for (const fallbackScope of entry.oxlintFallbackScopes ?? []) {
-      if (fallbackScope === lookupScope) continue
-      if (supportedRules.get(fallbackScope)?.has(ruleValue)) {
-        return `${fallbackScope}/${ruleValue}`
-      }
-    }
-
-    return null
-  }
-
-  if (supportedRules.get(entry.oxlintScope)?.has(ruleValue)) {
-    return ruleName
-  }
-
-  for (const fallbackScope of entry.oxlintFallbackScopes ?? []) {
-    if (supportedRules.get(fallbackScope)?.has(ruleValue)) {
-      return `${fallbackScope}/${ruleValue}`
-    }
-  }
-
-  return null
-}
-
-function renderRuleEntries(rules: Record<string, SyncedRuleValue>, comments: Record<string, string[]> = {}) {
-  const lines: string[] = []
-
-  for (const [ruleName, value] of Object.entries(rules)) {
-    for (const commentLine of comments[ruleName] ?? []) {
-      lines.push(`      ${commentLine}`)
-    }
-
-    const renderedEntry = JSON.stringify({ [ruleName]: value }, null, 2)
-      .split('\n')
-      .slice(1, -1)
-      .map((line) => `    ${line}`)
-
-    const lastIndex = renderedEntry.length - 1
-
-    if (lastIndex < 0) {
-      continue
-    }
-
-    renderedEntry[lastIndex] = `${renderedEntry[lastIndex]},`
-    lines.push(...renderedEntry)
-  }
-
-  return lines
-}
-
-function renderRulesObject(rules: Record<string, SyncedRuleValue>, comments?: Record<string, string[]>) {
-  const renderedEntries = renderRuleEntries(rules, comments)
-
-  if (renderedEntries.length === 0) {
-    return '    rules: {},'
-  }
-
-  return ['    rules: {', ...renderedEntries, '    },'].join('\n')
-}
-
-function renderOverride(group: RuleGroupManifest, rules: Record<string, SyncedRuleValue>) {
-  return [
-    '  {',
-    `    files: ${group.filesExpression},`,
-    `    plugins: ${group.pluginsExpression},`,
-    renderRulesObject(rules, group.commentByRuleName),
-    '  }',
-  ].join('\n')
-}
-
-export async function generatePresetContent(
-  entry: PresetManifestEntry,
-  supportedRules: RuleLookup,
-  defaultEnabledRules?: RuleLookup,
-): Promise<string> {
-  const sourceConfigs = await loadSourceConfigs(entry)
-  const renderedOverrides = entry.groups.map((group) => {
-    const eslintRules = collectRulesForGroup(sourceConfigs, group)
-    const syncedRules = mapToSupportedOxlintRules(
-      eslintRules,
-      entry,
-      supportedRules,
-      {
-        preserveOffRules: group.preserveOffRules,
-        dropRuleOptions: group.dropRuleOptions,
-        augmentRuleOptions: group.augmentRuleOptions,
-      },
-      defaultEnabledRules,
-    )
-    return renderOverride(group, syncedRules)
-  })
-
-  const source = [
-    GENERATED_HEADER,
-    '',
-    ...entry.imports,
-    '',
-    `export const ${entry.targetExportName} = ${entry.functionSignature} => [`,
-    renderedOverrides.join(',\n'),
-    ']',
-    '',
-  ].join('\n')
-
-  return formatSourceForFile(entry.targetFilePath, source)
-}
-
-export async function generatePresetOutputs(supportedRules: RuleLookup, defaultEnabledRules?: RuleLookup) {
-  return Promise.all(
-    PRESET_MANIFEST.map(async (entry) => ({
-      entry,
-      content: await generatePresetContent(entry, supportedRules, defaultEnabledRules),
-    })),
-  )
-}
-
-export async function syncOxlintEslint({ check = false }: { check?: boolean } = {}): Promise<SyncResult> {
-  const rules = readRulesFromCommand()
-  const supportedRules = buildSupportedRuleLookup(rules)
-  const defaultEnabledRules = buildDefaultEnabledRuleLookup(rules)
-  const presetOutputs = await generatePresetOutputs(supportedRules, defaultEnabledRules)
-
-  const staleFilePaths: string[] = []
-  const updatedFilePaths: string[] = []
-
-  for (const { entry, content } of presetOutputs) {
-    const absoluteTargetPath = resolveFromRoot(entry.targetFilePath)
-    const currentContent = readFileSync(absoluteTargetPath, 'utf-8')
-
-    if (currentContent === content) {
-      continue
-    }
-
-    staleFilePaths.push(absoluteTargetPath)
-
-    if (!check) {
-      writeFileSync(absoluteTargetPath, content)
-      updatedFilePaths.push(absoluteTargetPath)
-    }
-  }
-
-  return { staleFilePaths, updatedFilePaths }
-}
-
-export async function generateMigrationReport(supportedRules: RuleLookup): Promise<MigrationPresetReport[]> {
-  const allSourceConfigs = await Promise.all(PRESET_MANIFEST.map(async (entry) => loadSourceConfigs(entry)))
-
-  return PRESET_MANIFEST.map((entry, index) => {
-    const sourceConfigs = allSourceConfigs[index]
-    if (!sourceConfigs) {
-      throw new Error(`Missing source configs for preset "${entry.id}"`)
-    }
-    const groupReports: MigrationGroupReport[] = entry.groups.map((group) => {
-      const eslintRules = collectRulesForGroup(sourceConfigs, group)
-      const { synced, unsupported } = analyzeGroupMigration(eslintRules, entry, supportedRules, {
-        preserveOffRules: group.preserveOffRules,
-      })
-
-      return {
-        sourceConfigNames: group.sourceConfigNames,
-        total: synced.length + unsupported.length,
-        synced: synced.length,
-        unsupported,
-      }
-    })
-
-    return { id: entry.id, groups: groupReports }
-  })
-}
-
-export function printMigrationReport(reports: MigrationPresetReport[]) {
-  const notSupportedByGroup: Array<{ preset: string; rules: string[] }> = []
-
-  for (const preset of reports) {
-    for (const group of preset.groups) {
-      const unsupported = group.unsupported.filter((g) => g.reason === 'not_supported')
-      const pct = group.total > 0 ? ((group.synced / group.total) * 100).toFixed(1) : '0.0'
-      const label = group.sourceConfigNames.join('+')
-
-      console.log(`${preset.id}/${label}: ${group.synced}/${group.total} (${pct}%) synced`)
-
-      if (unsupported.length > 0) {
-        const ruleNames = unsupported.map((g) => g.ruleName)
-        console.log(`  unsupported: ${ruleNames.join(', ')}`)
-        notSupportedByGroup.push({ preset: preset.id, rules: ruleNames })
-      }
-    }
-  }
-
-  if (notSupportedByGroup.length > 0) {
-    const totalUnsupported = notSupportedByGroup.reduce((sum, g) => sum + g.rules.length, 0)
-    console.log(`\n${totalUnsupported} unsupported rule(s) across ${notSupportedByGroup.length} group(s).`)
-  } else {
-    console.log('\nAll rules are supported by oxlint.')
-  }
-}
-
-const UNSCANNED_PLUGIN_TABLE = [
-  '| Config | Reason |',
-  '|--------|--------|',
-  '| `comments.ts` | Plugin that comments out eslint-disable directives |',
-  '| `gitignore.ts` | File-based ignores, handled by Oxlint config |',
-  '| `ignores.ts` | File ignore patterns |',
-  '| `import-sort.ts` | Replaced by Oxlint built-in `import/sort` |',
-  '| `prettier.ts` | Formatting concern, handled by oxfmt |',
-  '  | `unused-imports.ts` | Replaced by Oxlint built-in `no-unused-vars` with `fix.imports` |',
-].join('\n')
-
-function formatMigrationTable(reports: MigrationPresetReport[]): string {
-  const lines = ['| Preset | Synced | Total | Coverage |', '|--------|--------|-------|----------|']
-
-  for (const preset of reports) {
-    for (const group of preset.groups) {
-      const pct = group.total > 0 ? ((group.synced / group.total) * 100).toFixed(1) : '0.0'
-      const raw = group.sourceConfigNames[0] ?? ''
-      const label = `${preset.id}/${raw.split('/').slice(1).join('/')}`
-
-      lines.push(`| \`${label}\` | ${group.synced} | ${group.total} | ${pct}% |`)
-    }
-  }
-
-  return lines.join('\n')
-}
-
-async function updateReadmeReport(supportedRules: RuleLookup) {
-  const reports = await generateMigrationReport(supportedRules)
-  const table = formatMigrationTable(reports)
-  const readmePath = resolveFromRoot('packages/oxlint-config/README.md')
-  const current = readFileSync(readmePath, 'utf-8')
-
-  const startMarker = '<!-- sync:report-start -->'
-  const endMarker = '<!-- sync:report-end -->'
-
-  const startIndex = current.indexOf(startMarker)
-  const endIndex = current.indexOf(endMarker)
-
-  if (startIndex === -1 || endIndex === -1) {
-    throw new Error(`Missing report markers (${startMarker} / ${endMarker}) in ${readmePath}`)
-  }
-
-  const content = [
-    startMarker,
-    '',
-    '### Synced (auto-generated)',
-    '',
-    table,
-    '',
-    '### Manually maintained (diff-only)',
-    '',
-    'These use `jsPlugins` and are checked for consistency via `sync:check`.',
-    '',
-    MANUAL_DIFF_MANIFEST.map((e) => `- \`${e.id}\``).join('\n'),
-    '',
-    '### Unscanned ESLint plugins',
-    '',
-    UNSCANNED_PLUGIN_TABLE,
-    '',
-    endMarker,
-  ].join('\n')
-
-  const updated = current.slice(0, startIndex) + content + current.slice(endIndex + endMarker.length)
-
-  const config = await getOxfmtConfig()
-  const result = await format(readmePath, updated, config)
-  const formatted = result.code
-
-  writeFileSync(readmePath, formatted)
-  console.log(`Updated ${path.relative(ROOT_DIR, readmePath)}`)
-}
-
-type OverrideLike = {
-  files?: unknown
-  plugins?: unknown
-  jsPlugins?: unknown
-  rules?: Record<string, unknown>
-}
-
-async function loadTargetOverrides(entry: PresetManifestEntry): Promise<OverrideLike[]> {
-  const moduleUrl = `${pathToFileURL(resolveFromRoot(entry.targetFilePath)).href}?t=${Date.now()}`
-  const targetModule = (await import(moduleUrl)) as Record<string, (...args: unknown[]) => unknown[]>
-  const factory = targetModule[entry.targetExportName]
-
-  if (typeof factory !== 'function') {
-    throw new TypeError(`Missing target export "${entry.targetExportName}" in ${entry.targetFilePath}`)
-  }
-
-  return factory(...(entry.targetArgs ?? [])) as OverrideLike[]
-}
-
-type DiffGroupResult = {
-  groupLabel: string
-  added: string[]
-  removed: string[]
-  changed: string[]
-}
-
-async function diffPreset(
-  entry: PresetManifestEntry,
-  supportedRules: RuleLookup,
-  defaultEnabledRules?: RuleLookup,
-): Promise<DiffGroupResult[]> {
-  const sourceConfigs = await loadSourceConfigs(entry)
-  const targetOverrides = await loadTargetOverrides(entry)
-  const results: DiffGroupResult[] = []
-
-  let groupIndex = 0
-
-  for (const group of entry.groups) {
-    const eslintRules = collectRulesForGroup(sourceConfigs, group)
-    const syncedRules = mapToSupportedOxlintRules(
-      eslintRules,
-      entry,
-      supportedRules,
-      {
-        preserveOffRules: group.preserveOffRules,
-        dropRuleOptions: group.dropRuleOptions,
-        augmentRuleOptions: group.augmentRuleOptions,
-      },
-      defaultEnabledRules,
-    )
-
-    const targetRules = normalizeRules(targetOverrides[groupIndex]?.rules ?? {})
-
-    const allKeys = new Set([...Object.keys(syncedRules), ...Object.keys(targetRules)])
-    const added: string[] = []
-    const removed: string[] = []
-    const changed: string[] = []
-
-    for (const key of allKeys) {
-      const synced = JSON.stringify(syncedRules[key])
-      const target = JSON.stringify(targetRules[key])
-
-      if (synced === target) continue
-
-      if (key in targetRules && key in syncedRules) {
-        changed.push(key)
-      } else if (key in targetRules) {
-        removed.push(key)
-      } else {
-        added.push(key)
-      }
-    }
-
-    results.push({
-      groupLabel: group.sourceConfigNames.join('+'),
-      added,
-      removed,
-      changed,
-    })
-
-    groupIndex += 1
-  }
-
-  return results
-}
-
-async function diffManualEntry(entry: DiffOnlyManifestEntry): Promise<DiffGroupResult[]> {
-  const sourceConfigs = await loadSourceConfigs(entry as unknown as PresetManifestEntry)
-  const targetOverrides = await loadTargetOverrides(entry as unknown as PresetManifestEntry)
-  const results: DiffGroupResult[] = []
-  let groupIndex = 0
-
-  for (const group of entry.groups) {
-    const eslintRules = collectRulesForGroup(sourceConfigs, group as RuleGroupManifest)
-
-    const sourceRules: Record<string, unknown> = {}
-    for (const [ruleName, value] of Object.entries(eslintRules)) {
-      const remapped = entry.remapRuleName(ruleName)
-      if (!remapped) continue
-      sourceRules[remapped] = normalizeRuleValue(value)
-    }
-
-    const targetRules = normalizeRules(targetOverrides[groupIndex]?.rules ?? {})
-
-    const allKeys = new Set([...Object.keys(sourceRules), ...Object.keys(targetRules)])
-    const added: string[] = []
-    const removed: string[] = []
-    const changed: string[] = []
-
-    for (const key of allKeys) {
-      const source = JSON.stringify(sourceRules[key])
-      const target = JSON.stringify(targetRules[key])
-
-      if (source === target) continue
-
-      if (key in targetRules && key in sourceRules) {
-        changed.push(key)
-      } else if (key in targetRules) {
-        removed.push(key)
-      } else {
-        added.push(key)
-      }
-    }
-
-    results.push({
-      groupLabel: group.sourceConfigNames.join('+'),
-      added,
-      removed,
-      changed,
-    })
-
-    groupIndex += 1
-  }
-
-  return results
-}
-
-function printDiffReport(allResults: Array<{ id: string; groups: DiffGroupResult[] }>): boolean {
-  let hasDiff = false
-
-  for (const { id, groups } of allResults) {
-    for (const group of groups) {
-      if (group.added.length === 0 && group.removed.length === 0 && group.changed.length === 0) {
-        console.log(`${id}/${group.groupLabel}: in sync`)
-        continue
-      }
-
-      hasDiff = true
-      console.log(`${id}/${group.groupLabel}:`)
-      for (const r of group.added) {
-        console.log(`  + ${r}`)
-      }
-      for (const r of group.removed) {
-        console.log(`  - ${r}`)
-      }
-      for (const r of group.changed) {
-        console.log(`  ~ ${r}`)
-      }
-    }
-  }
-
-  if (!hasDiff) {
-    console.log('All configs are in sync.')
-  }
-
-  return hasDiff
+async function createOxlintLookup(): Promise<Set<string>> {
+  const rules = await getOxlintRules()
+  return new Set(rules.map((rule) => `${rule.scope.replaceAll('_', '-')}/${rule.value}`))
 }
 
 async function main() {
-  const report = process.argv.includes('--report')
-  const diff = process.argv.includes('--diff')
   const check = process.argv.includes('--check')
+  const report = process.argv.includes('--report')
+  const write = process.argv.includes('--write')
+  const classify = process.argv.includes('--classify')
+
+  if (classify) {
+    await classifyDroppedRules()
+    return
+  }
 
   if (report) {
-    const supportedRules = buildSupportedRuleLookup(readRulesFromCommand())
-    const reports = await generateMigrationReport(supportedRules)
-    printMigrationReport(reports)
+    await reportSyncStatus({ write })
+    return
+  }
 
-    if (process.argv.includes('--write')) {
-      await updateReadmeReport(supportedRules)
+  const presetOutputs = await Promise.all(PRESETS.map(async (preset) => generatePresetOutput(preset)))
+
+  if (check) {
+    const staleFilePaths = presetOutputs
+      .filter(({ filePath, content }) => readFileSync(filePath, 'utf-8') !== content)
+      .map(({ filePath }) => filePath)
+
+    if (staleFilePaths.length === 0) {
+      console.log('Oxlint preset files are in sync.')
+      return
     }
 
-    return
-  }
-
-  if (diff) {
-    const rules = readRulesFromCommand()
-    const supportedRules = buildSupportedRuleLookup(rules)
-    const defaultEnabledRules = buildDefaultEnabledRuleLookup(rules)
-    const autoResults = await Promise.all(
-      PRESET_MANIFEST.map(async (entry) => ({
-        id: entry.id,
-        groups: await diffPreset(entry, supportedRules, defaultEnabledRules),
-      })),
-    )
-    const manualResults = await Promise.all(
-      MANUAL_DIFF_MANIFEST.map(async (entry) => ({
-        id: entry.id,
-        groups: await diffManualEntry(entry),
-      })),
-    )
-    const hasDiff = printDiffReport([...autoResults, ...manualResults])
-    if (hasDiff) process.exitCode = 1
-    return
-  }
-
-  const result = await syncOxlintEslint({ check })
-
-  if (check && result.staleFilePaths.length > 0) {
     console.error('Oxlint preset files are out of sync:')
 
-    for (const filePath of result.staleFilePaths) {
+    for (const filePath of staleFilePaths) {
       console.error(`- ${path.relative(ROOT_DIR, filePath)}`)
     }
 
@@ -1148,23 +384,708 @@ async function main() {
     return
   }
 
-  if (check) {
-    console.log('Oxlint preset files are in sync.')
-    return
+  for (const output of presetOutputs) {
+    writePresetFile(output)
   }
 
-  if (result.updatedFilePaths.length === 0) {
-    console.log('Oxlint preset files are already up to date.')
-    return
-  }
+  const configsDir = resolveFromRoot('packages/oxlint-config/src/configs')
+  await x('oxlint', ['--fix', configsDir])
+  console.log('Lint fix applied to generated configs.')
+}
 
-  console.log(`Updated ${result.updatedFilePaths.length} Oxlint preset file(s):`)
+if (isMainModule()) {
+  await main()
+}
 
-  for (const filePath of result.updatedFilePaths) {
-    console.log(`- ${path.relative(ROOT_DIR, filePath)}`)
+function isMainModule() {
+  const scriptPath = process.argv[1]
+  return scriptPath ? import.meta.url === pathToFileURL(scriptPath).href : false
+}
+
+async function generatePresetOutput(preset: PresetEntry): Promise<PresetOutput> {
+  const source = await generatePreset(createGeneratePresetOptions(preset))
+  const fileName = `${preset.target ?? preset.source}.ts`
+  const filePath = resolveFromRoot(`packages/oxlint-config/src/configs/${fileName}`)
+  const fileContent = source.join('\n')
+
+  const oxfmtConfig = await getOxfmtConfig()
+  const result = await format(filePath, fileContent, oxfmtConfig)
+
+  return {
+    filePath,
+    content: result.code,
   }
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  await main()
+function writePresetFile({ filePath, content }: PresetOutput) {
+  writeFileSync(filePath, content, { encoding: 'utf-8' })
+  console.log(`Preset file written: ${filePath}`)
+}
+
+export type GeneratePresetOptions = {
+  source: string
+  sourceExport: string
+  sourceArgs?: unknown[]
+  scope: string
+  targetExport: string
+  groups: PresetGroupEntry[]
+  targetParam?: TargetParam
+  jsPlugins?: NamedExternalPluginEntry[]
+  overrides?: Record<string, RuleValueOverride>
+  scopeRemap?: Record<string, string>
+  stripOptions?: Record<string, string[]>
+}
+
+function createGeneratePresetOptions(preset: PresetEntry): GeneratePresetOptions {
+  const sourceExport = preset.sourceExport ?? preset.source
+  const scope = preset.scope ?? preset.source
+
+  return {
+    source: preset.source,
+    sourceExport,
+    sourceArgs: preset.sourceArgs,
+    scope,
+    targetExport: preset.targetExport ?? sourceExport,
+    groups: preset.groups,
+    targetParam: preset.targetParam,
+    jsPlugins: preset.jsPlugins,
+    overrides: preset.overrides,
+    scopeRemap: preset.scopeRemap,
+    stripOptions: preset.stripOptions,
+  }
+}
+
+async function generatePreset(options: GeneratePresetOptions) {
+  const lookup = await getOxlintLookup()
+
+  const groups = await Promise.all(
+    options.groups.map(async (group) => ({
+      files: group.files ?? '[GLOB_SRC]',
+      rules: getSyncedRules(await getRuleSyncResults(options, lookup, group.group)),
+      jsPlugins: options.jsPlugins,
+    })),
+  )
+
+  const paramSignature = options.targetParam
+    ? `(${options.targetParam.name}: ${options.targetParam.type}): OxlintOverride[]`
+    : '(): OxlintOverride[]'
+
+  const typeImports = [
+    "import type { OxlintOverride } from 'oxlint'",
+    options.targetParam ? `import type { ${options.targetParam.type} } from '${options.targetParam.import}'` : null,
+  ].filter((s): s is string => s !== null)
+  const valueImports = [
+    options.groups.some((group) => !group.files) ? "import { GLOB_SRC } from '../globs'" : null,
+  ].filter((s): s is string => s !== null)
+  const imports = valueImports.length > 0 ? [...typeImports, '', ...valueImports] : typeImports
+
+  const sourceLines = [
+    GENERATED_HEADER,
+    '',
+    ...imports,
+    '',
+    `export const ${options.targetExport} = ${paramSignature} => [`,
+    ...groups.flatMap((group) => buildOverrideBlock(group.files, options.scope, group.rules, group.jsPlugins)),
+    ']',
+  ]
+
+  return sourceLines
+}
+
+export async function generatePresetAnalysis(preset: PresetEntry): Promise<PresetAnalysis> {
+  const options = createGeneratePresetOptions(preset)
+  const lookup = await getOxlintLookup()
+  const groups = await Promise.all(
+    options.groups.map(async (group) => ({
+      groupName: group.group,
+      files: group.files ?? '[GLOB_SRC]',
+      results: await getRuleSyncResults(options, lookup, group.group),
+    })),
+  )
+
+  return {
+    presetId: getPresetId(preset),
+    groups,
+  }
+}
+
+function getPresetId(preset: PresetEntry) {
+  return preset.target ?? preset.source
+}
+
+export async function getRuleSyncResults(options: GeneratePresetOptions, lookup: Set<string>, group: string) {
+  const rules = await getSourceRules(options.source, options.sourceExport, options.sourceArgs, group)
+  const jsPluginScopeMap = getJsPluginScopeMap(options.jsPlugins, options.scopeRemap)
+  const [firstJsPlugin] = options.jsPlugins ?? []
+  const defaultJsPluginScope = options.jsPlugins?.length === 1 ? firstJsPlugin?.name : undefined
+
+  return rules
+    .map((rule) => stripRuleOptions(rule, options.stripOptions))
+    .map((rule) =>
+      normalizeRule(
+        rule,
+        lookup,
+        options.scope,
+        options.overrides,
+        (options.jsPlugins?.length ?? 0) > 0,
+        jsPluginScopeMap,
+        defaultJsPluginScope,
+      ),
+    )
+    .toSorted(
+      (a, b) =>
+        a.normalizedRuleName.localeCompare(b.normalizedRuleName) || a.sourceRuleName.localeCompare(b.sourceRuleName),
+    )
+}
+
+export function getSyncedRules(results: RuleSyncResult[]): Rule[] {
+  return results
+    .filter((result): result is SyncedRuleSyncResult => result.status === 'synced')
+    .map((result) => result.rule)
+    .toSorted(([a], [b]) => a.localeCompare(b))
+}
+
+export function getDroppedRules(results: RuleSyncResult[]): DroppedRuleSyncResult[] {
+  return results.filter((result): result is DroppedRuleSyncResult => result.status === 'dropped')
+}
+
+function buildOverrideBlock(
+  files: string,
+  scope: string,
+  rules: Rule[],
+  jsPlugins?: NamedExternalPluginEntry[],
+): string[] {
+  const plugins = getOverridePlugins(scope, rules)
+  const hasJsPlugins = (jsPlugins?.length ?? 0) > 0
+
+  return [
+    '  {',
+    `    files: ${files},`,
+    hasJsPlugins ? `    jsPlugins: ${JSON.stringify(jsPlugins ?? [])},` : `    plugins: ${JSON.stringify(plugins)},`,
+    '    rules: {',
+    ...rules.map(([ruleName, ruleValue]) => {
+      return `      '${ruleName}': ${renderRuleValue(ruleValue)},`
+    }),
+    '    }',
+    '  },',
+  ]
+}
+
+function getOverridePlugins(scope: string, rules: Rule[]): string[] {
+  const plugins = new Set([scope])
+
+  for (const [ruleName] of rules) {
+    const slashIndex = ruleName.indexOf('/')
+    if (slashIndex > 0) {
+      plugins.add(ruleName.slice(0, slashIndex))
+    }
+  }
+
+  return [...plugins]
+}
+
+async function getSourceRules(
+  source: string,
+  sourceExport: string,
+  sourceArgs: unknown[] | undefined,
+  group: string,
+): Promise<SourceRule[]> {
+  const moduleUrl = pathToFileURL(resolveFromRoot(`packages/eslint-config/src/configs/${source}`)).href
+  const configModule = (await import(moduleUrl)) as ConfigModule
+
+  if (!configModule[sourceExport]) {
+    throw new Error(`Config module for "${source}" does not export a function named "${sourceExport}".`)
+  }
+
+  const configs = configModule[sourceExport](...(sourceArgs ?? [])) as FlatConfig[]
+  const entry = configs.find((cfg) => cfg.name === group)
+
+  if (!entry) {
+    throw new Error(`Config group "${group}" not found in "${source}".`)
+  }
+
+  return Object.entries(entry.rules ?? {})
+}
+
+function stripRuleOptions(rule: SourceRule, stripOptions?: Record<string, string[]>): SourceRule {
+  if (!stripOptions) return rule
+
+  const [ruleName, ruleValue] = rule
+  const keysToStrip = stripOptions[ruleName]
+
+  if (!keysToStrip || keysToStrip.length === 0) return rule
+  if (!Array.isArray(ruleValue)) return rule
+
+  const [severity, ...options] = ruleValue
+  const stripSet = new Set(keysToStrip)
+  const newOptions = options.map((option) => {
+    if (option && typeof option === 'object' && !Array.isArray(option)) {
+      return Object.fromEntries(Object.entries(option).filter(([key]) => !stripSet.has(key)))
+    }
+    return option
+  })
+
+  return [ruleName, [severity, ...newOptions]]
+}
+
+export function normalizeRule(
+  rule: SourceRule,
+  lookup: Set<string>,
+  scope: string,
+  overrides?: Record<string, RuleValueOverride>,
+  allowJsPluginRule = false,
+  jsPluginScopeMap = new Map<string, string>(),
+  defaultJsPluginScope?: string,
+): RuleSyncResult {
+  const [ruleName, ruleValue] = rule
+  const normalizedName = normalizeRuleName(ruleName, scope, jsPluginScopeMap, defaultJsPluginScope)
+
+  if (shouldDropTypeScriptCompatibleESLintRule(scope, normalizedName, ruleValue)) {
+    return {
+      status: 'dropped',
+      sourceRuleName: ruleName,
+      normalizedRuleName: normalizedName,
+      dropReason: 'typescript_compatible_eslint_off',
+      sourceValue: ruleValue,
+    }
+  }
+
+  if (!allowJsPluginRule && !lookup.has(normalizedName)) {
+    const dropReason = isRuleOff(ruleValue) ? 'disabled_in_source' : 'not_supported'
+
+    if (process.env.OXLINT_SYNC_DEBUG) {
+      console.warn(`Rule not supported in Oxlint: ${normalizedName}. Dropping it.`)
+    }
+    return {
+      status: 'dropped',
+      sourceRuleName: ruleName,
+      normalizedRuleName: normalizedName,
+      dropReason,
+      sourceValue: ruleValue,
+    }
+  }
+
+  return {
+    status: 'synced',
+    sourceRuleName: ruleName,
+    normalizedRuleName: normalizedName,
+    rule: [normalizedName, overrides?.[normalizedName] ?? normalizeRuleValue(ruleValue)],
+  }
+}
+
+async function reportSyncStatus({ write }: { write: boolean }) {
+  const analyses = await Promise.all(PRESETS.map(async (preset) => generatePresetAnalysis(preset)))
+  const decisions = getRuleMigrationDecisions()
+  const groups = buildReportGroups(analyses, decisions)
+
+  printReportGroups(groups)
+
+  if (write) {
+    await updateReadmeReport(analyses, decisions)
+  }
+}
+
+function getRuleMigrationDecisions(): Readonly<Record<string, RuleMigrationDecision>> {
+  return ruleMigrationDecisions as Readonly<Record<string, RuleMigrationDecision>>
+}
+
+export function getRuleMigrationDecisionKey({
+  presetId,
+  groupName,
+  sourceRuleName,
+}: {
+  presetId: string
+  groupName: string
+  sourceRuleName: string
+}) {
+  return `${presetId}/${groupName}:${sourceRuleName}`
+}
+
+export function buildReportGroups(
+  analyses: PresetAnalysis[],
+  decisions: Readonly<Record<string, RuleMigrationDecision>>,
+): ReportGroup[] {
+  return analyses.flatMap((analysis) =>
+    analysis.groups.map((group) => {
+      const synced = getSyncedRules(group.results).length
+      const dropped = getDroppedRules(group.results)
+      const droppedDecisions = dropped.map((rule) =>
+        getMigrationDecision(decisions, analysis.presetId, group.groupName, rule.sourceRuleName),
+      )
+      const classified = droppedDecisions.filter((decision) => decision !== undefined).length
+      const coveredDropped = droppedDecisions.filter((decision) => isCoveredDroppedDecision(decision)).length
+      const unclassified = dropped.length - classified
+
+      return {
+        preset: `${analysis.presetId}/${group.groupName}`,
+        synced,
+        dropped: dropped.length,
+        covered: synced + coveredDropped,
+        classified,
+        unclassified,
+        coverage: formatCoverage(synced + coveredDropped, synced + dropped.length),
+      }
+    }),
+  )
+}
+
+function getMigrationDecision(
+  decisions: Readonly<Record<string, RuleMigrationDecision>>,
+  presetId: string,
+  groupName: string,
+  sourceRuleName: string,
+) {
+  return decisions[getRuleMigrationDecisionKey({ presetId, groupName, sourceRuleName })]
+}
+
+function isCoveredDroppedDecision(decision: RuleMigrationDecision | undefined) {
+  return decision !== undefined && decision.status !== 'not_implemented'
+}
+
+function formatCoverage(covered: number, total: number) {
+  return total > 0 ? `${((covered / total) * 100).toFixed(1)}%` : '100.0%'
+}
+
+function printReportGroups(groups: ReportGroup[]) {
+  for (const group of groups) {
+    console.log(
+      `${group.preset}: ${group.synced} synced, ${group.dropped} dropped, ${group.classified} classified, ${group.unclassified} unclassified, ${group.coverage} coverage`,
+    )
+  }
+
+  const totals = { synced: 0, dropped: 0, covered: 0, classified: 0, unclassified: 0 }
+
+  for (const group of groups) {
+    totals.synced += group.synced
+    totals.dropped += group.dropped
+    totals.covered += group.covered
+    totals.classified += group.classified
+    totals.unclassified += group.unclassified
+  }
+
+  console.log(
+    `\nTotal: ${totals.synced} synced, ${totals.dropped} dropped, ${totals.classified} classified, ${totals.unclassified} unclassified, ${formatCoverage(totals.covered, totals.synced + totals.dropped)} coverage`,
+  )
+}
+
+async function updateReadmeReport(
+  analyses: PresetAnalysis[],
+  decisions: Readonly<Record<string, RuleMigrationDecision>>,
+) {
+  const readmePath = resolveFromRoot('packages/oxlint-config/README.md')
+  const current = readFileSync(readmePath, 'utf-8')
+  const startIndex = current.indexOf(README_REPORT_START)
+  const endIndex = current.indexOf(README_REPORT_END)
+
+  if (startIndex === -1 || endIndex === -1) {
+    throw new Error(`Missing report markers (${README_REPORT_START} / ${README_REPORT_END}) in ${readmePath}`)
+  }
+
+  const content = [README_REPORT_START, '', renderReadmeReport(analyses, decisions), '', README_REPORT_END].join('\n')
+  const updated = current.slice(0, startIndex) + content + current.slice(endIndex + README_REPORT_END.length)
+  const oxfmtConfig = await getOxfmtConfig()
+  const result = await format(readmePath, updated, oxfmtConfig)
+
+  writeFileSync(readmePath, result.code)
+  console.log(`Updated ${path.relative(ROOT_DIR, readmePath)}`)
+}
+
+function renderReadmeReport(analyses: PresetAnalysis[], decisions: Readonly<Record<string, RuleMigrationDecision>>) {
+  const groups = buildReportGroups(analyses, decisions)
+  const droppedRules = getDroppedRuleReportItems(analyses, decisions)
+  const unclassifiedRules = droppedRules.filter((rule) => !rule.decision)
+  const summaryTable = [
+    '| Preset | Synced | Dropped | Classified | Unclassified | Coverage |',
+    '| --- | ---: | ---: | ---: | ---: | ---: |',
+    ...groups.map(
+      (group) =>
+        `| \`${group.preset}\` | ${group.synced} | ${group.dropped} | ${group.classified} | ${group.unclassified} | ${group.coverage} |`,
+    ),
+  ].join('\n')
+  const unclassifiedTable =
+    unclassifiedRules.length === 0
+      ? 'No unclassified dropped rules.'
+      : [
+          '| Preset | Rule | Normalized | Drop Reason |',
+          '| --- | --- | --- | --- |',
+          ...unclassifiedRules.map(
+            (rule) =>
+              `| \`${rule.preset}\` | \`${rule.sourceRuleName}\` | \`${rule.normalizedRuleName}\` | \`${rule.dropReason}\` |`,
+          ),
+        ].join('\n')
+
+  return ['### Sync Summary', '', summaryTable, '', '### Unclassified Dropped Rules', '', unclassifiedTable].join('\n')
+}
+
+type DroppedRuleReportItem = {
+  decisionKey: string
+  preset: string
+  sourceRuleName: string
+  normalizedRuleName: string
+  dropReason: DropReason
+  decision?: RuleMigrationDecision
+}
+
+function getDroppedRuleReportItems(
+  analyses: PresetAnalysis[],
+  decisions: Readonly<Record<string, RuleMigrationDecision>>,
+): DroppedRuleReportItem[] {
+  return analyses
+    .flatMap((analysis) =>
+      analysis.groups.flatMap((group) =>
+        getDroppedRules(group.results).map((rule) => {
+          const decisionKey = getRuleMigrationDecisionKey({
+            presetId: analysis.presetId,
+            groupName: group.groupName,
+            sourceRuleName: rule.sourceRuleName,
+          })
+
+          const decision = decisions[decisionKey]
+
+          return {
+            decisionKey,
+            preset: `${analysis.presetId}/${group.groupName}`,
+            sourceRuleName: rule.sourceRuleName,
+            normalizedRuleName: rule.normalizedRuleName,
+            dropReason: rule.dropReason,
+            ...(decision ? { decision } : {}),
+          }
+        }),
+      ),
+    )
+    .toSorted(
+      (a, b) =>
+        a.preset.localeCompare(b.preset) ||
+        a.sourceRuleName.localeCompare(b.sourceRuleName) ||
+        a.normalizedRuleName.localeCompare(b.normalizedRuleName),
+    )
+}
+
+async function classifyDroppedRules() {
+  const analyses = await Promise.all(PRESETS.map(async (preset) => generatePresetAnalysis(preset)))
+  const decisions = getRuleMigrationDecisions()
+  const missing = getDroppedRuleReportItems(analyses, decisions).filter((rule) => !rule.decision)
+
+  if (missing.length === 0) {
+    console.log('All dropped rules are classified.')
+    return
+  }
+
+  const nextDecisions: Record<string, RuleMigrationDecision> = { ...decisions }
+  const rl = createInterface({ input, output })
+
+  try {
+    await promptForMissingDecisions(rl, missing, nextDecisions)
+  } finally {
+    rl.close()
+  }
+
+  await writeRuleMigrationDecisionManifest(nextDecisions)
+  console.log(`Updated ${RULE_MIGRATION_DECISIONS_PATH}`)
+}
+
+async function promptForMissingDecisions(
+  rl: ReturnType<typeof createInterface>,
+  missing: DroppedRuleReportItem[],
+  nextDecisions: Record<string, RuleMigrationDecision>,
+  index = 0,
+): Promise<void> {
+  const rule = missing[index]
+
+  if (!rule) {
+    return
+  }
+
+  console.log(`\n[${index + 1}/${missing.length}] ${rule.preset}`)
+  console.log(`Rule: ${rule.sourceRuleName}`)
+  console.log(`Normalized: ${rule.normalizedRuleName}`)
+  console.log(`Drop reason: ${rule.dropReason}`)
+
+  const status = await promptStatus(rl)
+  const replacement = status === 'replaced_by' ? await promptRequired(rl, 'Replacement') : undefined
+  const noteAnswer = await rl.question('Note (optional): ')
+  const note = noteAnswer.trim()
+
+  nextDecisions[rule.decisionKey] = createRuleMigrationDecision({ status, replacement, note })
+
+  await promptForMissingDecisions(rl, missing, nextDecisions, index + 1)
+}
+
+async function promptStatus(rl: ReturnType<typeof createInterface>): Promise<RuleMigrationStatus> {
+  const choices = RULE_MIGRATION_STATUSES.map((status, index) => `${index + 1}. ${status}`).join('\n')
+
+  const answerValue = await rl.question(`Status:\n${choices}\n> `)
+  const answer = answerValue.trim()
+  const index = Number(answer)
+  const status = Number.isInteger(index)
+    ? RULE_MIGRATION_STATUSES[index - 1]
+    : RULE_MIGRATION_STATUSES.find((s) => s === answer)
+
+  if (status) {
+    return status
+  }
+
+  console.log('Invalid status. Enter a number or status name.')
+  return promptStatus(rl)
+}
+
+async function promptRequired(rl: ReturnType<typeof createInterface>, label: string) {
+  const answerValue = await rl.question(`${label}: `)
+  const answer = answerValue.trim()
+
+  if (answer.length > 0) {
+    return answer
+  }
+
+  console.log(`${label} is required.`)
+  return promptRequired(rl, label)
+}
+
+function createRuleMigrationDecision({
+  status,
+  replacement,
+  note,
+}: {
+  status: RuleMigrationStatus
+  replacement?: string
+  note?: string
+}): RuleMigrationDecision {
+  return {
+    status,
+    ...(replacement ? { replacement } : {}),
+    ...(note ? { note } : {}),
+  }
+}
+
+async function writeRuleMigrationDecisionManifest(decisions: Record<string, RuleMigrationDecision>) {
+  const sortedDecisions = Object.fromEntries(Object.entries(decisions).toSorted(([a], [b]) => a.localeCompare(b)))
+  const source = [
+    'export type RuleMigrationStatus =',
+    ...RULE_MIGRATION_STATUSES.map((status) => `  | '${status}'`),
+    '',
+    'export type RuleMigrationDecision = {',
+    '  status: RuleMigrationStatus',
+    '  replacement?: string',
+    '  note?: string',
+    '}',
+    '',
+    `export const ruleMigrationDecisions = ${JSON.stringify(sortedDecisions, null, 2)} satisfies Record<string, RuleMigrationDecision>`,
+    '',
+  ].join('\n')
+  const filePath = resolveFromRoot(RULE_MIGRATION_DECISIONS_PATH)
+  const oxfmtConfig = await getOxfmtConfig()
+  const result = await format(filePath, source, oxfmtConfig)
+
+  writeFileSync(filePath, result.code)
+}
+
+function shouldDropTypeScriptCompatibleESLintRule(
+  scope: string,
+  normalizedName: string,
+  ruleValue: RuleValue,
+): boolean {
+  if (scope !== 'typescript' || !isRuleOff(ruleValue)) {
+    return false
+  }
+
+  const eslintPrefix = 'eslint/'
+  if (!normalizedName.startsWith(eslintPrefix)) {
+    return false
+  }
+
+  return TYPESCRIPT_COMPATIBLE_ESLINT_RULES.has(normalizedName.slice(eslintPrefix.length))
+}
+
+function normalizeRuleName(
+  ruleName: string,
+  scope: string,
+  jsPluginScopeMap: Map<string, string>,
+  defaultJsPluginScope?: string,
+): string {
+  if (isESLintRule(ruleName)) {
+    return `eslint/${ruleName}`
+  }
+
+  const lastSlash = ruleName.lastIndexOf('/')
+  const ruleScope = ruleName.slice(0, lastSlash)
+  const ruleValue = ruleName.slice(lastSlash + 1)
+  const normalizedScope = jsPluginScopeMap.get(ruleScope) ?? defaultJsPluginScope ?? scope
+  return `${normalizedScope}/${ruleValue}`
+}
+
+function getJsPluginScopeMap(
+  jsPlugins: NamedExternalPluginEntry[] | undefined,
+  scopeRemap: Record<string, string> | undefined,
+): Map<string, string> {
+  const scopeMap = new Map<string, string>()
+
+  for (const entry of jsPlugins ?? []) {
+    scopeMap.set(entry.name, entry.name)
+  }
+
+  for (const [sourceScope, targetScope] of Object.entries(scopeRemap ?? {})) {
+    scopeMap.set(sourceScope, targetScope)
+  }
+
+  return scopeMap
+}
+
+function isRuleOff(value: RuleValue): boolean {
+  if (Array.isArray(value)) {
+    const [severity] = value
+    return isSeverityOff(severity)
+  }
+
+  return isSeverityOff(value)
+}
+
+function normalizeRuleValue(value: RuleValue): RuleValue {
+  if (Array.isArray(value)) {
+    const [severity, ...options] = value
+    return [normalizeSeverity(severity), ...options]
+  }
+
+  return normalizeSeverity(value)
+}
+
+function renderRuleValue(ruleValue: RuleValue | RawRuleValue): string {
+  if (isRawRuleValue(ruleValue)) {
+    return ruleValue.raw
+  }
+
+  return JSON.stringify(ruleValue, null, 2)
+}
+
+function isRawRuleValue(ruleValue: RuleValue | RawRuleValue): ruleValue is RawRuleValue {
+  return typeof ruleValue === 'object' && 'raw' in ruleValue
+}
+
+function isSeverityOff(severity: Severity): boolean {
+  return severity === 0 || severity === 'off'
+}
+
+function normalizeSeverity(severity: Severity): SeverityName {
+  // Oxlint supports "off", "warn", and "error", but we intentionally collapse
+  // into just "off" and "error" — any warn-level rule is promoted to error.
+  if (typeof severity === 'number') {
+    if (severity === 0) return 'off'
+    return 'error'
+  }
+
+  if (severity === 'off') return 'off'
+  return 'error'
+}
+
+function isESLintRule(ruleName: string): boolean {
+  return !ruleName.includes('/')
+}
+
+async function getOxlintRules() {
+  try {
+    const rules = await x('oxlint', ['--rules', '--format=json'])
+    return JSON.parse(rules.stdout) as OxlintRuleInfo[]
+  } catch (error) {
+    console.error('Error fetching Oxlint rules:', error)
+    return []
+  }
 }

@@ -11,6 +11,7 @@ export const jsxA11y = (): OxlintOverride[] => [
     plugins: ['jsx-a11y'],
     rules: {
       'jsx-a11y/alt-text': 'error',
+      'jsx-a11y/anchor-ambiguous-text': 'off',
       'jsx-a11y/anchor-has-content': 'error',
       'jsx-a11y/anchor-is-valid': [
         'error',
@@ -27,7 +28,24 @@ export const jsxA11y = (): OxlintOverride[] => [
       'jsx-a11y/aria-unsupported-elements': 'error',
       'jsx-a11y/autocomplete-valid': 'error',
       'jsx-a11y/click-events-have-key-events': 'error',
-      'jsx-a11y/control-has-associated-label': 'off',
+      'jsx-a11y/control-has-associated-label': [
+        'off',
+        {
+          ignoreElements: ['audio', 'canvas', 'embed', 'input', 'textarea', 'tr', 'video'],
+          ignoreRoles: [
+            'grid',
+            'listbox',
+            'menu',
+            'menubar',
+            'radiogroup',
+            'row',
+            'tablist',
+            'toolbar',
+            'tree',
+            'treegrid',
+          ],
+        },
+      ],
       'jsx-a11y/heading-has-content': 'error',
       'jsx-a11y/html-has-lang': 'error',
       'jsx-a11y/iframe-has-title': 'error',
@@ -91,7 +109,6 @@ export const jsxA11y = (): OxlintOverride[] => [
           handlers: ['onClick', 'onMouseDown', 'onMouseUp', 'onKeyPress', 'onKeyDown', 'onKeyUp'],
         },
       ],
-      'jsx-a11y/prefer-tag-over-role': 'off',
       'jsx-a11y/role-has-required-aria-props': 'error',
       'jsx-a11y/role-supports-aria-props': 'error',
       'jsx-a11y/scope': 'error',

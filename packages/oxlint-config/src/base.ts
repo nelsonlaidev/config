@@ -26,17 +26,7 @@ import { typescript } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
-import { betterTailwindcssDefaultSelectors } from './generated/plugin-snapshots'
 import { makeAllErrors } from './utils'
-
-type BetterTailwindcssSelectorKind = 'attribute' | 'variable'
-
-const createSelectors = (names: string[], kind: BetterTailwindcssSelectorKind) =>
-  names.map((name) => ({
-    name,
-    kind,
-    match: [{ type: 'strings' }, { type: 'objectValues' }],
-  }))
 
 const concatArrays = (target: unknown, source: unknown) => {
   if (Array.isArray(target) && Array.isArray(source)) {
@@ -117,11 +107,6 @@ export const defineConfig = ({ config = {}, custom: userConfig = {} }: DefineCon
           'better-tailwindcss': {
             detectComponentClasses: false,
             rootFontSize: 16,
-            selectors: [
-              ...betterTailwindcssDefaultSelectors,
-              ...createSelectors(['classNames', '.+ClassNames'], 'attribute'),
-              ...createSelectors(['.+ClassName', '.+ClassNames'], 'variable'),
-            ],
           },
         }),
       },
