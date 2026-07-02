@@ -26,7 +26,6 @@ import { typescript } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
-import { makeAllErrors } from './utils'
 
 const concatArrays = (target: unknown, source: unknown) => {
   if (Array.isArray(target) && Array.isArray(source)) {
@@ -92,7 +91,7 @@ export const defineConfig = ({ config = {}, custom: userConfig = {} }: DefineCon
         es2022: true,
       },
       ignorePatterns: ['**/routeTree.gen.ts'],
-      overrides: makeAllErrors(overrides),
+      overrides,
       settings: {
         'jsx-a11y': {
           components: {
