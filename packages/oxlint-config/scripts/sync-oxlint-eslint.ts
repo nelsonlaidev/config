@@ -8,11 +8,10 @@ import { stdin as input, stdout as output } from 'node:process'
 import { createInterface } from 'node:readline/promises'
 import { pathToFileURL } from 'node:url'
 
-import { format } from 'oxfmt'
 import { x } from 'tinyexec'
 
 import { ruleMigrationDecisions } from './rule-migration-decisions'
-import { createGeneratedHeader, getOxfmtConfig, resolveFromRoot, ROOT_DIR } from './utils'
+import { createGeneratedHeader, formatCode, resolveFromRoot, ROOT_DIR } from './utils'
 
 type ConfigModule = Record<string, (...args: unknown[]) => unknown[]>
 type FlatConfig = { name?: string; rules?: RulesConfig }
@@ -408,12 +407,9 @@ async function generatePresetOutput(preset: PresetEntry): Promise<PresetOutput> 
   const filePath = resolveFromRoot(`packages/oxlint-config/src/configs/${fileName}`)
   const fileContent = source.join('\n')
 
-  const oxfmtConfig = await getOxfmtConfig()
-  const result = await format(filePath, fileContent, oxfmtConfig)
-
   return {
     filePath,
-    content: result.code,
+    content: await formatCode(fileName, fileContent),
   }
 }
 
@@ -783,10 +779,7 @@ async function updateReadmeReport(
 
   const content = [README_REPORT_START, '', renderReadmeReport(analyses, decisions), '', README_REPORT_END].join('\n')
   const updated = current.slice(0, startIndex) + content + current.slice(endIndex + README_REPORT_END.length)
-  const oxfmtConfig = await getOxfmtConfig()
-  const result = await format(readmePath, updated, oxfmtConfig)
-
-  writeFileSync(readmePath, result.code)
+  writeFileSync(readmePath, await formatCode('README.md', updated))
   console.log(`Updated ${path.relative(ROOT_DIR, readmePath)}`)
 }
 
@@ -973,10 +966,7 @@ async function writeRuleMigrationDecisionManifest(decisions: Record<string, Rule
     '',
   ].join('\n')
   const filePath = resolveFromRoot(RULE_MIGRATION_DECISIONS_PATH)
-  const oxfmtConfig = await getOxfmtConfig()
-  const result = await format(filePath, source, oxfmtConfig)
-
-  writeFileSync(filePath, result.code)
+  writeFileSync(filePath, await formatCode('rule-migration-decisions.ts', source))
 }
 
 function shouldDropTypeScriptCompatibleESLintRule(

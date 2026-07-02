@@ -19,7 +19,7 @@ export function resolveFromRoot(filePath: string) {
   return path.resolve(ROOT_DIR, filePath)
 }
 
-export async function getOxfmtConfig(): Promise<FormatConfig> {
+async function getOxfmtConfig(): Promise<FormatConfig> {
   if (oxfmtConfig) return oxfmtConfig
 
   const configUrl = pathToFileURL(resolveFromRoot('oxfmt.config.ts')).href
@@ -29,9 +29,8 @@ export async function getOxfmtConfig(): Promise<FormatConfig> {
   return oxfmtConfig
 }
 
-export async function formatSourceForFile(filePath: string, source: string) {
-  const absoluteTargetPath = resolveFromRoot(filePath)
+export async function formatCode(filename: string, source: string) {
   const config = await getOxfmtConfig()
-  const result = await format(absoluteTargetPath, source, config)
+  const result = await format(filename, source, config)
   return result.code
 }
