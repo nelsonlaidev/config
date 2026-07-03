@@ -1,7 +1,8 @@
 {
   "name": "@nelsonlaidev/oxlint-config",
   "version": "0.3.2",
-  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/oxlint-config/README.md",
+  "description": "Nelson Lai's oxlint config preset",
+  "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/oxlint-config",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
@@ -17,8 +18,11 @@
   ],
   "type": "module",
   "exports": {
-    "types": "./dist/index.d.mts",
-    "import": "./dist/index.mjs"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
@@ -30,49 +34,52 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "sync": "tsx scripts/sync-oxlint-eslint.ts && tsx scripts/generate-oxlint-plugin-snapshots.ts",
-    "sync:check": "tsx scripts/sync-oxlint-eslint.ts --diff && tsx scripts/generate-oxlint-plugin-snapshots.ts --check",
-    "sync:report": "tsx scripts/sync-oxlint-eslint.ts --report --write"
+    "sync": "tsx scripts/sync-oxlint-eslint.ts",
+    "sync:check": "tsx scripts/sync-oxlint-eslint.ts --check",
+    "sync:report": "tsx scripts/sync-oxlint-eslint.ts --report --write",
+    "sync:classify": "tsx scripts/sync-oxlint-eslint.ts --classify"
   },
   "dependencies": {
-    "es-toolkit": "^1.45.1",
-    "local-pkg": "^1.1.2"
+    "es-toolkit": "^1.49.0",
+    "local-pkg": "^1.2.1"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "4.0.2-beta.6",
+    "@eslint-react/eslint-plugin": "^5.10.2",
+    "@eslint/core": "^1.2.1",
     "@nelsonlaidev/eslint-plugin": "workspace:*",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "catalog:dev",
-    "eslint-plugin-better-tailwindcss": "^4.3.2",
+    "eslint-plugin-better-tailwindcss": "^4.6.0",
     "eslint-plugin-command": "^3.5.2",
-    "eslint-plugin-de-morgan": "^2.1.1",
+    "eslint-plugin-de-morgan": "^2.1.2",
     "eslint-plugin-import-zod": "^1.2.1",
-    "eslint-plugin-playwright": "^2.10.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-regexp": "^3.1.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-sonarjs": "^4.0.2",
+    "eslint-plugin-playwright": "^2.10.4",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-regexp": "^3.1.1",
+    "eslint-plugin-simple-import-sort": "^13.0.0",
+    "eslint-plugin-sonarjs": "^4.1.0",
     "oxlint": "catalog:dev",
     "oxlint-tsgolint": "catalog:dev",
+    "tinyexec": "^1.2.4",
     "tsdown": "catalog:dev",
-    "tsx": "^4.22.4",
+    "tsx": "^4.22.5",
     "vitest": "catalog:dev"
   },
   "peerDependencies": {
-    "@eslint-react/eslint-plugin": "4.0.2-beta.6",
+    "@eslint-react/eslint-plugin": "^5.10.2",
     "@nelsonlaidev/eslint-plugin": "^0.2.4",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "eslint-plugin-better-tailwindcss": "^4.3.2",
+    "eslint-plugin-better-tailwindcss": "^4.6.0",
     "eslint-plugin-command": "^3.5.2",
-    "eslint-plugin-de-morgan": "^2.1.1",
+    "eslint-plugin-de-morgan": "^2.1.2",
     "eslint-plugin-import-zod": "^1.2.1",
-    "eslint-plugin-playwright": "^2.10.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-regexp": "^3.1.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-sonarjs": "^4.0.2",
-    "oxlint": ">=1.56.0",
-    "oxlint-tsgolint": ">=0.22.1"
+    "eslint-plugin-playwright": "^2.10.4",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-regexp": "^3.1.1",
+    "eslint-plugin-simple-import-sort": "^13.0.0",
+    "eslint-plugin-sonarjs": "^4.1.0",
+    "oxlint": ">=1.71.0",
+    "oxlint-tsgolint": ">=0.23.1"
   },
   "peerDependenciesMeta": {
     "@eslint-react/eslint-plugin": {
@@ -90,5 +97,8 @@
     "oxlint-tsgolint": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

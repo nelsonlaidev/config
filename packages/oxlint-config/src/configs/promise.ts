@@ -11,6 +11,7 @@ export const promise = (): OxlintOverride[] => [
     plugins: ['promise'],
     rules: {
       'promise/always-return': 'error',
+      'promise/avoid-new': 'off',
       'promise/catch-or-return': 'error',
       'promise/no-callback-in-promise': 'error',
       'promise/no-multiple-resolved': 'error',

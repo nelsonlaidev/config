@@ -6,7 +6,6 @@ node_modules
 
 # Build Outputs
 dist
-.eslint-config-inspector
 
 # Misc
 .DS_Store

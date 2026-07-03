@@ -1,7 +1,8 @@
 {
   "name": "@nelsonlaidev/oxfmt-config",
   "version": "0.1.4",
-  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/oxfmt-config/README.md",
+  "description": "Nelson Lai's oxfmt config preset",
+  "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/oxfmt-config",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
@@ -17,8 +18,11 @@
   ],
   "type": "module",
   "exports": {
-    "types": "./dist/index.d.mts",
-    "import": "./dist/index.mjs"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
@@ -35,5 +39,8 @@
   },
   "peerDependencies": {
     "oxfmt": "^0.47.0"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

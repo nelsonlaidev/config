@@ -1,7 +1,8 @@
 {
   "name": "@nelsonlaidev/eslint-plugin",
   "version": "0.2.4",
-  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/eslint-plugin/README.md",
+  "description": "Nelson Lai's ESLint plugin with custom rules",
+  "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/eslint-plugin",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
@@ -17,8 +18,11 @@
   ],
   "type": "module",
   "exports": {
-    "types": "./dist/index.d.mts",
-    "import": "./dist/index.mjs"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
@@ -50,5 +54,8 @@
     "eslint": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

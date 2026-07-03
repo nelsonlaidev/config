@@ -72,38 +72,40 @@ This config includes opinionated rules from the following plugins:
 
 <!-- sync:report-start -->
 
-### Synced (auto-generated)
+### Sync Summary
 
-| Preset                               | Synced | Total | Coverage |
-| ------------------------------------ | ------ | ----- | -------- |
-| `eslint/javascript/rules`            | 93     | 95    | 97.9%    |
-| `unicorn/unicorn/rules`              | 125    | 133   | 94.0%    |
-| `typescript/typescript/rules`        | 94     | 108   | 87.0%    |
-| `typescript/typescript/declarations` | 2      | 2     | 100.0%   |
-| `import/import-x/rules`              | 17     | 23    | 73.9%    |
-| `jsdoc/jsdoc/rules`                  | 2      | 2     | 100.0%   |
-| `vitest/vitest/rules`                | 20     | 20    | 100.0%   |
-| `jsx-a11y/jsx-a11y/rules`            | 33     | 33    | 100.0%   |
-| `nextjs/nextjs/rules`                | 21     | 21    | 100.0%   |
-| `promise/promise/rules`              | 15     | 15    | 100.0%   |
-| `node/node/rules`                    | 2      | 6     | 33.3%    |
+| Preset                                            | Synced | Dropped | Classified | Unclassified | Coverage |
+| ------------------------------------------------- | -----: | ------: | ---------: | -----------: | -------: |
+| `command/nelsonlaidev/command/rules`              |      1 |       0 |          0 |            0 |   100.0% |
+| `de-morgan/nelsonlaidev/de-morgan/rules`          |      2 |       0 |          0 |            0 |   100.0% |
+| `eslint/nelsonlaidev/javascript/rules`            |     93 |       2 |          2 |            0 |   100.0% |
+| `import-sort/nelsonlaidev/import-sort/rules`      |      2 |       0 |          0 |            0 |   100.0% |
+| `imports/nelsonlaidev/import-x/rules`             |     20 |       6 |          6 |            0 |    84.6% |
+| `jsdoc/nelsonlaidev/jsdoc/rules`                  |      2 |       0 |          0 |            0 |   100.0% |
+| `jsx-a11y/nelsonlaidev/jsx-a11y/rules`            |     35 |       1 |          1 |            0 |   100.0% |
+| `nelsonlaidev/nelsonlaidev/nelsonlaidev/rules`    |      5 |       0 |          0 |            0 |   100.0% |
+| `nextjs/nelsonlaidev/nextjs/rules`                |     21 |       0 |          0 |            0 |   100.0% |
+| `node/nelsonlaidev/node/rules`                    |      2 |       4 |          4 |            0 |    50.0% |
+| `playwright/nelsonlaidev/playwright/rules`        |     36 |       0 |          0 |            0 |   100.0% |
+| `promise/nelsonlaidev/promise/rules`              |     16 |       1 |          1 |            0 |   100.0% |
+| `react/nelsonlaidev/react/rules`                  |     99 |       0 |          0 |            0 |   100.0% |
+| `regexp/nelsonlaidev/regexp/rules`                |     67 |       0 |          0 |            0 |   100.0% |
+| `sonarjs/nelsonlaidev/sonarjs/rules`              |    268 |       0 |          0 |            0 |   100.0% |
+| `stylistic/nelsonlaidev/stylistic/rules`          |      1 |       0 |          0 |            0 |   100.0% |
+| `tailwindcss/nelsonlaidev/tailwindcss/rules`      |     12 |       0 |          0 |            0 |   100.0% |
+| `typescript/nelsonlaidev/typescript/rules`        |    117 |      21 |         21 |            0 |   100.0% |
+| `typescript/nelsonlaidev/typescript/declarations` |      2 |       0 |          0 |            0 |   100.0% |
+| `unicorn/nelsonlaidev/unicorn/rules`              |    134 |     185 |        185 |            0 |    42.3% |
+| `vitest/nelsonlaidev/vitest/rules`                |     20 |       0 |          0 |            0 |   100.0% |
+| `zod/nelsonlaidev/zod/rules`                      |      1 |       0 |          0 |            0 |   100.0% |
 
-### Manually maintained (diff-only)
+### Unclassified Dropped Rules
 
-These use `jsPlugins` and are checked for consistency via `sync:check`.
+No unclassified dropped rules.
 
-- `regexp`
-- `playwright`
-- `sonarjs`
-- `zod`
-- `command`
-- `stylistic`
-- `de-morgan`
-- `tailwindcss`
-- `react`
-- `nelsonlaidev`
+<!-- sync:report-end -->
 
-### Unscanned ESLint plugins
+### Configs Not Migrated
 
 | Config              | Reason                                                          |
 | ------------------- | --------------------------------------------------------------- |
@@ -113,5 +115,3 @@ These use `jsPlugins` and are checked for consistency via `sync:check`.
 | `import-sort.ts`    | Replaced by Oxlint built-in `import/sort`                       |
 | `prettier.ts`       | Formatting concern, handled by oxfmt                            |
 | `unused-imports.ts` | Replaced by Oxlint built-in `no-unused-vars` with `fix.imports` |
-
-<!-- sync:report-end -->

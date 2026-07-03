@@ -24,6 +24,9 @@ export const react = (): FlatConfig[] => [
       ...reactPlugin.configs.all.rules,
       ...reactPlugin.configs['disable-conflict-eslint-plugin-react-hooks'].rules,
 
+      // Not production ready
+      '@eslint-react/static-components': 'off',
+
       '@eslint-react/immutability': 'error',
       '@eslint-react/refs': 'error',
     },

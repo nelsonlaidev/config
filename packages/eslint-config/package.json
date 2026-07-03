@@ -1,7 +1,8 @@
 {
   "name": "@nelsonlaidev/eslint-config",
   "version": "4.1.0",
-  "homepage": "https://github.com/nelsonlaidev/config/blob/main/packages/eslint-config/README.md",
+  "description": "Nelson Lai's ESLint config preset",
+  "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/eslint-config",
   "bugs": {
     "url": "https://github.com/nelsonlaidev/config/issues"
   },
@@ -17,8 +18,11 @@
   ],
   "type": "module",
   "exports": {
-    "types": "./dist/index.d.mts",
-    "import": "./dist/index.mjs"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
@@ -32,40 +36,39 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@eslint-community/eslint-plugin-eslint-comments": "^4.7.1",
-    "@eslint-react/eslint-plugin": "4.0.2-beta.6",
-    "@eslint/core": "^1.1.1",
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.7.2",
+    "@eslint-react/eslint-plugin": "^5.10.2",
     "@eslint/js": "^10.0.1",
     "@nelsonlaidev/eslint-plugin": "workspace:*",
-    "@next/eslint-plugin-next": "^16.2.1",
+    "@next/eslint-plugin-next": "^16.2.10",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/eslint-plugin": "^8.57.2",
-    "@typescript-eslint/parser": "^8.57.2",
-    "@vitest/eslint-plugin": "^1.6.13",
+    "@typescript-eslint/eslint-plugin": "^8.62.1",
+    "@typescript-eslint/parser": "^8.62.1",
+    "@vitest/eslint-plugin": "^1.6.20",
     "eslint-config-flat-gitignore": "^2.3.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-better-tailwindcss": "^4.3.2",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-better-tailwindcss": "^4.6.0",
     "eslint-plugin-command": "^3.5.2",
-    "eslint-plugin-de-morgan": "^2.1.1",
-    "eslint-plugin-import-x": "^4.16.2",
+    "eslint-plugin-de-morgan": "^2.1.2",
+    "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-import-zod": "^1.2.1",
-    "eslint-plugin-jsdoc": "^62.8.1",
+    "eslint-plugin-jsdoc": "^63.0.10",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-n": "^17.24.0",
-    "eslint-plugin-playwright": "^2.10.1",
-    "eslint-plugin-promise": "^7.2.1",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-regexp": "^3.1.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-sonarjs": "^4.0.2",
-    "eslint-plugin-unicorn": "^64.0.0",
+    "eslint-plugin-n": "^18.2.1",
+    "eslint-plugin-playwright": "^2.10.4",
+    "eslint-plugin-promise": "^7.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-regexp": "^3.1.1",
+    "eslint-plugin-simple-import-sort": "^13.0.0",
+    "eslint-plugin-sonarjs": "^4.1.0",
+    "eslint-plugin-unicorn": "^70.0.0",
     "eslint-plugin-unused-imports": "^4.4.1",
-    "globals": "^17.4.0",
-    "local-pkg": "^1.1.2"
+    "globals": "^17.7.0",
+    "local-pkg": "^1.2.1"
   },
   "devDependencies": {
-    "@eslint/config-inspector": "^1.5.0",
+    "@eslint/config-inspector": "^3.0.4",
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "catalog:dev",
     "eslint": "catalog:dev",
@@ -73,5 +76,8 @@
   },
   "peerDependencies": {
     "eslint": "^9.0.0 || ^10.0.0"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

@@ -1,5 +1,7 @@
+import type { Selectors } from 'eslint-plugin-better-tailwindcss/types'
 import type { OxlintConfig } from 'oxlint'
 
+import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/types'
 import { isPackageExists } from 'local-pkg'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -211,7 +213,7 @@ describe('defineConfig', () => {
       expect(jsPlugins).not.toEqual(expect.arrayContaining(['eslint-plugin-better-tailwindcss']))
     })
 
-    it('should include default better-tailwindcss settings with selectors', async () => {
+    it('should include default better-tailwindcss settings without selectors', async () => {
       const { defineConfig } = await importModule()
       const config = defineConfig({ custom: { tailwindcss: {} } })
 
@@ -220,13 +222,7 @@ describe('defineConfig', () => {
       expect(twSettings).toBeDefined()
       expect(twSettings.detectComponentClasses).toBe(false)
       expect(twSettings.rootFontSize).toBe(16)
-      expect(twSettings.selectors).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ name: 'classNames' }),
-          expect.objectContaining({ name: '.+ClassNames' }),
-          expect.objectContaining({ name: '.+ClassName' }),
-        ]),
-      )
+      expect(twSettings).not.toHaveProperty('selectors')
     })
 
     it('should merge user-provided tailwindcss settings over defaults', async () => {
@@ -237,6 +233,22 @@ describe('defineConfig', () => {
 
       expect(twSettings.rootFontSize).toBe(14)
       expect(twSettings.entryPoint).toBe('./src/styles.css')
+    })
+
+    it('should include user-provided tailwindcss selectors', async () => {
+      const { defineConfig } = await importModule()
+      const selectors: Selectors = [
+        {
+          kind: SelectorKind.Variable,
+          name: '^buttonClassName$',
+          match: [{ type: MatcherType.String }],
+        },
+      ]
+      const config = defineConfig({ custom: { tailwindcss: { selectors } } })
+
+      const twSettings = (config.settings as Record<string, unknown>)['better-tailwindcss'] as Record<string, unknown>
+
+      expect(twSettings.selectors).toEqual(selectors)
     })
   })
 

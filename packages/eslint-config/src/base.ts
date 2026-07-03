@@ -28,7 +28,6 @@ import { unicorn } from './configs/unicorn'
 import { unusedImports } from './configs/unused-imports'
 import { vitest } from './configs/vitest'
 import { zod } from './configs/zod'
-import { makeAllErrors } from './utils'
 
 const isReactInstalled = isPackageExists('react')
 const isNextjsInstalled = isPackageExists('next')
@@ -90,5 +89,5 @@ export const defineConfig = (options: ConfigOptions = {}, ...userConfigs: FlatCo
     configs.push(...prettier())
   }
 
-  return makeAllErrors(configs)
+  return configs
 }

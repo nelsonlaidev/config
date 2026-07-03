@@ -23,6 +23,7 @@ export const sonarjs = (): FlatConfig[] => [
       'sonarjs/prefer-read-only-props': 'off',
       'sonarjs/argument-type': 'off',
       'sonarjs/cognitive-complexity': 'off',
+      'sonarjs/assertions-in-tests': 'off',
 
       // Replaced by React rules
       'sonarjs/jsx-no-leaked-render': 'off',

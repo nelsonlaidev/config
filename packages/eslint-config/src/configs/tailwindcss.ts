@@ -1,17 +1,7 @@
 import type { FlatConfig, TailwindCSSOptions } from '../types'
 
-import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults'
-import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/types'
-
 import { GLOB_SRC } from '../globs'
 import { tailwindcssPlugin } from '../plugins'
-
-const createSelectors = <K extends SelectorKind>(names: string[], kind: K) =>
-  names.map((name) => ({
-    name,
-    kind,
-    match: [{ type: MatcherType.String as const }, { type: MatcherType.ObjectValue as const }],
-  }))
 
 export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
   const disableShorthand = options.canonical?.logical ?? true
@@ -27,15 +17,11 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
           entryPoint: options.entryPoint,
           tailwindConfig: options.tailwindConfig,
           tsconfig: options.tsconfig,
+          cwd: options.cwd,
           detectComponentClasses: options.detectComponentClasses ?? false,
           rootFontSize: options.rootFontSize ?? 16,
           messageStyle: options.messageStyle,
-          selectors: [
-            ...getDefaultSelectors(),
-            ...createSelectors(['classNames', '.+ClassNames'], SelectorKind.Attribute),
-            ...createSelectors(['.+ClassName', '.+ClassNames'], SelectorKind.Variable),
-            ...(options.selectors ?? []),
-          ],
+          ...(options.selectors !== undefined && { selectors: options.selectors }),
         } satisfies TailwindCSSOptions,
       },
     },
@@ -50,6 +36,7 @@ export const tailwindcss = (options: TailwindCSSOptions): FlatConfig[] => {
             logical: options.canonical?.logical ?? true,
           },
         ],
+        'better-tailwindcss/enforce-consistent-variant-order': 'error',
 
         // Recommended to be disabled to avoid duplicate reports
         // when the canonical classes rule is enabled
