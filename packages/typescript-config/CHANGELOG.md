@@ -1,5 +1,11 @@
 # @nelsonlaidev/typescript-config
 
+## 1.2.2
+
+### Patch Changes
+
+- 30e58fa: Update package metadata.
+
 ## 1.2.1
 
 ### Patch Changes

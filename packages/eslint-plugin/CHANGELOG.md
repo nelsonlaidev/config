@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-plugin
 
+## 0.2.5
+
+### Patch Changes
+
+- 30e58fa: Update package metadata.
+
 ## 0.2.4
 
 ### Patch Changes

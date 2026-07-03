@@ -1,5 +1,11 @@
 # @nelsonlaidev/prettier-config
 
+## 0.3.1
+
+### Patch Changes
+
+- 30e58fa: Update package metadata.
+
 ## 0.3.0
 
 ### Minor Changes
