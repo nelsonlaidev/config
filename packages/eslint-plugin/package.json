@@ -1,6 +1,6 @@
 {
   "name": "@nelsonlaidev/eslint-plugin",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Nelson Lai's ESLint plugin with custom rules",
   "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/eslint-plugin",
   "bugs": {

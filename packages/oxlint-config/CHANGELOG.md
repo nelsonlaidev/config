@@ -1,5 +1,18 @@
 # @nelsonlaidev/oxlint-config
 
+## 0.4.0
+
+### Minor Changes
+
+- 30e58fa: Refactor built-in presets to handle array-form rule options and numeric severity.
+- 30e58fa: Stop injecting default and custom `better-tailwindcss` selectors in shared configs. Consumers can now provide `tailwindcss.selectors` explicitly when they need custom class detection.
+- 30e58fa: Add `cwd` setting support for `better-tailwindcss`, bump eslint plugin dependencies to latest versions, add `enforce-consistent-variant-order` tailwindcss rule, disable `@eslint-react/static-components` (not production-ready), disable `sonarjs/assertions-in-tests`.
+
+### Patch Changes
+
+- Updated dependencies [30e58fa]
+  - @nelsonlaidev/eslint-plugin@0.2.5
+
 ## 0.3.2
 
 ### Patch Changes
