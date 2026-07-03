@@ -1,5 +1,9 @@
 # @nelsonlaidev/typescript-config
 
+[![Version](https://img.shields.io/npm/v/@nelsonlaidev/typescript-config?style=flat&colorA=111111&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/typescript-config)
+[![Downloads](https://img.shields.io/npm/dt/@nelsonlaidev/typescript-config.svg?style=flat&colorA=222222&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/typescript-config)
+[![License](https://img.shields.io/npm/l/@nelsonlaidev/typescript-config?style=flat&colorA=333333&colorB=000000)](https://github.com/nelsonlaidev/config/blob/main/LICENSE)
+
 Personal TypeScript configurations for Nelson Lai projects.
 
 ## Installation

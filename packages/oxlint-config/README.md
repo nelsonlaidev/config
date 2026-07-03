@@ -1,5 +1,9 @@
 # @nelsonlaidev/oxlint-config
 
+[![Version](https://img.shields.io/npm/v/@nelsonlaidev/oxlint-config?style=flat&colorA=111111&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/oxlint-config)
+[![Downloads](https://img.shields.io/npm/dt/@nelsonlaidev/oxlint-config.svg?style=flat&colorA=222222&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/oxlint-config)
+[![License](https://img.shields.io/npm/l/@nelsonlaidev/oxlint-config?style=flat&colorA=333333&colorB=000000)](https://github.com/nelsonlaidev/config/blob/main/LICENSE)
+
 Personal Oxlint configurations for Nelson Lai projects.
 
 This package is synced from `eslint-config` and aims to enable every supported Oxlint rule that is also enabled in `eslint-config`.
@@ -37,8 +41,6 @@ export default defineConfig({
 
 This package follows `eslint-config` as the source of truth. When a rule is enabled there, we enable the corresponding Oxlint rule here when Oxlint supports it.
 
-`unused-imports` is intentionally not included. Oxlint's built-in `no-unused-vars` rule with `fix.imports: "safe-fix"` accomplishes the same goal natively.
-
 ### What's Included
 
 This config includes opinionated rules from the following plugins:
@@ -47,18 +49,21 @@ This config includes opinionated rules from the following plugins:
 
 - `oxc`
 - `eslint`
+- `command`
 - `typescript`
 - `unicorn`
 - `promise`
 - `node`
 - `jsx-a11y`
-- `import` / `import-sort`
+- `import`
 - `jsdoc`
+- `nelsonlaidev`
 - `stylistic`
 - `de-morgan`
 - `zod`
 - `regexp`
 - `sonarjs`
+- `import-sort`
 
 #### Conditionally enabled
 
@@ -95,7 +100,7 @@ This config includes opinionated rules from the following plugins:
 | `tailwindcss/nelsonlaidev/tailwindcss/rules`      |     12 |       0 |          0 |            0 |   100.0% |
 | `typescript/nelsonlaidev/typescript/rules`        |    117 |      21 |         21 |            0 |   100.0% |
 | `typescript/nelsonlaidev/typescript/declarations` |      2 |       0 |          0 |            0 |   100.0% |
-| `unicorn/nelsonlaidev/unicorn/rules`              |    134 |     185 |        185 |            0 |    42.3% |
+| `unicorn/nelsonlaidev/unicorn/rules`              |    134 |     195 |        195 |            0 |    41.0% |
 | `vitest/nelsonlaidev/vitest/rules`                |     20 |       0 |          0 |            0 |   100.0% |
 | `zod/nelsonlaidev/zod/rules`                      |      1 |       0 |          0 |            0 |   100.0% |
 
@@ -112,6 +117,5 @@ No unclassified dropped rules.
 | `comments.ts`       | Plugin that comments out eslint-disable directives              |
 | `gitignore.ts`      | File-based ignores, handled by Oxlint config                    |
 | `ignores.ts`        | File ignore patterns                                            |
-| `import-sort.ts`    | Replaced by Oxlint built-in `import/sort`                       |
 | `prettier.ts`       | Formatting concern, handled by oxfmt                            |
 | `unused-imports.ts` | Replaced by Oxlint built-in `no-unused-vars` with `fix.imports` |

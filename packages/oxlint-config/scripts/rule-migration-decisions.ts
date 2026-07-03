@@ -226,6 +226,9 @@ export const ruleMigrationDecisions = {
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-asterisk-prefix-in-documentation-comments': {
     status: 'not_implemented',
   },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-async-promise-finally': {
+    status: 'not_implemented',
+  },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-blob-to-file': {
     status: 'not_implemented',
   },
@@ -379,7 +382,13 @@ export const ruleMigrationDecisions = {
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-undeclared-class-members': {
     status: 'not_implemented',
   },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-unnecessary-array-flat-map': {
+    status: 'not_implemented',
+  },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-unnecessary-boolean-comparison': {
+    status: 'not_implemented',
+  },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-unnecessary-fetch-options': {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-unnecessary-global-this': {
@@ -407,6 +416,9 @@ export const ruleMigrationDecisions = {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-unsafe-dom-html': {
+    status: 'not_implemented',
+  },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-unsafe-promise-all-settled-values': {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/no-unsafe-property-key': {
@@ -460,6 +472,9 @@ export const ruleMigrationDecisions = {
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/operator-assignment': {
     status: 'not_implemented',
   },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-abort-signal-any': {
+    status: 'not_implemented',
+  },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-abort-signal-timeout': {
     status: 'not_implemented',
   },
@@ -475,6 +490,9 @@ export const ruleMigrationDecisions = {
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-array-from-map': {
     status: 'not_implemented',
   },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-array-from-range': {
+    status: 'not_implemented',
+  },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-array-iterable-methods': {
     status: 'not_implemented',
   },
@@ -485,6 +503,9 @@ export const ruleMigrationDecisions = {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-await': {
+    status: 'not_implemented',
+  },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-block-statement-over-iife': {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-boolean-return': {
@@ -523,6 +544,9 @@ export const ruleMigrationDecisions = {
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-global-number-constants': {
     status: 'not_implemented',
   },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-group-by': {
+    status: 'not_implemented',
+  },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-has-check': {
     status: 'not_implemented',
   },
@@ -542,6 +566,9 @@ export const ruleMigrationDecisions = {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-iterator-concat': {
+    status: 'not_implemented',
+  },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-iterator-helpers': {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-iterator-to-array': {
@@ -611,6 +638,9 @@ export const ruleMigrationDecisions = {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-simple-sort-comparator': {
+    status: 'not_implemented',
+  },
+  'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-simplified-conditions': {
     status: 'not_implemented',
   },
   'unicorn/nelsonlaidev/unicorn/rules:unicorn/prefer-single-array-predicate': {

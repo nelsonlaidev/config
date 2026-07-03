@@ -1,5 +1,9 @@
 # @nelsonlaidev/eslint-plugin
 
+[![Version](https://img.shields.io/npm/v/@nelsonlaidev/eslint-plugin?style=flat&colorA=111111&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/eslint-plugin)
+[![Downloads](https://img.shields.io/npm/dt/@nelsonlaidev/eslint-plugin.svg?style=flat&colorA=222222&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/eslint-plugin)
+[![License](https://img.shields.io/npm/l/@nelsonlaidev/eslint-plugin?style=flat&colorA=333333&colorB=000000)](https://github.com/nelsonlaidev/config/blob/main/LICENSE)
+
 Custom ESLint rules for Nelson Lai projects.
 
 ## Installation
