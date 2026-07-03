@@ -17,9 +17,9 @@
     "lint:spell": "cspell .",
     "prepare": "lefthook install",
     "release": "changeset publish",
-    "sync": "turbo sync --filter=@nelsonlaidev/oxlint-config",
-    "sync:check": "turbo sync:check --filter=@nelsonlaidev/oxlint-config",
-    "sync:report": "turbo sync:report --filter=@nelsonlaidev/oxlint-config",
+    "sync": "turbo sync",
+    "sync:check": "turbo sync:check",
+    "sync:report": "turbo sync:report",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "version": "changeset version"
