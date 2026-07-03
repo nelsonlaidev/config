@@ -104,3 +104,14 @@ This config includes opinionated rules from the following plugins:
 No unclassified dropped rules.
 
 <!-- sync:report-end -->
+
+### Configs Not Migrated
+
+| Config              | Reason                                                          |
+| ------------------- | --------------------------------------------------------------- |
+| `comments.ts`       | Plugin that comments out eslint-disable directives              |
+| `gitignore.ts`      | File-based ignores, handled by Oxlint config                    |
+| `ignores.ts`        | File ignore patterns                                            |
+| `import-sort.ts`    | Replaced by Oxlint built-in `import/sort`                       |
+| `prettier.ts`       | Formatting concern, handled by oxfmt                            |
+| `unused-imports.ts` | Replaced by Oxlint built-in `no-unused-vars` with `fix.imports` |
