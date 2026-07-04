@@ -18,8 +18,8 @@ env:
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
-  lint:
-    name: Lint
+  ci:
+    name: Code Quality and Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
