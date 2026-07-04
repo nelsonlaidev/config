@@ -1,7 +1,7 @@
 # @nelsonlaidev/eslint-config
 
-[![Version](https://img.shields.io/npm/v/@nelsonlaidev/eslint-config?style=flat&colorA=111111&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/eslint-config)
-[![Downloads](https://img.shields.io/npm/dt/@nelsonlaidev/eslint-config.svg?style=flat&colorA=222222&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/eslint-config)
+[![Version](https://img.shields.io/npm/v/@nelsonlaidev/eslint-config?style=flat&colorA=333333&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/eslint-config)
+[![Downloads](https://img.shields.io/npm/dt/@nelsonlaidev/eslint-config.svg?style=flat&colorA=333333&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/eslint-config)
 [![License](https://img.shields.io/npm/l/@nelsonlaidev/eslint-config?style=flat&colorA=333333&colorB=000000)](https://github.com/nelsonlaidev/config/blob/main/LICENSE)
 
 Personal ESLint configurations for Nelson Lai projects.

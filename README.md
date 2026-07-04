@@ -1,8 +1,8 @@
 # @nelsonlaidev/config
 
 [![License](https://img.shields.io/npm/l/@nelsonlaidev/eslint-config?style=flat&colorA=333333&colorB=000000)](https://github.com/nelsonlaidev/config/blob/main/LICENSE)
-[![Built with tsdown](https://img.shields.io/badge/built_with-tsdown-000000?style=flat)](https://tsdown.dev)
-[![Node >=22](https://img.shields.io/badge/node-%3E%3D22-000000?style=flat)](https://nodejs.org)
+[![Built with tsdown](https://img.shields.io/badge/built_with-tsdown-000000?style=flat&colorA=333333)](https://tsdown.dev)
+[![Node >=22](https://img.shields.io/badge/node-%3E%3D22-000000?style=flat&colorA=333333)](https://nodejs.org)
 
 Personal configurations for Nelson Lai projects. This monorepo contains shared configuration packages for ESLint, Oxlint, Oxfmt, Prettier, and TypeScript.
 

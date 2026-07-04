@@ -1,7 +1,7 @@
 # @nelsonlaidev/oxlint-config
 
-[![Version](https://img.shields.io/npm/v/@nelsonlaidev/oxlint-config?style=flat&colorA=111111&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/oxlint-config)
-[![Downloads](https://img.shields.io/npm/dt/@nelsonlaidev/oxlint-config.svg?style=flat&colorA=222222&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/oxlint-config)
+[![Version](https://img.shields.io/npm/v/@nelsonlaidev/oxlint-config?style=flat&colorA=333333&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/oxlint-config)
+[![Downloads](https://img.shields.io/npm/dt/@nelsonlaidev/oxlint-config.svg?style=flat&colorA=333333&colorB=000000)](https://npmx.dev/package/@nelsonlaidev/oxlint-config)
 [![License](https://img.shields.io/npm/l/@nelsonlaidev/oxlint-config?style=flat&colorA=333333&colorB=000000)](https://github.com/nelsonlaidev/config/blob/main/LICENSE)
 
 Personal Oxlint configurations for Nelson Lai projects.
