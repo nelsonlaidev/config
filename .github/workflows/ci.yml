@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 
 on:
   push:
@@ -10,98 +10,41 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
-  lint:
-    name: Lint
+  ci:
+    name: Code Quality and Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure environment
+      - name: Setup environment
         uses: ./.github/actions/setup
 
-      - name: Run Oxlint
+      - name: Run lint
         run: pnpm lint
 
-  types:
-    name: TypeScript
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-
-      - name: Configure environment
-        uses: ./.github/actions/setup
-
-      - name: Run typecheck
+      - name: Run type check
         run: pnpm typecheck
 
-  format:
-    name: Format
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-
-      - name: Configure environment
-        uses: ./.github/actions/setup
-
-      - name: Run Oxfmt format check
+      - name: Run format check
         run: pnpm format:check
-
-  knip:
-    name: Knip
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-
-      - name: Configure environment
-        uses: ./.github/actions/setup
 
       - name: Run Knip
         run: pnpm knip
 
-  spellcheck:
-    name: Spell Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-
-      - name: Configure environment
-        uses: ./.github/actions/setup
-
-      - name: Run cspell
+      - name: Run spell check
         run: pnpm lint:spell
-
-  sync:
-    name: Sync Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-
-      - name: Configure environment
-        uses: ./.github/actions/setup
 
       - name: Run sync check
         run: pnpm sync:check
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-
-      - name: Configure environment
-        uses: ./.github/actions/setup
 
       - name: Run tests
         run: pnpm test

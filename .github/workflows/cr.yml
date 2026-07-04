@@ -7,21 +7,23 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
   publish:
-    name: Publish
+    name: Publish Packages
     runs-on: ubuntu-latest
-    if: github.head_ref != 'changeset-release/main'
     steps:
-      - name: Checkout branch
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure environment
+      - name: Setup environment
         uses: ./.github/actions/setup
 
       - name: Run Publish
-        run: pnpm dlx pkg-pr-new publish --pnpm --compact './packages/*'
+        run: pnpm dlx pkg-pr-new publish --commentWithSha './packages/*'
