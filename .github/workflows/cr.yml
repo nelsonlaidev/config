@@ -1,21 +1,39 @@
 name: Continuous Release
 
 on:
-  pull_request:
+  pull_request_review:
+    types: [submitted]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
 
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
-  publish:
-    name: Publish
+  check:
+    name: Check Permissions
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
-    if: github.head_ref != 'changeset-release/main'
+    outputs:
+      has-permissions: ${{ step.check-permissions.outputs.require-result }}
+    steps:
+      - name: Check permissions
+        id: check-permissions
+        uses: actions-cool/check-user-permission@v2
+        with:
+          require: write
+
+  publish:
+    name: Publish Packages
+    needs: check
+    if: needs.check.outputs.has-permissions == 'true'
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,4 +42,4 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run Publish
-        run: pnpm dlx pkg-pr-new publish --pnpm --compact './packages/*'
+        run: pnpm pkg-pr-new publish --commentWithSha './packages/*'
