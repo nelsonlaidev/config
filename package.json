@@ -36,7 +36,6 @@
     "oxfmt": "catalog:dev",
     "oxlint": "catalog:dev",
     "oxlint-tsgolint": "catalog:dev",
-    "pkg-pr-new": "^0.0.75",
     "turbo": "^2.8.21",
     "typescript": "^6.0.2"
   },

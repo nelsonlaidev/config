@@ -1,8 +1,7 @@
 name: Continuous Release
 
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -16,23 +15,8 @@ env:
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
-  check:
-    name: Check Permissions
-    if: github.event.review.state == 'approved'
-    runs-on: ubuntu-latest
-    outputs:
-      has-permissions: ${{ steps.check-permissions.outputs.require-result }}
-    steps:
-      - name: Check permissions
-        id: check-permissions
-        uses: actions-cool/check-user-permission@v2
-        with:
-          require: write
-
   publish:
     name: Publish Packages
-    needs: check
-    if: needs.check.outputs.has-permissions == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -42,4 +26,4 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run Publish
-        run: pnpm pkg-pr-new publish --commentWithSha './packages/*'
+        run: pnpm dlx pkg-pr-new publish --commentWithSha './packages/*'
