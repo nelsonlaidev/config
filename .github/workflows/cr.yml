@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
   publish:
@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.head_ref != 'changeset-release/main'
     steps:
-      - name: Checkout branch
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure environment
+      - name: Setup environment
         uses: ./.github/actions/setup
 
       - name: Run Publish
