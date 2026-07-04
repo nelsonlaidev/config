@@ -21,7 +21,7 @@ jobs:
     if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     outputs:
-      has-permissions: ${{ step.check-permissions.outputs.require-result }}
+      has-permissions: ${{ steps.check-permissions.outputs.require-result }}
     steps:
       - name: Check permissions
         id: check-permissions
