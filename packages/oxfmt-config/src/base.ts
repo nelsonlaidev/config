@@ -8,6 +8,9 @@ export const defineConfig = (config: OxfmtConfig = {}): OxfmtConfig => {
     semi: false,
     printWidth: 120,
     ignorePatterns: ['**/routeTree.gen.ts', ...ignorePatterns],
+    sortPackageJson: {
+      sortScripts: true,
+    },
     ...rest,
   }
 }
