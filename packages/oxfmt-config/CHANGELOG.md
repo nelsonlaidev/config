@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxfmt-config
 
+## 0.3.0
+
+### Minor Changes
+
+- 677e0ab: Enable `sortPackageJson.sortScripts` by default.
+
 ## 0.2.0
 
 ### Minor Changes
