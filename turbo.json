@@ -7,6 +7,21 @@
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
+    "build:inspector": {
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": ["dist/*-config-inspector/**"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:inspector": {
+      "cache": false,
+      "persistent": true
+    },
     "sync": {
       "cache": false
     },
@@ -20,13 +35,6 @@
       "dependsOn": ["build"],
       "inputs": ["$TURBO_DEFAULT$"]
     },
-    "typecheck": {},
-    "clean": {
-      "cache": false
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    }
+    "typecheck": {}
   }
 }

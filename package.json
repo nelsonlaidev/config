@@ -6,9 +6,11 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
+    "build:inspector": "turbo build:inspector",
     "check": "pnpm lint && pnpm typecheck && pnpm format:check && pnpm knip && pnpm lint:spell && pnpm sync:check",
     "clean": "turbo clean && rm -rf .turbo",
     "dev": "turbo dev",
+    "dev:inspector": "turbo dev:inspector",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "knip": "knip",

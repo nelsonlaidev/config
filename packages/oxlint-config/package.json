@@ -29,15 +29,17 @@
   },
   "scripts": {
     "build": "tsdown",
+    "build:inspector": "oxlint-config-inspector build --config ./oxlint-inspector.config.ts",
     "clean": "rm -rf .turbo dist",
     "dev": "tsdown --watch",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
+    "dev:inspector": "oxlint-config-inspector dev --config ./oxlint-inspector.config.ts",
     "sync": "tsx scripts/sync-oxlint-eslint.ts",
     "sync:check": "tsx scripts/sync-oxlint-eslint.ts --check",
+    "sync:classify": "tsx scripts/sync-oxlint-eslint.ts --classify",
     "sync:report": "tsx scripts/sync-oxlint-eslint.ts --report --write",
-    "sync:classify": "tsx scripts/sync-oxlint-eslint.ts --classify"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "es-toolkit": "^1.49.0",
@@ -59,6 +61,7 @@
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "eslint-plugin-sonarjs": "^4.1.0",
     "oxlint": "catalog:dev",
+    "oxlint-config-inspector": "1.0.0-beta.0",
     "oxlint-tsgolint": "catalog:dev",
     "tinyexec": "^1.2.4",
     "tsdown": "catalog:dev",
