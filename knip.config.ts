@@ -7,6 +7,7 @@ const config: KnipConfig = {
       entry: ['eslint-inspector.config.ts', 'src/index.ts'],
     },
     'packages/oxlint-config': {
+      entry: ['oxlint-inspector.config.ts', 'src/index.ts'],
       ignoreFiles: ['tests/fixtures/**/*'],
     },
   },
