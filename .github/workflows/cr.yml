@@ -26,4 +26,4 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run Publish
-        run: pnpm dlx pkg-pr-new publish --commentWithSha './packages/*'
+        run: pnpm dlx pkg-pr-new publish --pnpm --commentWithSha './packages/*'
