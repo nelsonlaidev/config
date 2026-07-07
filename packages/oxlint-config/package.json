@@ -61,7 +61,7 @@
     "eslint-plugin-simple-import-sort": "^13.0.0",
     "eslint-plugin-sonarjs": "^4.1.0",
     "oxlint": "catalog:dev",
-    "oxlint-config-inspector": "1.0.0-beta.0",
+    "oxlint-config-inspector": "1.0.0",
     "oxlint-tsgolint": "catalog:dev",
     "tinyexec": "^1.2.4",
     "tsdown": "catalog:dev",

@@ -167,7 +167,7 @@ importers:
     devDependencies:
       '@eslint/config-inspector':
         specifier: ^3.0.4
-        version: 3.0.4(esbuild@0.28.1)(eslint@10.6.0(jiti@2.7.0))(rolldown@1.1.3)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))
+        version: 3.0.4(esbuild@0.28.1)(eslint@10.6.0(jiti@2.7.0))(rolldown@1.0.0-rc.17)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))
       '@nelsonlaidev/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
@@ -273,8 +273,8 @@ importers:
         specifier: catalog:dev
         version: 1.72.0(oxlint-tsgolint@0.23.0)
       oxlint-config-inspector:
-        specifier: 1.0.0-beta.0
-        version: 1.0.0-beta.0(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(typescript@6.0.3)(yaml@2.9.0)
+        specifier: 1.0.0
+        version: 1.0.0(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(typescript@6.0.3)(yaml@2.9.0)
       oxlint-tsgolint:
         specifier: catalog:dev
         version: 0.23.0
@@ -1574,8 +1574,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@oxlint-config-inspector/core@1.0.0-beta.0':
-    resolution: {integrity: sha512-UyzLWGKiDnRU1teBDkWoz8ZQaxYmgSOS9X0UBZCEH+T5Vnl1BWYenNsiy2XQk/mMPuFiBKEHUZ26pKBq45KPQg==}
+  '@oxlint-config-inspector/core@1.0.0':
+    resolution: {integrity: sha512-OkerIoU2qnGhZTlpASs0LUjVYRN5R2m5GT09aNNRdCIhw1JooDebNphxkrP52jTTu+jW4wB0E3aBxmQ0xBM6tg==}
     engines: {node: '>=22'}
 
   '@oxlint-tsgolint/darwin-arm64@0.23.0':
@@ -3779,8 +3779,8 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  oxlint-config-inspector@1.0.0-beta.0:
-    resolution: {integrity: sha512-nxp/GneZq2tZNagHnHOJAS6ztcSpt5RJQeASeDgMj2aWHYPIdLlvSGITEWggC2aNiHAK+iCwOIhKeSa6xXJ9BA==}
+  oxlint-config-inspector@1.0.0:
+    resolution: {integrity: sha512-estU77Pd3KNEdPJJ6kdjEntpksUmRqLMbzj9QEDS585KZ8GcpzhB/AKm7yxfSkP5hLlnk2G/EyFMjjM7wQy0Kg==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -5360,12 +5360,12 @@ snapshots:
     dependencies:
       '@eslint/core': 1.2.1
 
-  '@eslint/config-inspector@3.0.4(esbuild@0.28.1)(eslint@10.6.0(jiti@2.7.0))(rolldown@1.1.3)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))':
+  '@eslint/config-inspector@3.0.4(esbuild@0.28.1)(eslint@10.6.0(jiti@2.7.0))(rolldown@1.0.0-rc.17)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))':
     dependencies:
       ansis: 4.3.1
       cac: 7.0.0
       chokidar: 5.0.0
-      devframe: 0.5.4(esbuild@0.28.1)(rolldown@1.1.3)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))
+      devframe: 0.5.4(esbuild@0.28.1)(rolldown@1.0.0-rc.17)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))
       eslint: 10.6.0(jiti@2.7.0)
       jiti: 2.7.0
       tinyglobby: 0.2.17
@@ -5752,7 +5752,7 @@ snapshots:
   '@oxfmt/binding-win32-x64-msvc@0.42.0':
     optional: true
 
-  '@oxlint-config-inspector/core@1.0.0-beta.0(typescript@6.0.3)':
+  '@oxlint-config-inspector/core@1.0.0(typescript@6.0.3)':
     dependencies:
       cosmiconfig: 9.0.2(typescript@6.0.3)
       jiti: 2.7.0
@@ -6683,14 +6683,14 @@ snapshots:
 
   detect-newline@4.0.1: {}
 
-  devframe@0.5.4(esbuild@0.28.1)(rolldown@1.1.3)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0)):
+  devframe@0.5.4(esbuild@0.28.1)(rolldown@1.0.0-rc.17)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0)):
     dependencies:
       '@valibot/to-json-schema': 1.7.1(valibot@1.4.1(typescript@6.0.3))
       birpc: 4.0.0
       cac: 7.0.0
       h3: 2.0.1-rc.22
       mrmime: 2.0.1
-      nostics: 0.2.0(esbuild@0.28.1)(rolldown@1.1.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))
+      nostics: 0.2.0(esbuild@0.28.1)(rolldown@1.0.0-rc.17)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))
       pathe: 2.0.3
       valibot: 1.4.1(typescript@6.0.3)
       ws: 8.21.0
@@ -7905,11 +7905,11 @@ snapshots:
 
   node-releases@2.0.50: {}
 
-  nostics@0.2.0(esbuild@0.28.1)(rolldown@1.1.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0)):
+  nostics@0.2.0(esbuild@0.28.1)(rolldown@1.0.0-rc.17)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0)):
     dependencies:
       magic-string: 0.30.21
       oxc-parser: 0.132.0
-      unplugin: 3.3.0(esbuild@0.28.1)(rolldown@1.1.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))
+      unplugin: 3.3.0(esbuild@0.28.1)(rolldown@1.0.0-rc.17)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0))
     transitivePeerDependencies:
       - '@farmfe/core'
       - '@rspack/core'
@@ -8065,9 +8065,9 @@ snapshots:
       '@oxfmt/binding-win32-ia32-msvc': 0.42.0
       '@oxfmt/binding-win32-x64-msvc': 0.42.0
 
-  oxlint-config-inspector@1.0.0-beta.0(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(typescript@6.0.3)(yaml@2.9.0):
+  oxlint-config-inspector@1.0.0(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(typescript@6.0.3)(yaml@2.9.0):
     dependencies:
-      '@oxlint-config-inspector/core': 1.0.0-beta.0(typescript@6.0.3)
+      '@oxlint-config-inspector/core': 1.0.0(typescript@6.0.3)
       picocolors: 1.1.1
       sirv: 3.0.2
       vite: 8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0)
@@ -8711,14 +8711,14 @@ snapshots:
 
   universalify@0.1.2: {}
 
-  unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.1.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0)):
+  unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.0.0-rc.17)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0)):
     dependencies:
       '@jridgewell/remapping': 2.3.5
       picomatch: 4.0.4
       webpack-virtual-modules: 0.6.2
     optionalDependencies:
       esbuild: 0.28.1
-      rolldown: 1.1.3
+      rolldown: 1.0.0-rc.17
       vite: 8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.5)(yaml@2.9.0)
 
   unrs-resolver@1.12.2:
