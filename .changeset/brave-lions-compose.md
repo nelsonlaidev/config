@@ -4,7 +4,7 @@
 
 Refactor the package around an explicit, composable ESLint flat-config API.
 
-## Breaking changes
+This release includes a few breaking changes:
 
 - `defineConfig()` no longer accepts framework and tool options. Pass project-specific flat configs and optional presets directly as arguments instead.
 - React, Next.js, and Prettier are no longer enabled automatically when their packages are installed. Enable every optional integration explicitly.
