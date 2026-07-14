@@ -56,6 +56,14 @@ export const ruleMigrationDecisions = {
     status: 'replaced_by',
     replacement: 'eslint/no-undef',
   },
+  'react/nelsonlaidev/react/rules:@eslint-react/no-leaked-conditional-rendering': {
+    status: 'intentionally_omitted',
+    note: 'Oxlint JavaScript plugins do not support type-aware rules.',
+  },
+  'react/nelsonlaidev/react/rules:@eslint-react/no-unused-props': {
+    status: 'intentionally_omitted',
+    note: 'Oxlint JavaScript plugins do not support type-aware rules.',
+  },
   'typescript/nelsonlaidev/typescript/rules:@typescript-eslint/class-methods-use-this': {
     status: 'replaced_by',
     replacement: 'eslint/class-methods-use-this',

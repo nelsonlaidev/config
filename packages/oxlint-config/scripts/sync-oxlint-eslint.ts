@@ -13,8 +13,9 @@ import { x } from 'tinyexec'
 import { ruleMigrationDecisions } from './rule-migration-decisions'
 import { createGeneratedHeader, formatCode, resolveFromRoot, ROOT_DIR } from './utils'
 
-type ConfigModule = Record<string, (...args: unknown[]) => unknown[]>
 type FlatConfig = { name?: string; rules?: RulesConfig }
+type ConfigOutput = FlatConfig | FlatConfig[]
+type ConfigModule = Record<string, (...args: unknown[]) => ConfigOutput>
 export type RuleValue = RuleConfig
 type RawRuleValue = { raw: string }
 export type Rule = [string, RuleValue | RawRuleValue]
@@ -106,12 +107,8 @@ const TYPESCRIPT_COMPATIBLE_ESLINT_RULES = new Set([
 type PresetGroupEntry = {
   group: string
   files?: string
-}
-
-type TargetParam = {
-  name: string
-  type: string
-  import: string
+  sourceExport?: string
+  targetExport?: string
 }
 
 export type PresetEntry = {
@@ -124,14 +121,15 @@ export type PresetEntry = {
   // Target: oxlint generated output
   target?: string
   targetExport?: string
-  targetParam?: TargetParam
   scope?: string
   jsPlugins?: NamedExternalPluginEntry[]
 
   // Options
+  mergeOptions?: boolean
   overrides?: Record<string, RuleValueOverride>
   scopeRemap?: Record<string, string>
   stripOptions?: Record<string, string[]>
+  unsupportedJsPluginRules?: string[]
 }
 
 const PRESETS: PresetEntry[] = [
@@ -191,6 +189,7 @@ const PRESETS: PresetEntry[] = [
   {
     source: 'nextjs',
     scope: 'nextjs',
+    mergeOptions: true,
     groups: [{ group: 'nelsonlaidev/nextjs/rules' }],
   },
   {
@@ -200,25 +199,10 @@ const PRESETS: PresetEntry[] = [
   },
   {
     source: 'playwright',
-    sourceArgs: [{ files: [] }],
-    groups: [{ group: 'nelsonlaidev/playwright/rules', files: 'config.files' }],
-    targetParam: {
-      name: 'config',
-      type: 'PlaywrightConfig',
-      import: '../types/playwright',
-    },
+    sourceArgs: [{}],
+    mergeOptions: true,
+    groups: [{ group: 'nelsonlaidev/playwright/rules' }],
     jsPlugins: [{ name: 'playwright', specifier: 'eslint-plugin-playwright' }],
-    overrides: {
-      'playwright/expect-expect': {
-        raw: `[
-          'error',
-          {
-            assertFunctionNames: config.assertFunctionNames ?? [],
-            assertFunctionPatterns: config.assertFunctionPatterns ?? [],
-          },
-        ]`,
-      },
-    },
   },
   {
     source: 'promise',
@@ -226,6 +210,7 @@ const PRESETS: PresetEntry[] = [
   },
   {
     source: 'react',
+    mergeOptions: true,
     jsPlugins: [
       { name: '@eslint-react', specifier: '@eslint-react/eslint-plugin' },
       { name: 'react-hooks-js', specifier: 'eslint-plugin-react-hooks' },
@@ -233,6 +218,7 @@ const PRESETS: PresetEntry[] = [
     scopeRemap: {
       'react-hooks': 'react-hooks-js',
     },
+    unsupportedJsPluginRules: ['@eslint-react/no-leaked-conditional-rendering', '@eslint-react/no-unused-props'],
     groups: [{ group: 'nelsonlaidev/react/rules' }],
   },
   {
@@ -253,53 +239,9 @@ const PRESETS: PresetEntry[] = [
   {
     source: 'tailwindcss',
     sourceArgs: [{}],
+    mergeOptions: true,
     groups: [{ group: 'nelsonlaidev/tailwindcss/rules' }],
-    targetParam: {
-      name: 'options',
-      type: 'TailwindCSSConfig',
-      import: '../types',
-    },
     jsPlugins: [{ name: 'better-tailwindcss', specifier: 'eslint-plugin-better-tailwindcss' }],
-    overrides: {
-      'better-tailwindcss/enforce-canonical-classes': {
-        raw: `[
-          'error',
-          {
-            collapse: options.canonical?.collapse ?? true,
-            logical: options.canonical?.logical ?? true,
-          },
-        ]`,
-      },
-      'better-tailwindcss/enforce-consistent-class-order': {
-        raw: `[
-          'error',
-          {
-            order: options.classOrder?.order ?? 'official',
-            componentClassOrder: options.classOrder?.componentOrder ?? 'preserve',
-            componentClassPosition: options.classOrder?.componentPosition ?? 'start',
-            unknownClassOrder: options.classOrder?.unknownOrder ?? 'preserve',
-            unknownClassPosition: options.classOrder?.unknownPosition ?? 'start',
-          },
-        ]`,
-      },
-      'better-tailwindcss/enforce-shorthand-classes': {
-        raw: `(options.canonical?.logical ?? true) ? 'off' : 'error'`,
-      },
-      'better-tailwindcss/no-restricted-classes': {
-        raw: `['error', { restrict: options.restrict ?? [] }]`,
-      },
-      'better-tailwindcss/no-unknown-classes': {
-        raw: `['error', { ignore: options.ignore ?? [] }]`,
-      },
-      'better-tailwindcss/no-unnecessary-whitespace': {
-        raw: `[
-          'error',
-          {
-            allowMultiline: options.whitespace?.allowMultiline ?? true,
-          },
-        ]`,
-      },
-    },
   },
   {
     source: 'typescript',
@@ -309,6 +251,7 @@ const PRESETS: PresetEntry[] = [
       {
         group: 'nelsonlaidev/typescript/declarations',
         files: `['**/*.d.ts']`,
+        sourceExport: 'typescriptDeclarations',
       },
     ],
   },
@@ -318,13 +261,9 @@ const PRESETS: PresetEntry[] = [
   },
   {
     source: 'vitest',
-    sourceArgs: [{ files: [] }],
-    groups: [{ group: 'nelsonlaidev/vitest/rules', files: 'config.files' }],
-    targetParam: {
-      name: 'config',
-      type: 'VitestConfig',
-      import: '../types/vitest',
-    },
+    sourceArgs: [{}],
+    mergeOptions: true,
+    groups: [{ group: 'nelsonlaidev/vitest/rules' }],
   },
   {
     source: 'zod',
@@ -425,11 +364,12 @@ export type GeneratePresetOptions = {
   scope: string
   targetExport: string
   groups: PresetGroupEntry[]
-  targetParam?: TargetParam
   jsPlugins?: NamedExternalPluginEntry[]
+  mergeOptions?: boolean
   overrides?: Record<string, RuleValueOverride>
   scopeRemap?: Record<string, string>
   stripOptions?: Record<string, string[]>
+  unsupportedJsPluginRules?: string[]
 }
 
 function createGeneratePresetOptions(preset: PresetEntry): GeneratePresetOptions {
@@ -443,11 +383,12 @@ function createGeneratePresetOptions(preset: PresetEntry): GeneratePresetOptions
     scope,
     targetExport: preset.targetExport ?? sourceExport,
     groups: preset.groups,
-    targetParam: preset.targetParam,
     jsPlugins: preset.jsPlugins,
+    mergeOptions: preset.mergeOptions,
     overrides: preset.overrides,
     scopeRemap: preset.scopeRemap,
     stripOptions: preset.stripOptions,
+    unsupportedJsPluginRules: preset.unsupportedJsPluginRules,
   }
 }
 
@@ -457,21 +398,16 @@ async function generatePreset(options: GeneratePresetOptions) {
   const groups = await Promise.all(
     options.groups.map(async (group) => ({
       files: group.files ?? '[GLOB_SRC]',
-      rules: getSyncedRules(await getRuleSyncResults(options, lookup, group.group)),
+      rules: getSyncedRules(await getRuleSyncResults(options, lookup, group)),
       jsPlugins: options.jsPlugins,
+      targetExport: group.targetExport ?? group.sourceExport ?? options.targetExport,
     })),
   )
 
-  const paramSignature = options.targetParam
-    ? `(${options.targetParam.name}: ${options.targetParam.type}): OxlintOverride[]`
-    : '(): OxlintOverride[]'
-
-  const typeImports = [
-    "import type { OxlintOverride } from 'oxlint'",
-    options.targetParam ? `import type { ${options.targetParam.type} } from '${options.targetParam.import}'` : null,
-  ].filter((s): s is string => s !== null)
+  const typeImports = ["import type { OxlintOverride } from 'oxlint'"]
   const valueImports = [
     options.groups.some((group) => !group.files) ? "import { GLOB_SRC } from '../globs'" : null,
+    options.mergeOptions ? "import { mergeConfig } from '../utils'" : null,
   ].filter((s): s is string => s !== null)
   const imports = valueImports.length > 0 ? [...typeImports, '', ...valueImports] : typeImports
 
@@ -480,12 +416,40 @@ async function generatePreset(options: GeneratePresetOptions) {
     '',
     ...imports,
     '',
-    `export const ${options.targetExport} = ${paramSignature} => [`,
-    ...groups.flatMap((group) => buildOverrideBlock(group.files, options.scope, group.rules, group.jsPlugins)),
-    ']',
+    ...groups.flatMap((group, index) => [
+      ...buildPresetExport(group, options.scope, options.mergeOptions),
+      ...(index === groups.length - 1 ? [] : ['']),
+    ]),
   ]
 
   return sourceLines
+}
+
+function buildPresetExport(
+  group: {
+    files: string
+    rules: Rule[]
+    jsPlugins?: NamedExternalPluginEntry[]
+    targetExport: string
+  },
+  scope: string,
+  mergeOptions = false,
+): string[] {
+  const objectLines = buildOverrideObject(group.files, scope, group.rules, group.jsPlugins)
+
+  if (!mergeOptions) {
+    return [`export const ${group.targetExport} = (): OxlintOverride => ({`, ...objectLines, '})']
+  }
+
+  return [
+    `export const ${group.targetExport} = (options: Partial<OxlintOverride> = {}): OxlintOverride => {`,
+    '  const base: OxlintOverride = {',
+    ...objectLines.map((line) => `  ${line}`),
+    '  }',
+    '',
+    '  return mergeConfig(base, options)',
+    '}',
+  ]
 }
 
 export async function generatePresetAnalysis(preset: PresetEntry): Promise<PresetAnalysis> {
@@ -495,7 +459,7 @@ export async function generatePresetAnalysis(preset: PresetEntry): Promise<Prese
     options.groups.map(async (group) => ({
       groupName: group.group,
       files: group.files ?? '[GLOB_SRC]',
-      results: await getRuleSyncResults(options, lookup, group.group),
+      results: await getRuleSyncResults(options, lookup, group),
     })),
   )
 
@@ -509,11 +473,17 @@ function getPresetId(preset: PresetEntry) {
   return preset.target ?? preset.source
 }
 
-export async function getRuleSyncResults(options: GeneratePresetOptions, lookup: Set<string>, group: string) {
-  const rules = await getSourceRules(options.source, options.sourceExport, options.sourceArgs, group)
+export async function getRuleSyncResults(options: GeneratePresetOptions, lookup: Set<string>, group: PresetGroupEntry) {
+  const rules = await getSourceRules(
+    options.source,
+    group.sourceExport ?? options.sourceExport,
+    options.sourceArgs,
+    getSourceConfigName(group.group),
+  )
   const jsPluginScopeMap = getJsPluginScopeMap(options.jsPlugins, options.scopeRemap)
   const [firstJsPlugin] = options.jsPlugins ?? []
   const defaultJsPluginScope = options.jsPlugins?.length === 1 ? firstJsPlugin?.name : undefined
+  const unsupportedJsPluginRules = new Set(options.unsupportedJsPluginRules)
 
   return rules
     .map((rule) => stripRuleOptions(rule, options.stripOptions))
@@ -526,12 +496,17 @@ export async function getRuleSyncResults(options: GeneratePresetOptions, lookup:
         (options.jsPlugins?.length ?? 0) > 0,
         jsPluginScopeMap,
         defaultJsPluginScope,
+        unsupportedJsPluginRules,
       ),
     )
     .toSorted(
       (a, b) =>
         a.normalizedRuleName.localeCompare(b.normalizedRuleName) || a.sourceRuleName.localeCompare(b.sourceRuleName),
     )
+}
+
+function getSourceConfigName(group: string) {
+  return group.endsWith('/rules') ? group.slice(0, -'/rules'.length) : group
 }
 
 export function getSyncedRules(results: RuleSyncResult[]): Rule[] {
@@ -545,7 +520,7 @@ export function getDroppedRules(results: RuleSyncResult[]): DroppedRuleSyncResul
   return results.filter((result): result is DroppedRuleSyncResult => result.status === 'dropped')
 }
 
-function buildOverrideBlock(
+function buildOverrideObject(
   files: string,
   scope: string,
   rules: Rule[],
@@ -555,14 +530,12 @@ function buildOverrideBlock(
   const hasJsPlugins = (jsPlugins?.length ?? 0) > 0
 
   return [
-    '  {',
-    `    files: ${files},`,
-    hasJsPlugins ? `    jsPlugins: ${JSON.stringify(jsPlugins ?? [])},` : `    plugins: ${JSON.stringify(plugins)},`,
-    '    rules: {',
+    `  files: ${files},`,
+    hasJsPlugins ? `  jsPlugins: ${JSON.stringify(jsPlugins ?? [])},` : `  plugins: ${JSON.stringify(plugins)},`,
+    '  rules: {',
     ...rules.map(([ruleName, ruleValue]) => {
-      return `      '${ruleName}': ${renderRuleValue(ruleValue)},`
+      return `    '${ruleName}': ${renderRuleValue(ruleValue)},`
     }),
-    '    }',
     '  },',
   ]
 }
@@ -593,7 +566,8 @@ async function getSourceRules(
     throw new Error(`Config module for "${source}" does not export a function named "${sourceExport}".`)
   }
 
-  const configs = configModule[sourceExport](...(sourceArgs ?? [])) as FlatConfig[]
+  const config = configModule[sourceExport](...(sourceArgs ?? []))
+  const configs = Array.isArray(config) ? config : [config]
   const entry = configs.find((cfg) => cfg.name === group)
 
   if (!entry) {
@@ -632,6 +606,7 @@ export function normalizeRule(
   allowJsPluginRule = false,
   jsPluginScopeMap = new Map<string, string>(),
   defaultJsPluginScope?: string,
+  unsupportedJsPluginRules = new Set<string>(),
 ): RuleSyncResult {
   const [ruleName, ruleValue] = rule
   const normalizedName = normalizeRuleName(ruleName, scope, jsPluginScopeMap, defaultJsPluginScope)
@@ -642,6 +617,16 @@ export function normalizeRule(
       sourceRuleName: ruleName,
       normalizedRuleName: normalizedName,
       dropReason: 'typescript_compatible_eslint_off',
+      sourceValue: ruleValue,
+    }
+  }
+
+  if (allowJsPluginRule && unsupportedJsPluginRules.has(ruleName)) {
+    return {
+      status: 'dropped',
+      sourceRuleName: ruleName,
+      normalizedRuleName: normalizedName,
+      dropReason: 'not_supported',
       sourceValue: ruleValue,
     }
   }

@@ -51,10 +51,10 @@ npm i -D @nelsonlaidev/oxlint-config oxlint oxlint-tsgolint
 
 ```ts
 // oxlint.config.ts
-import { defineConfig } from '@nelsonlaidev/oxlint-config'
+import { defineConfig, react } from '@nelsonlaidev/oxlint-config'
 
 export default defineConfig({
-  react: true,
+  overrides: [react()],
 })
 ```
 

@@ -5,12 +5,10 @@ import type { OxlintOverride } from 'oxlint'
 
 import { GLOB_SRC } from '../globs'
 
-export const stylistic = (): OxlintOverride[] => [
-  {
-    files: [GLOB_SRC],
-    jsPlugins: [{ name: '@stylistic', specifier: '@stylistic/eslint-plugin' }],
-    rules: {
-      '@stylistic/multiline-comment-style': ['error', 'separate-lines'],
-    },
+export const stylistic = (): OxlintOverride => ({
+  files: [GLOB_SRC],
+  jsPlugins: [{ name: '@stylistic', specifier: '@stylistic/eslint-plugin' }],
+  rules: {
+    '@stylistic/multiline-comment-style': ['error', 'separate-lines'],
   },
-]
+})

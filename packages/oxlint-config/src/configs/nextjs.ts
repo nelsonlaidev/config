@@ -4,9 +4,10 @@
 import type { OxlintOverride } from 'oxlint'
 
 import { GLOB_SRC } from '../globs'
+import { mergeConfig } from '../utils'
 
-export const nextjs = (): OxlintOverride[] => [
-  {
+export const nextjs = (options: Partial<OxlintOverride> = {}): OxlintOverride => {
+  const base: OxlintOverride = {
     files: [GLOB_SRC],
     plugins: ['nextjs'],
     rules: {
@@ -32,5 +33,7 @@ export const nextjs = (): OxlintOverride[] => [
       'nextjs/no-typos': 'error',
       'nextjs/no-unwanted-polyfillio': 'error',
     },
-  },
-]
+  }
+
+  return mergeConfig(base, options)
+}

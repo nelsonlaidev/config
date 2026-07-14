@@ -5,12 +5,10 @@ import type { OxlintOverride } from 'oxlint'
 
 import { GLOB_SRC } from '../globs'
 
-export const zod = (): OxlintOverride[] => [
-  {
-    files: [GLOB_SRC],
-    jsPlugins: [{ name: 'import-zod', specifier: 'eslint-plugin-import-zod' }],
-    rules: {
-      'import-zod/prefer-zod-namespace': 'error',
-    },
+export const zod = (): OxlintOverride => ({
+  files: [GLOB_SRC],
+  jsPlugins: [{ name: 'import-zod', specifier: 'eslint-plugin-import-zod' }],
+  rules: {
+    'import-zod/prefer-zod-namespace': 'error',
   },
-]
+})
