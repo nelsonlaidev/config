@@ -12,120 +12,106 @@ Personal ESLint configurations for Nelson Lai projects.
 npm i -D @nelsonlaidev/eslint-config
 ```
 
-Create an `eslint.config.ts` file with the following content:
+## Usage
 
-```js
+Create an `eslint.config.ts` file. The base configuration includes the shared JavaScript, TypeScript, accessibility, import, and code-quality rules:
+
+```ts
+import { defineConfig } from '@nelsonlaidev/eslint-config'
+
+export default defineConfig()
+```
+
+Pass project-specific flat configuration objects directly to `defineConfig()`:
+
+```ts
 import { defineConfig } from '@nelsonlaidev/eslint-config'
 
 export default defineConfig({
-  // Custom ESLint configuration options
-})
-```
-
-### Options
-
-```ts
-type Options = {
-  // Optional
-  // Enable React specific linting rules
-  react?: boolean
-  // Optional
-  // Enable Next.js specific linting rules
-  nextjs?: boolean
-  // Optional
-  // Configure Tailwind CSS ESLint rules
-  tailwindcss?: {
-    // Path to the main entry point of your Tailwind CSS setup
-    entryPoint?: string
-    // Path to your tailwind.config.ts file
-    tailwindConfig?: string
-    // Path to your tsconfig.json file
-    tsconfig?: string
-    detectComponentClasses?: boolean
-    rootFontSize?: number
-    messageStyle?: 'visual' | 'compact' | 'raw'
-    selectors?: Selectors
-    canonical?: {
-      collapse?: boolean
-      logical?: boolean
-    }
-    classOrder?: {
-      order?: 'asc' | 'desc' | 'official' | 'strict'
-      componentOrder?: 'asc' | 'desc' | 'preserve'
-      componentPosition?: 'start' | 'end'
-      unknownOrder?: 'asc' | 'desc' | 'preserve'
-      unknownPosition?: 'start' | 'end'
-    }
-    restrict?: Array<string | { pattern: string; message?: string; fix?: string }>
-    ignore?: string[]
-    whitespace?: {
-      allowMultiline?: boolean
-    }
-  }
-  // Optional
-  // Configure JSX accessibility linting rules
-  jsxA11y?: {
-    // jsx-a11y plugin options
-    a11y?: {
-      // Custom component to native element mappings
-      // Example: { Button: 'button', Link: 'a' }
-      components?: Record<string, string>
-      // Custom attribute mappings
-      attributes?: {
-        for?: string[]
-      }
-      // Polymorphic component prop name (e.g., 'as' or 'component')
-      polymorphicPropName?: string
-      // List of allowed polymorphic component types
-      polymorphicAllowList?: string[]
-    }
-  }
-  // Optional
-  // Configure Vitest (also enable ESLint rules for vitest)
-  vitest?: {
-    // Specify files/globs for Vitest
-    files: Array<string | string[]>
-  }
-  // Optional
-  // Configure Playwright (also enable ESLint rules for playwright)
-  playwright?: {
-    // Specify files/globs for Playwright
-    files: Array<string | string[]>
-    assertFunctionNames?: string[]
-    assertFunctionPatterns?: string[]
-  }
-  // Optional
-  // Disable ESLint rules that conflict with Prettier
-  // Defaults to true if Prettier is installed
-  prettier?: boolean
-  // Optional
-  // Specify files to ignore
-  ignores?: string[]
-  // Optional
-  // Configure TypeScript import resolver for monorepos
-  // Defaults to scanning root tsconfig.json and apps/**/{ts,js}config.json and packages/**/{ts,js}config.json
-  typescriptResolver?: import('eslint-import-resolver-typescript').TypeScriptResolverOptions
-}
-```
-
-### TypeScript Import Resolver
-
-When using a monorepo, you may need to customize the TypeScript import resolver configuration. By default, the resolver scans for `tsconfig.json` and `jsconfig.json` files in the following locations:
-
-- `./tsconfig.json` (root)
-- `apps/**/{ts,js}config.json`
-- `packages/**/{ts,js}config.json`
-
-If your monorepo structure differs, you can provide a custom `typescriptResolver` option:
-
-```ts
-export default defineConfig({
-  typescriptResolver: {
-    alwaysTryTypes: true,
-    bun: true,
-    project: ['packages/foo/tsconfig.json'],
+  files: ['scripts/**/*.ts'],
+  rules: {
+    'no-console': 'off',
   },
 })
 ```
 
-Refer to the [eslint-import-resolver-typescript](https://github.com/import-js/eslint-import-resolver-typescript) documentation for all available options.
+### Optional presets
+
+Framework and tool integrations are explicit. Import the presets you need and pass them in the order they should be applied:
+
+```ts
+import { defineConfig, nextjs, playwright, prettier, react, tailwindcss, vitest } from '@nelsonlaidev/eslint-config'
+
+export default defineConfig(
+  vitest({
+    files: ['**/*.test.{js,jsx,ts,tsx}'],
+  }),
+  playwright({
+    files: ['**/e2e/**/*.test.{js,jsx,ts,tsx}'],
+  }),
+  react(),
+  nextjs(),
+  tailwindcss({
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: './src/globals.css',
+      },
+    },
+  }),
+  // Keep Prettier last so it can disable conflicting rules.
+  prettier(),
+)
+```
+
+Available optional presets are `react()`, `nextjs()`, `tailwindcss()`, `vitest()`, `playwright()`, and `prettier()`.
+
+Each preset accepts an ESLint flat configuration override. Arrays are replaced, nested objects are merged, and plugin maps are combined:
+
+```ts
+export default defineConfig(
+  react({
+    rules: {
+      '@eslint-react/immutability': 'warn',
+    },
+  }),
+)
+```
+
+When enabling Vitest or Playwright, provide `files` unless you intentionally want their rules to apply to every linted file.
+
+### Base options
+
+Use `defineConfig.withOptions()` only when changing options consumed while the base configuration is created:
+
+```ts
+import { defineConfig, react } from '@nelsonlaidev/eslint-config'
+
+export default defineConfig.withOptions(
+  {
+    ignores: ['coverage/**', 'generated/**'],
+    typescriptResolver: {
+      alwaysTryTypes: true,
+      bun: true,
+      project: ['packages/foo/tsconfig.json'],
+    },
+  },
+  react(),
+)
+```
+
+The available base options are:
+
+```ts
+type ConfigOptions = {
+  ignores?: string[]
+  typescriptResolver?: import('eslint-import-resolver-typescript').TypeScriptResolverOptions
+}
+```
+
+By default, the TypeScript import resolver scans these locations:
+
+- `{ts,js}config.json`
+- `apps/**/{ts,js}config.json`
+- `packages/**/{ts,js}config.json`
+
+Refer to the [eslint-import-resolver-typescript](https://github.com/import-js/eslint-import-resolver-typescript) documentation for all resolver options.

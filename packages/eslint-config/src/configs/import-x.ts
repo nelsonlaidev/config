@@ -5,9 +5,9 @@ import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescrip
 
 import { importXPlugin } from '../plugins'
 
-export const importX = (options: TypeScriptResolverOptions = {}): FlatConfig[] => [
-  {
-    name: 'nelsonlaidev/import-x/setup',
+export const importX = (options: TypeScriptResolverOptions = {}): FlatConfig => {
+  return {
+    name: 'nelsonlaidev/import-x',
     plugins: {
       'import-x': importXPlugin,
     },
@@ -16,15 +16,12 @@ export const importX = (options: TypeScriptResolverOptions = {}): FlatConfig[] =
       'import-x/resolver-next': [
         createTypeScriptImportResolver({
           alwaysTryTypes: true,
-          project: ['./tsconfig.json', 'apps/**/{ts,js}config.json', 'packages/**/{ts,js}config.json'],
+          project: ['{ts,js}config.json', 'apps/**/{ts,js}config.json', 'packages/**/{ts,js}config.json'],
           noWarnOnMultipleProjects: true,
           ...options,
         }),
       ],
     },
-  },
-  {
-    name: 'nelsonlaidev/import-x/rules',
     rules: {
       ...importXPlugin.configs.recommended.rules,
       ...importXPlugin.configs.typescript.rules,
@@ -52,5 +49,5 @@ export const importX = (options: TypeScriptResolverOptions = {}): FlatConfig[] =
       'import-x/no-named-as-default': 'off',
       'import-x/no-named-as-default-member': 'off',
     },
-  },
-]
+  }
+}
