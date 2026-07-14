@@ -33,6 +33,27 @@ describe('sync-oxlint-eslint helpers', () => {
     expect(getSyncedRules([result])).toEqual([['unicorn/prefer-node-protocol', 'error']])
   })
 
+  it('drops type-aware rules unsupported by JavaScript plugins', () => {
+    const result = normalizeRule(
+      ['@eslint-react/no-unused-props', 'error'],
+      new Set(),
+      'react',
+      undefined,
+      true,
+      new Map([['@eslint-react', '@eslint-react']]),
+      undefined,
+      new Set(['@eslint-react/no-unused-props']),
+    )
+
+    expect(result).toEqual({
+      status: 'dropped',
+      sourceRuleName: '@eslint-react/no-unused-props',
+      normalizedRuleName: '@eslint-react/no-unused-props',
+      dropReason: 'not_supported',
+      sourceValue: 'error',
+    })
+  })
+
   it('counts dropped rule coverage by migration status', () => {
     const results: RuleSyncResult[] = [
       {

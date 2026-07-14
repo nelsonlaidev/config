@@ -27,13 +27,53 @@ Create an `oxlint.config.ts` file with the following content:
 ```ts
 import { defineConfig } from '@nelsonlaidev/oxlint-config'
 
+export default defineConfig()
+```
+
+Optional presets are explicit Oxlint overrides. Add only the presets your project uses:
+
+```ts
+import { defineConfig, nextjs, playwright, react, tailwindcss, vitest } from '@nelsonlaidev/oxlint-config'
+
 export default defineConfig({
-  config: {
-    // Custom OxLint configuration options
+  settings: {
+    'better-tailwindcss': {
+      entryPoint: './src/globals.css',
+    },
   },
-  custom: {
-    react: true,
-  },
+  overrides: [
+    react(),
+    nextjs(),
+    tailwindcss(),
+    vitest({
+      files: ['**/*.test.ts'],
+    }),
+    playwright({
+      files: ['e2e/**/*.spec.ts'],
+    }),
+  ],
+})
+```
+
+Each preset accepts a native Oxlint override object. Use it to replace `files`, add plugins, or override rules:
+
+```ts
+export default defineConfig({
+  ignorePatterns: ['generated/**'],
+  overrides: [
+    react({
+      files: ['src/**/*.{js,jsx,ts,tsx}'],
+      rules: {
+        '@eslint-react/no-array-index-key': 'off',
+      },
+    }),
+    {
+      files: ['scripts/**/*.ts'],
+      rules: {
+        'eslint/no-console': 'off',
+      },
+    },
+  ],
 })
 ```
 
@@ -65,13 +105,13 @@ This config includes opinionated rules from the following plugins:
 - `sonarjs`
 - `import-sort`
 
-#### Conditionally enabled
+#### Optional presets
 
-- `react` — auto-detected or via `react` option
-- `nextjs` — auto-detected or via `nextjs` option
-- `vitest` — via `vitest` option
-- `playwright` — via `playwright` option
-- `tailwindcss` — via `tailwindcss` option
+- `react`
+- `nextjs`
+- `vitest`
+- `playwright`
+- `tailwindcss`
 
 ## Migration Status
 
@@ -93,11 +133,11 @@ This config includes opinionated rules from the following plugins:
 | `node/nelsonlaidev/node/rules`                    |      2 |       4 |          4 |            0 |    50.0% |
 | `playwright/nelsonlaidev/playwright/rules`        |     36 |       0 |          0 |            0 |   100.0% |
 | `promise/nelsonlaidev/promise/rules`              |     16 |       1 |          1 |            0 |   100.0% |
-| `react/nelsonlaidev/react/rules`                  |     99 |       0 |          0 |            0 |   100.0% |
+| `react/nelsonlaidev/react/rules`                  |     99 |       2 |          2 |            0 |   100.0% |
 | `regexp/nelsonlaidev/regexp/rules`                |     67 |       0 |          0 |            0 |   100.0% |
 | `sonarjs/nelsonlaidev/sonarjs/rules`              |    268 |       0 |          0 |            0 |   100.0% |
 | `stylistic/nelsonlaidev/stylistic/rules`          |      1 |       0 |          0 |            0 |   100.0% |
-| `tailwindcss/nelsonlaidev/tailwindcss/rules`      |     12 |       0 |          0 |            0 |   100.0% |
+| `tailwindcss/nelsonlaidev/tailwindcss/rules`      |      9 |       0 |          0 |            0 |   100.0% |
 | `typescript/nelsonlaidev/typescript/rules`        |    117 |      21 |         21 |            0 |   100.0% |
 | `typescript/nelsonlaidev/typescript/declarations` |      2 |       0 |          0 |            0 |   100.0% |
 | `unicorn/nelsonlaidev/unicorn/rules`              |    134 |     195 |        195 |            0 |    41.0% |

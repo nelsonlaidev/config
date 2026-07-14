@@ -5,12 +5,10 @@ import type { OxlintOverride } from 'oxlint'
 
 import { GLOB_SRC } from '../globs'
 
-export const command = (): OxlintOverride[] => [
-  {
-    files: [GLOB_SRC],
-    jsPlugins: [{ name: 'command', specifier: 'eslint-plugin-command' }],
-    rules: {
-      'command/command': 'error',
-    },
+export const command = (): OxlintOverride => ({
+  files: [GLOB_SRC],
+  jsPlugins: [{ name: 'command', specifier: 'eslint-plugin-command' }],
+  rules: {
+    'command/command': 'error',
   },
-]
+})

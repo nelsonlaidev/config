@@ -5,13 +5,11 @@ import type { OxlintOverride } from 'oxlint'
 
 import { GLOB_SRC } from '../globs'
 
-export const node = (): OxlintOverride[] => [
-  {
-    files: [GLOB_SRC],
-    plugins: ['node'],
-    rules: {
-      'node/no-exports-assign': 'error',
-      'node/no-path-concat': 'error',
-    },
+export const node = (): OxlintOverride => ({
+  files: [GLOB_SRC],
+  plugins: ['node'],
+  rules: {
+    'node/no-exports-assign': 'error',
+    'node/no-path-concat': 'error',
   },
-]
+})

@@ -4,9 +4,10 @@
 import type { OxlintOverride } from 'oxlint'
 
 import { GLOB_SRC } from '../globs'
+import { mergeConfig } from '../utils'
 
-export const react = (): OxlintOverride[] => [
-  {
+export const react = (options: Partial<OxlintOverride> = {}): OxlintOverride => {
+  const base: OxlintOverride = {
     files: [GLOB_SRC],
     jsPlugins: [
       { name: '@eslint-react', specifier: '@eslint-react/eslint-plugin' },
@@ -113,5 +114,7 @@ export const react = (): OxlintOverride[] => [
       'react-hooks-js/use-memo': 'off',
       'react-hooks-js/void-use-memo': 'error',
     },
-  },
-]
+  }
+
+  return mergeConfig(base, options)
+}
