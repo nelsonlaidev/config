@@ -6,19 +6,23 @@
 //
 // The glob patterns and options defined here are examples and should not be
 // considered as recommended patterns for production use.
-import { defineConfig } from './src/base'
-import { GLOB_SRC_EXT } from './src/globs'
+import { defineConfig, GLOB_SRC_EXT, nextjs, playwright, prettier, react, tailwindcss, vitest } from './src'
 
-export default defineConfig({
-  react: true,
-  nextjs: true,
-  tailwindcss: {
-    entryPoint: './fake/globals.css',
-  },
-  vitest: {
+export default defineConfig(
+  vitest({
     files: [`**/*.test.${GLOB_SRC_EXT}`],
-  },
-  playwright: {
+  }),
+  playwright({
     files: [`**/e2e/**/*.test.${GLOB_SRC_EXT}`],
-  },
-})
+  }),
+  react(),
+  nextjs(),
+  tailwindcss({
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: './fake/globals.css',
+      },
+    },
+  }),
+  prettier(),
+)

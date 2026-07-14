@@ -30,12 +30,9 @@ npm i -D @nelsonlaidev/eslint-config
 
 ```ts
 // eslint.config.ts
-import { defineConfig } from '@nelsonlaidev/eslint-config'
+import { defineConfig, nextjs, react } from '@nelsonlaidev/eslint-config'
 
-export default defineConfig({
-  react: true,
-  nextjs: true,
-})
+export default defineConfig(react(), nextjs())
 ```
 
 [Full Documentation →](packages/eslint-config)

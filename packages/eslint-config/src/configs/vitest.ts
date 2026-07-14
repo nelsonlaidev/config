@@ -1,11 +1,11 @@
-import type { FlatConfig, VitestOptions } from '../types'
+import type { FlatConfig } from '../types'
 
 import { vitestPlugin } from '../plugins'
+import { mergeConfig } from '../utils'
 
-export const vitest = (options: VitestOptions): FlatConfig[] => [
-  {
-    name: 'nelsonlaidev/vitest/setup',
-    files: options.files,
+export const vitest = (options: FlatConfig = {}): FlatConfig => {
+  const base: FlatConfig = {
+    name: 'nelsonlaidev/vitest',
     plugins: {
       vitest: vitestPlugin,
     },
@@ -19,10 +19,6 @@ export const vitest = (options: VitestOptions): FlatConfig[] => [
         ...vitestPlugin.environments.env.globals,
       },
     },
-  },
-  {
-    name: 'nelsonlaidev/vitest/rules',
-    files: options.files,
     rules: {
       ...vitestPlugin.configs.recommended.rules,
 
@@ -30,5 +26,7 @@ export const vitest = (options: VitestOptions): FlatConfig[] => [
       'vitest/prefer-mock-return-shorthand': 'error',
       'vitest/warn-todo': 'error',
     },
-  },
-]
+  }
+
+  return mergeConfig(base, options)
+}

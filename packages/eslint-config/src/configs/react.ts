@@ -1,12 +1,11 @@
 import type { FlatConfig } from '../types'
 
-import { GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
 import { reactHooksPlugin, reactPlugin } from '../plugins'
+import { mergeConfig } from '../utils'
 
-export const react = (): FlatConfig[] => [
-  {
-    name: 'nelsonlaidev/react/setup',
-    files: [GLOB_SRC],
+export const react = (options: FlatConfig = {}): FlatConfig => {
+  const base: FlatConfig = {
+    name: 'nelsonlaidev/react',
     plugins: {
       ...reactPlugin.configs.all.plugins,
       'react-hooks': reactHooksPlugin,
@@ -14,10 +13,6 @@ export const react = (): FlatConfig[] => [
     settings: {
       ...reactPlugin.configs.all.settings,
     },
-  },
-  {
-    name: 'nelsonlaidev/react/rules',
-    files: [GLOB_SRC],
     rules: {
       ...reactHooksPlugin.configs['recommended-latest'].rules,
 
@@ -29,15 +24,12 @@ export const react = (): FlatConfig[] => [
 
       '@eslint-react/immutability': 'error',
       '@eslint-react/refs': 'error',
-    },
-  },
-  {
-    name: 'nelsonlaidev/react/typescript-rules',
-    files: [GLOB_TS, GLOB_TSX],
-    rules: {
+
       // Rules that require type information.
       '@eslint-react/no-leaked-conditional-rendering': 'error',
       '@eslint-react/no-unused-props': 'error',
     },
-  },
-]
+  }
+
+  return mergeConfig(base, options)
+}

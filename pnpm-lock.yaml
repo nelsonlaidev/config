@@ -161,9 +161,9 @@ importers:
       globals:
         specifier: ^17.7.0
         version: 17.7.0
-      local-pkg:
-        specifier: ^1.2.1
-        version: 1.2.1
+      ts-deepmerge:
+        specifier: ^8.0.0
+        version: 8.0.0
     devDependencies:
       '@eslint/config-inspector':
         specifier: ^3.0.4
@@ -4260,6 +4260,10 @@ packages:
     resolution: {integrity: sha512-EDyGAwH1gO0Ausm9gV6T2nUvBgXT5kGoCMJPllOaooZ+4VvJiKBdZE7wK18N1deEowhcUptS+5GXZK8U/fvpwA==}
     peerDependencies:
       typescript: '>=4.0.0'
+
+  ts-deepmerge@8.0.0:
+    resolution: {integrity: sha512-133O+10nJmVI8w5xeVZPEv5PIrv7iaUae07wv1aH8XJH95Ur6YIhWAPhPyP1YPlbPS9fCVcNIZTu7m8urRVF0A==}
+    engines: {node: '>=14.13.1'}
 
   ts-pattern@5.9.0:
     resolution: {integrity: sha512-6s5V71mX8qBUmlgbrfL33xDUwO0fq48rxAu2LBE11WBeGdpCPOsXksQbZJHvHwhrd3QjUusd3mAOM5Gg0mFBLg==}
@@ -8591,6 +8595,8 @@ snapshots:
       picomatch: 4.0.4
       typescript: 6.0.3
     optional: true
+
+  ts-deepmerge@8.0.0: {}
 
   ts-pattern@5.9.0: {}
 

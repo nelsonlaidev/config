@@ -1,33 +1,23 @@
-import type { FlatConfig, PlaywrightOptions } from '../types'
+import type { FlatConfig } from '../types'
 
 import globals from 'globals'
 
 import { playwrightPlugin } from '../plugins'
+import { mergeConfig } from '../utils'
 
-export const playwright = (options: PlaywrightOptions): FlatConfig[] => [
-  {
-    name: 'nelsonlaidev/playwright/setup',
-    files: options.files,
+export const playwright = (options: FlatConfig = {}): FlatConfig => {
+  const base: FlatConfig = {
+    name: 'nelsonlaidev/playwright',
     plugins: {
       playwright: playwrightPlugin,
     },
     languageOptions: {
       globals: globals['shared-node-browser'],
     },
-  },
-  {
-    name: 'nelsonlaidev/playwright/rules',
-    files: options.files,
     rules: {
       ...playwrightPlugin.configs.recommended.rules,
-
-      'playwright/expect-expect': [
-        'error',
-        {
-          assertFunctionNames: options.assertFunctionNames ?? [],
-          assertFunctionPatterns: options.assertFunctionPatterns ?? [],
-        },
-      ],
     },
-  },
-]
+  }
+
+  return mergeConfig(base, options)
+}
