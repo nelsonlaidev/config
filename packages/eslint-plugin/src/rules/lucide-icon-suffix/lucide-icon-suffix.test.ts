@@ -1,6 +1,6 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
-import { lucideIconSuffix } from './lucide-icon-suffix'
+import { lucideIconSuffix } from './index'
 
 const ruleTester = new RuleTester()
 

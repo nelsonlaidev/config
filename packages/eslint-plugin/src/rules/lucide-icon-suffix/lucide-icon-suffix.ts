@@ -1,12 +1,15 @@
+import type { LucideIconSuffixOptions as RuleOptions, MessageIds } from './types'
+
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { LUCIDE_REACT_SOURCE } from '../lib/constants'
-import { lucideIconSuffixDefaults } from '../lib/defaults'
-import { createRule } from '../utils/create-rule'
+import { LUCIDE_REACT_SOURCE } from '@/lib/constants'
+import { createRule } from '@/utils/create-rule'
+
+import { lucideIconSuffixDefaults } from './defaults'
 
 const NON_ICON_EXPORTS = new Set(['createLucideIcon', 'icons', 'LucideIcon', 'LucideProps', 'IconNode', 'Icon'])
 
-export const lucideIconSuffix = createRule({
+export const lucideIconSuffix = createRule<[RuleOptions], MessageIds>({
   name: 'lucide-icon-suffix',
   meta: {
     docs: {
@@ -33,8 +36,8 @@ export const lucideIconSuffix = createRule({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [lucideIconSuffixDefaults],
   },
-  defaultOptions: [lucideIconSuffixDefaults],
   create(context, options) {
     const [{ suffix }] = options
 

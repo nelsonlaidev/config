@@ -1,6 +1,6 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
-import { shadcnPreferSpinner } from './shadcn-prefer-spinner'
+import { shadcnPreferSpinner } from './index'
 
 const ruleTester = new RuleTester({
   languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },

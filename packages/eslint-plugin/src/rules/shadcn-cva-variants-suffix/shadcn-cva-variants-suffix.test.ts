@@ -1,6 +1,6 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
-import { shadcnCvaVariantsSuffix } from './shadcn-cva-variants-suffix'
+import { shadcnCvaVariantsSuffix } from './index'
 
 const ruleTester = new RuleTester()
 

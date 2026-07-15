@@ -1,11 +1,13 @@
 import type { TSESTree } from '@typescript-eslint/utils'
+import type { MessageIds, ShadcnCnWrapVariantsOptions as RuleOptions } from './types'
 
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { shadcnCnWrapVariantsDefaults } from '../lib/defaults'
-import { createRule } from '../utils/create-rule'
+import { createRule } from '@/utils/create-rule'
 
-export const shadcnCnWrapVariants = createRule({
+import { shadcnCnWrapVariantsDefaults } from './defaults'
+
+export const shadcnCnWrapVariants = createRule<[RuleOptions], MessageIds>({
   name: 'shadcn-cn-wrap-variants',
   meta: {
     docs: {
@@ -29,8 +31,8 @@ export const shadcnCnWrapVariants = createRule({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [shadcnCnWrapVariantsDefaults],
   },
-  defaultOptions: [shadcnCnWrapVariantsDefaults],
   create(context, options) {
     const [{ names }] = options
     const nameSet = new Set(names)

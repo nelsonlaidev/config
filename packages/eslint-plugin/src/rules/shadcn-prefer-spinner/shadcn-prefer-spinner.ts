@@ -1,15 +1,18 @@
+import type { MessageIds, ShadcnPreferSpinnerOptions as RuleOptions } from './types'
+
 import path from 'node:path'
 
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { minimatch } from 'minimatch'
 
-import { LUCIDE_REACT_SOURCE } from '../lib/constants'
-import { shadcnPreferSpinnerDefaults } from '../lib/defaults'
-import { createRule } from '../utils/create-rule'
+import { LUCIDE_REACT_SOURCE } from '@/lib/constants'
+import { createRule } from '@/utils/create-rule'
+
+import { shadcnPreferSpinnerDefaults } from './defaults'
 
 const FORBIDDEN_ICONS = new Set(['LoaderIcon', 'Loader2Icon'])
 
-export const shadcnPreferSpinner = createRule({
+export const shadcnPreferSpinner = createRule<[RuleOptions], MessageIds>({
   name: 'shadcn-prefer-spinner',
   meta: {
     docs: {
@@ -32,8 +35,8 @@ export const shadcnPreferSpinner = createRule({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [shadcnPreferSpinnerDefaults],
   },
-  defaultOptions: [shadcnPreferSpinnerDefaults],
   create(context, options) {
     const [{ ignore }] = options
     const { filename } = context

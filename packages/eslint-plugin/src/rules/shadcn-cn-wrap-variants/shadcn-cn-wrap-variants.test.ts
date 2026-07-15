@@ -1,6 +1,6 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
-import { shadcnCnWrapVariants } from './shadcn-cn-wrap-variants'
+import { shadcnCnWrapVariants } from './index'
 
 const ruleTester = new RuleTester()
 

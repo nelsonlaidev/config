@@ -1,12 +1,13 @@
-import type { LucideRestrictImportRestriction } from '../lib/defaults'
+import type { LucideRestrictImportOptions as RuleOptions, MessageIds } from './types'
 
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { LUCIDE_REACT_SOURCE } from '../lib/constants'
-import { lucideRestrictImportDefaults } from '../lib/defaults'
-import { createRule } from '../utils/create-rule'
+import { LUCIDE_REACT_SOURCE } from '@/lib/constants'
+import { createRule } from '@/utils/create-rule'
 
-export const lucideRestrictImport = createRule({
+import { lucideRestrictImportDefaults } from './defaults'
+
+export const lucideRestrictImport = createRule<[RuleOptions], MessageIds>({
   name: 'lucide-restrict-import',
   meta: {
     docs: {
@@ -40,11 +41,11 @@ export const lucideRestrictImport = createRule({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [lucideRestrictImportDefaults],
   },
-  defaultOptions: [lucideRestrictImportDefaults],
   create(context, options) {
     const [{ restrictions }] = options
-    const restrictionMap = new Map<string, LucideRestrictImportRestriction>()
+    const restrictionMap = new Map<string, RuleOptions['restrictions'][number]>()
 
     for (const restriction of restrictions) {
       restrictionMap.set(restriction.name, restriction)

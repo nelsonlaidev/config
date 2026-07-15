@@ -11,3 +11,12 @@ export const rules = {
   'shadcn-cva-variants-suffix': shadcnCvaVariantsSuffix,
   'shadcn-prefer-spinner': shadcnPreferSpinner,
 }
+
+export type { LucideIconSuffixOptions } from './lucide-icon-suffix'
+export { lucideIconSuffixDefaults } from './lucide-icon-suffix'
+export type { LucideRestrictImportOptions, LucideRestrictImportRestriction } from './lucide-restrict-import'
+export { lucideRestrictImportDefaults } from './lucide-restrict-import'
+export type { ShadcnCnWrapVariantsOptions } from './shadcn-cn-wrap-variants'
+export { shadcnCnWrapVariantsDefaults } from './shadcn-cn-wrap-variants'
+export type { ShadcnPreferSpinnerOptions } from './shadcn-prefer-spinner'
+export { shadcnPreferSpinnerDefaults } from './shadcn-prefer-spinner'

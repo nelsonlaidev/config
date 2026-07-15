@@ -1,8 +1,10 @@
+import type { MessageIds } from './types'
+
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { createRule } from '../utils/create-rule'
+import { createRule } from '@/utils/create-rule'
 
-export const shadcnCvaVariantsSuffix = createRule({
+export const shadcnCvaVariantsSuffix = createRule<[], MessageIds>({
   name: 'shadcn-cva-variants-suffix',
   meta: {
     type: 'suggestion',
