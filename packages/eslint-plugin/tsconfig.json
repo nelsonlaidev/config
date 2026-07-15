@@ -5,7 +5,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "exclude": ["node_modules"],
   "extends": "@nelsonlaidev/typescript-config/base.json",
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
 }

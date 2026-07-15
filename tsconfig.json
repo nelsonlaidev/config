@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "exclude": ["node_modules", "packages"],
   "extends": "@nelsonlaidev/typescript-config/base.json",
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "packages"]
 }
