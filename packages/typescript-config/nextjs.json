@@ -16,7 +16,7 @@
     "incremental": true,
     "declaration": false,
     "declarationMap": false,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "plugins": [{ "name": "next" }]
   }
 }
