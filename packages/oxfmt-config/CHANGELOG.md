@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxfmt-config
 
+## 0.3.1
+
+### Patch Changes
+
+- a847a9b: Align oxfmt peerDep range to `>=0.47.0` and update dev catalog version.
+
 ## 0.3.0
 
 ### Minor Changes
