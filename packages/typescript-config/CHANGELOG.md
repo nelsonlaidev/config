@@ -1,5 +1,11 @@
 # @nelsonlaidev/typescript-config
 
+## 1.2.3
+
+### Patch Changes
+
+- 967c12a: Update Next.js tsconfig to use modern JSX transform (`"react-jsx"`) instead of `"preserve"`.
+
 ## 1.2.2
 
 ### Patch Changes
