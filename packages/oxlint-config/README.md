@@ -135,12 +135,12 @@ This config includes opinionated rules from the following plugins:
 | `promise/nelsonlaidev/promise/rules`              |     16 |       1 |          1 |            0 |   100.0% |
 | `react/nelsonlaidev/react/rules`                  |     99 |       2 |          2 |            0 |   100.0% |
 | `regexp/nelsonlaidev/regexp/rules`                |     67 |       0 |          0 |            0 |   100.0% |
-| `sonarjs/nelsonlaidev/sonarjs/rules`              |    268 |       0 |          0 |            0 |   100.0% |
+| `sonarjs/nelsonlaidev/sonarjs/rules`              |    279 |       0 |          0 |            0 |   100.0% |
 | `stylistic/nelsonlaidev/stylistic/rules`          |      1 |       0 |          0 |            0 |   100.0% |
 | `tailwindcss/nelsonlaidev/tailwindcss/rules`      |      9 |       0 |          0 |            0 |   100.0% |
 | `typescript/nelsonlaidev/typescript/rules`        |    117 |      21 |         21 |            0 |   100.0% |
 | `typescript/nelsonlaidev/typescript/declarations` |      2 |       0 |          0 |            0 |   100.0% |
-| `unicorn/nelsonlaidev/unicorn/rules`              |    134 |     195 |        195 |            0 |    41.0% |
+| `unicorn/nelsonlaidev/unicorn/rules`              |    136 |     193 |        193 |            0 |    41.6% |
 | `vitest/nelsonlaidev/vitest/rules`                |     20 |       0 |          0 |            0 |   100.0% |
 | `zod/nelsonlaidev/zod/rules`                      |      1 |       0 |          0 |            0 |   100.0% |
 
