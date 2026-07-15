@@ -667,7 +667,7 @@ async function reportSyncStatus({ write }: { write: boolean }) {
 }
 
 function getRuleMigrationDecisions(): Readonly<Record<string, RuleMigrationDecision>> {
-  return ruleMigrationDecisions as Readonly<Record<string, RuleMigrationDecision>>
+  return ruleMigrationDecisions
 }
 
 export function getRuleMigrationDecisionKey({
