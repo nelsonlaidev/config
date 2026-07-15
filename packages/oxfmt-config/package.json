@@ -1,6 +1,6 @@
 {
   "name": "@nelsonlaidev/oxfmt-config",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Nelson Lai's oxfmt config preset",
   "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/oxfmt-config",
   "bugs": {

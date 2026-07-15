@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 1.0.1
+
+### Patch Changes
+
+- d497fff: Sync newly supported SonarJS and Unicorn rules.
+
 ## 1.0.0
 
 ### Major Changes
