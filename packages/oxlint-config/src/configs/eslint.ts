@@ -89,6 +89,11 @@ export const eslint = (): OxlintOverride => ({
     'eslint/no-unused-vars': [
       'error',
       {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+        caughtErrors: 'all',
         fix: {
           imports: 'safe-fix',
         },
