@@ -151,7 +151,19 @@ const PRESETS: PresetEntry[] = [
     scope: 'eslint',
     groups: [{ group: 'nelsonlaidev/javascript/rules' }],
     overrides: {
-      'eslint/no-unused-vars': ['error', { fix: { imports: 'safe-fix' } }],
+      'eslint/no-unused-vars': [
+        'error',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          fix: {
+            imports: 'safe-fix',
+          },
+        },
+      ],
     },
   },
   {
