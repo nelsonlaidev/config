@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 1.0.2
+
+### Patch Changes
+
+- fdaa7c9: Expand `eslint/no-unused-vars` rule options with `varsIgnorePattern: '^_'` and `argsIgnorePattern: '^_'` to skip underscore-prefixed variables and arguments.
+
 ## 1.0.1
 
 ### Patch Changes
