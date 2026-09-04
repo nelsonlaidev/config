@@ -27,22 +27,22 @@
     "version": "changeset version"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.30.0",
+    "@changesets/cli": "^3.0.1",
     "@nelsonlaidev/oxfmt-config": "workspace:*",
     "@nelsonlaidev/oxlint-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@types/node": "catalog:dev",
-    "cspell": "^9.7.0",
-    "knip": "^6.1.0",
-    "lefthook": "^2.1.4",
+    "cspell": "^10.2.0",
+    "knip": "^6.34.0",
+    "lefthook": "^2.1.12",
     "oxfmt": "catalog:dev",
     "oxlint": "catalog:dev",
     "oxlint-tsgolint": "catalog:dev",
-    "turbo": "^2.8.21",
+    "turbo": "^2.10.12",
     "typescript": "^6.0.2"
   },
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@11.25.0"
 }
