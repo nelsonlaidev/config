@@ -1,6 +1,13 @@
 packages:
   - packages/*
 
+engineStrict: true
+
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  unrs-resolver: true
+
 catalogs:
   dev:
     '@types/node': ^24.11.0
