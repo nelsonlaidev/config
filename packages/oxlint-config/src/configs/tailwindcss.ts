@@ -14,6 +14,7 @@ export const tailwindcss = (options: Partial<OxlintOverride> = {}): OxlintOverri
       'better-tailwindcss/enforce-canonical-classes': 'error',
       'better-tailwindcss/enforce-consistent-class-order': 'error',
       'better-tailwindcss/enforce-consistent-variant-order': 'error',
+      'better-tailwindcss/no-concatenated-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-deprecated-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
