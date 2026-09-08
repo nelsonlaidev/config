@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 1.1.0
+
+### Minor Changes
+
+- 8266a77: Enable `playwright/no-unnecessary-assertions` and `better-tailwindcss/no-concatenated-classes` in their respective presets, and update supported plugin dependency ranges.
+
 ## 1.0.2
 
 ### Patch Changes
