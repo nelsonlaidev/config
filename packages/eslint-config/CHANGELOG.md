@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 5.1.0
+
+### Minor Changes
+
+- 8266a77: Enable the `better-tailwindcss/no-concatenated-classes` rule in the Tailwind CSS preset and update ESLint plugin dependencies.
+
 ## 5.0.0
 
 ### Major Changes
