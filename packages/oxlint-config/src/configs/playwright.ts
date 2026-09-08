@@ -29,6 +29,7 @@ export const playwright = (options: Partial<OxlintOverride> = {}): OxlintOverrid
       'playwright/no-page-pause': 'error',
       'playwright/no-skipped-test': 'error',
       'playwright/no-standalone-expect': 'error',
+      'playwright/no-unnecessary-assertions': 'error',
       'playwright/no-unsafe-references': 'error',
       'playwright/no-unused-locators': 'error',
       'playwright/no-useless-await': 'error',
