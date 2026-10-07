@@ -190,6 +190,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^16.3.4
         version: 16.3.4(eslint@10.7.0(jiti@2.7.0)(supports-color@7.2.0))
+      '@stylexjs/eslint-plugin':
+        specifier: ^0.19.1
+        version: 0.19.1
       '@stylistic/eslint-plugin':
         specifier: ^5.10.0
         version: 5.10.0(eslint@10.7.0(jiti@2.7.0)(supports-color@7.2.0))
@@ -334,6 +337,9 @@ importers:
       '@nelsonlaidev/eslint-plugin':
         specifier: workspace:*
         version: link:../eslint-plugin
+      '@stylexjs/eslint-plugin':
+        specifier: ^0.19.1
+        version: 0.19.1
       '@stylistic/eslint-plugin':
         specifier: ^5.10.0
         version: 5.10.0(eslint@10.7.0(jiti@2.7.0)(supports-color@7.2.0))
@@ -815,6 +821,10 @@ packages:
   '@cspell/url@10.2.0':
     resolution: {integrity: sha512-TIgG/pCkgo3SiayAbV0CorYPdnaNkYWfJFKHhSBTKIdBDwK4YwcbbDlXWGCTJ6gxhhwnrNhcw4jDjz8jejKS4A==}
     engines: {node: '>=22.18.0'}
+
+  '@csstools/css-tokenizer@3.0.4':
+    resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
+    engines: {node: '>=18'}
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -1937,6 +1947,12 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@stylexjs/eslint-plugin@0.19.1':
+    resolution: {integrity: sha512-875KpR4M71F5rTSTfDoGWbs09u8atZvVGWBN5bWt3svIEmuNwTMRZGdY8iHiaPrL+W49/tifc6pouKcn3t8d+A==}
+
+  '@stylexjs/shared@0.19.1':
+    resolution: {integrity: sha512-oFBtW0NPNLJOT1gLweWRNKrIJHjJMwOmSV7fgd6ewok4fwb/Nh95PEaYGKu+ZONk0nNghjLFfOwiIsxJdvh3TQ==}
 
   '@stylistic/eslint-plugin@5.10.0':
     resolution: {integrity: sha512-nPK52ZHvot8Ju/0A4ucSX1dcPV2/1clx0kLcH5wDmrE4naKso7TUC/voUyU1O9OTKTrR6MYip6LP0ogEMQ9jPQ==}
@@ -3821,6 +3837,9 @@ packages:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
 
+  postcss-value-parser@4.2.0:
+    resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
+
   postcss@8.5.19:
     resolution: {integrity: sha512-Mz8SaolMd8nB+G13WkORcxQKHZ/NE4xXevtkJHVuG+guo9/wYKlIMTKAqGdEmYOXR2ijPjTYNHssizdaVSUNdQ==}
     engines: {node: ^10 || ^12 || >=14}
@@ -4954,6 +4973,8 @@ snapshots:
 
   '@cspell/url@10.2.0': {}
 
+  '@csstools/css-tokenizer@3.0.4': {}
+
   '@emnapi/core@1.10.0':
     dependencies:
       '@emnapi/wasi-threads': 1.2.1
@@ -5731,6 +5752,15 @@ snapshots:
   '@sindresorhus/base62@1.0.0': {}
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@stylexjs/eslint-plugin@0.19.1':
+    dependencies:
+      '@csstools/css-tokenizer': 3.0.4
+      '@stylexjs/shared': 0.19.1
+      micromatch: 4.0.8
+      postcss-value-parser: 4.2.0
+
+  '@stylexjs/shared@0.19.1': {}
 
   '@stylistic/eslint-plugin@5.10.0(eslint@10.7.0(jiti@2.7.0)(supports-color@7.2.0))':
     dependencies:
@@ -7841,6 +7871,8 @@ snapshots:
   pluralize@8.0.0: {}
 
   possible-typed-array-names@1.1.0: {}
+
+  postcss-value-parser@4.2.0: {}
 
   postcss@8.5.19:
     dependencies:

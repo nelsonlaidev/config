@@ -40,7 +40,16 @@ export default defineConfig({
 Framework and tool integrations are explicit. Import the presets you need and pass them in the order they should be applied:
 
 ```ts
-import { defineConfig, nextjs, playwright, prettier, react, tailwindcss, vitest } from '@nelsonlaidev/eslint-config'
+import {
+  defineConfig,
+  nextjs,
+  playwright,
+  prettier,
+  react,
+  stylex,
+  tailwindcss,
+  vitest,
+} from '@nelsonlaidev/eslint-config'
 
 export default defineConfig(
   vitest({
@@ -51,6 +60,7 @@ export default defineConfig(
   }),
   react(),
   nextjs(),
+  stylex(),
   tailwindcss({
     settings: {
       'better-tailwindcss': {
@@ -63,7 +73,7 @@ export default defineConfig(
 )
 ```
 
-Available optional presets are `react()`, `nextjs()`, `tailwindcss()`, `vitest()`, `playwright()`, and `prettier()`.
+Available optional presets are `react()`, `nextjs()`, `stylex()`, `tailwindcss()`, `vitest()`, `playwright()`, and `prettier()`.
 
 Each preset accepts an ESLint flat configuration override. Arrays are replaced, nested objects are merged, and plugin maps are combined:
 

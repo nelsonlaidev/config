@@ -4,7 +4,7 @@ import type { OxlintConfig } from 'oxlint'
 import { MatcherType, SelectorKind } from 'eslint-plugin-better-tailwindcss/types'
 import { describe, expect, it } from 'vitest'
 
-import { defineConfig, nextjs, playwright, react, tailwindcss, vitest } from '../src'
+import { defineConfig, nextjs, playwright, react, stylex, tailwindcss, vitest } from '../src'
 
 const getPlugins = (config: OxlintConfig) =>
   (config.overrides ?? []).flatMap((override) => [
@@ -87,6 +87,7 @@ describe('defineConfig', () => {
       expect(plugins).not.toEqual(
         expect.arrayContaining([
           '@eslint-react/eslint-plugin',
+          '@stylexjs/eslint-plugin',
           'nextjs',
           'vitest',
           'eslint-plugin-playwright',
@@ -107,6 +108,12 @@ describe('defineConfig', () => {
       const config = defineConfig({ overrides: [nextjs()] })
 
       expect(getPlugins(config)).toEqual(expect.arrayContaining(['nextjs']))
+    })
+
+    it('should include stylex when stylex() is added to overrides', () => {
+      const config = defineConfig({ overrides: [stylex()] })
+
+      expect(getPlugins(config)).toEqual(expect.arrayContaining(['@stylexjs/eslint-plugin']))
     })
 
     it('should apply native override fields passed to a preset', () => {
