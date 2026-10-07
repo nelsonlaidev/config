@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 5.2.0
+
+### Minor Changes
+
+- cf10794: Add a new `stylex()` preset that enables the `@stylexjs/eslint-plugin` rules for StyleX projects.
+
 ## 5.1.0
 
 ### Minor Changes
