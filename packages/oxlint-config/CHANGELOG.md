@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 1.2.1
+
+### Patch Changes
+
+- 02ee7ca: Disable `@stylexjs/no-lookahead-selectors` in the `stylex()` preset.
+
 ## 1.2.0
 
 ### Minor Changes
