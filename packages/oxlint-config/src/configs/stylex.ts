@@ -12,7 +12,7 @@ export const stylex = (): OxlintOverride => ({
     '@stylexjs/enforce-extension': 'error',
     '@stylexjs/no-conflicting-props': 'error',
     '@stylexjs/no-legacy-contextual-styles': 'error',
-    '@stylexjs/no-lookahead-selectors': 'error',
+    '@stylexjs/no-lookahead-selectors': 'off',
     '@stylexjs/no-nonstandard-styles': 'error',
     '@stylexjs/no-unused': 'error',
     '@stylexjs/sort-keys': 'error',
