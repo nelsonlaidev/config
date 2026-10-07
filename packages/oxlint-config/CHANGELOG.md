@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 1.2.0
+
+### Minor Changes
+
+- cf10794: Add a new `stylex()` preset that enables the `@stylexjs/eslint-plugin` rules through Oxlint JS plugins.
+
 ## 1.1.0
 
 ### Minor Changes
