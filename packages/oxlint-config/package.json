@@ -48,6 +48,7 @@
     "@eslint-react/eslint-plugin": "^5.18.10",
     "@eslint/core": "^1.2.1",
     "@nelsonlaidev/eslint-plugin": "workspace:*",
+    "@stylexjs/eslint-plugin": "^0.19.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "catalog:dev",
     "eslint-plugin-better-tailwindcss": "^4.7.0",
@@ -70,6 +71,7 @@
   "peerDependencies": {
     "@eslint-react/eslint-plugin": "^5.18.10",
     "@nelsonlaidev/eslint-plugin": "^0.2.5",
+    "@stylexjs/eslint-plugin": "^0.19.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "eslint-plugin-better-tailwindcss": "^4.7.0",
     "eslint-plugin-command": "^4.0.0",
@@ -85,6 +87,9 @@
   },
   "peerDependenciesMeta": {
     "@eslint-react/eslint-plugin": {
+      "optional": true
+    },
+    "@stylexjs/eslint-plugin": {
       "optional": true
     },
     "eslint-plugin-better-tailwindcss": {

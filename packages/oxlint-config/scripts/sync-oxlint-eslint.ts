@@ -249,6 +249,11 @@ const PRESETS: PresetEntry[] = [
     groups: [{ group: 'nelsonlaidev/stylistic/rules' }],
   },
   {
+    source: 'stylex',
+    jsPlugins: [{ name: '@stylexjs', specifier: '@stylexjs/eslint-plugin' }],
+    groups: [{ group: 'nelsonlaidev/stylex/rules' }],
+  },
+  {
     source: 'tailwindcss',
     sourceArgs: [{}],
     mergeOptions: true,

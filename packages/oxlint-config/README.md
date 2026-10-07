@@ -19,7 +19,7 @@ npm i -D @nelsonlaidev/oxlint-config oxlint oxlint-tsgolint
 Some presets use Oxlint `jsPlugins`. These are declared as peer dependencies and most modern package managers (npm >=7, pnpm, yarn) install them automatically. Only run the command below if your package manager does not auto-install peers:
 
 ```bash
-npm i -D @nelsonlaidev/eslint-plugin @stylistic/eslint-plugin eslint-plugin-command eslint-plugin-de-morgan eslint-plugin-import-zod eslint-plugin-regexp eslint-plugin-simple-import-sort eslint-plugin-sonarjs
+npm i -D @nelsonlaidev/eslint-plugin @stylistic/eslint-plugin @stylexjs/eslint-plugin eslint-plugin-command eslint-plugin-de-morgan eslint-plugin-import-zod eslint-plugin-regexp eslint-plugin-simple-import-sort eslint-plugin-sonarjs
 ```
 
 Create an `oxlint.config.ts` file with the following content:
@@ -33,7 +33,7 @@ export default defineConfig()
 Optional presets are explicit Oxlint overrides. Add only the presets your project uses:
 
 ```ts
-import { defineConfig, nextjs, playwright, react, tailwindcss, vitest } from '@nelsonlaidev/oxlint-config'
+import { defineConfig, nextjs, playwright, react, stylex, tailwindcss, vitest } from '@nelsonlaidev/oxlint-config'
 
 export default defineConfig({
   settings: {
@@ -44,6 +44,7 @@ export default defineConfig({
   overrides: [
     react(),
     nextjs(),
+    stylex(),
     tailwindcss(),
     vitest({
       files: ['**/*.test.ts'],
@@ -109,6 +110,7 @@ This config includes opinionated rules from the following plugins:
 
 - `react`
 - `nextjs`
+- `stylex`
 - `vitest`
 - `playwright`
 - `tailwindcss`
@@ -137,6 +139,7 @@ This config includes opinionated rules from the following plugins:
 | `regexp/nelsonlaidev/regexp/rules`                |     67 |       0 |          0 |            0 |   100.0% |
 | `sonarjs/nelsonlaidev/sonarjs/rules`              |    279 |       0 |          0 |            0 |   100.0% |
 | `stylistic/nelsonlaidev/stylistic/rules`          |      1 |       0 |          0 |            0 |   100.0% |
+| `stylex/nelsonlaidev/stylex/rules`                |      9 |       0 |          0 |            0 |   100.0% |
 | `tailwindcss/nelsonlaidev/tailwindcss/rules`      |      9 |       0 |          0 |            0 |   100.0% |
 | `typescript/nelsonlaidev/typescript/rules`        |    117 |      21 |         21 |            0 |   100.0% |
 | `typescript/nelsonlaidev/typescript/declarations` |      2 |       0 |          0 |            0 |   100.0% |

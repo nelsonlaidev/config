@@ -7,6 +7,7 @@
 // - eslint-plugin-react-hooks: incompatible types
 // - eslint-plugin-sonarjs: incompatible types
 // - @nelsonlaidev/eslint-plugin: incompatible types
+// - @stylexjs/eslint-plugin: incompatible types
 declare module 'eslint-plugin-jsx-a11y' {
   import type { ESLint, Linter } from 'eslint'
 
@@ -90,4 +91,10 @@ declare module '@nelsonlaidev/eslint-plugin' {
   const plugin: ESLint.Plugin
 
   export default plugin
+}
+
+declare module '@stylexjs/eslint-plugin' {
+  import type { ESLint } from 'eslint'
+
+  export const rules: NonNullable<ESLint.Plugin['rules']>
 }

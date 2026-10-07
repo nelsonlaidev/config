@@ -6,7 +6,7 @@
 //
 // The glob patterns and options defined here are examples and should not be
 // considered as recommended patterns for production use.
-import { defineConfig, GLOB_SRC_EXT, nextjs, playwright, react, tailwindcss, vitest } from './src'
+import { defineConfig, GLOB_SRC_EXT, nextjs, playwright, react, stylex, tailwindcss, vitest } from './src'
 
 export default defineConfig({
   settings: {
@@ -23,6 +23,7 @@ export default defineConfig({
     }),
     react(),
     nextjs(),
+    stylex(),
     tailwindcss(),
   ],
 })

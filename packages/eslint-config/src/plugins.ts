@@ -2,6 +2,7 @@ export { default as commentsPlugin } from '@eslint-community/eslint-plugin-eslin
 export { default as reactPlugin } from '@eslint-react/eslint-plugin'
 export { default as nelsonlaidevPlugin } from '@nelsonlaidev/eslint-plugin'
 export { default as nextPlugin } from '@next/eslint-plugin-next'
+export * as stylexPlugin from '@stylexjs/eslint-plugin'
 export { default as stylisticPlugin } from '@stylistic/eslint-plugin'
 export { default as typescriptPlugin } from '@typescript-eslint/eslint-plugin'
 export { default as vitestPlugin } from '@vitest/eslint-plugin'
