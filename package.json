@@ -27,7 +27,7 @@
     "version": "changeset version"
   },
   "devDependencies": {
-    "@changesets/cli": "^3.0.1",
+    "@changesets/cli": "^3.0.3",
     "@nelsonlaidev/oxfmt-config": "workspace:*",
     "@nelsonlaidev/oxlint-config": "workspace:*",
     "@nelsonlaidev/typescript-config": "workspace:*",
