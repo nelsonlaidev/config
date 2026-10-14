@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 6.0.1
+
+### Patch Changes
+
+- a9aca63: Ignore boolean primitives in the prefer-nullish-coalescing rule.
+
 ## 6.0.0
 
 ### Major Changes
