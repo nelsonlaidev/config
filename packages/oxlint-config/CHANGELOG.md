@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 1.2.2
+
+### Patch Changes
+
+- a9aca63: Ignore boolean primitives in the prefer-nullish-coalescing rule.
+
 ## 1.2.1
 
 ### Patch Changes
