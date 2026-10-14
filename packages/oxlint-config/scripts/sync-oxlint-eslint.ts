@@ -15,7 +15,7 @@ import { createGeneratedHeader, formatCode, resolveFromRoot, ROOT_DIR } from './
 
 type FlatConfig = { name?: string; rules?: RulesConfig }
 type ConfigOutput = FlatConfig | FlatConfig[]
-type ConfigModule = Record<string, (...args: unknown[]) => ConfigOutput>
+type ConfigModule = Record<string, (...args: unknown[]) => ConfigOutput | Promise<ConfigOutput>>
 export type RuleValue = RuleConfig
 type RawRuleValue = { raw: string }
 export type Rule = [string, RuleValue | RawRuleValue]
@@ -583,7 +583,7 @@ async function getSourceRules(
     throw new Error(`Config module for "${source}" does not export a function named "${sourceExport}".`)
   }
 
-  const config = configModule[sourceExport](...(sourceArgs ?? []))
+  const config = await configModule[sourceExport](...(sourceArgs ?? []))
   const configs = Array.isArray(config) ? config : [config]
   const entry = configs.find((cfg) => cfg.name === group)
 

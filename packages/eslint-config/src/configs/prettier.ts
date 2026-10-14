@@ -1,13 +1,13 @@
 import type { FlatConfig } from '../types'
 
-import { rules } from 'eslint-config-prettier'
+import { loadOptionalDependency, mergeConfig } from '../utils'
 
-import { mergeConfig } from '../utils'
+export const prettier = async (options: FlatConfig = {}): Promise<FlatConfig> => {
+  const prettierConfig = await loadOptionalDependency('eslint-config-prettier')
 
-export const prettier = (options: FlatConfig = {}): FlatConfig => {
   const base: FlatConfig = {
     name: 'nelsonlaidev/prettier',
-    rules,
+    rules: prettierConfig.rules,
   }
 
   return mergeConfig(base, options)

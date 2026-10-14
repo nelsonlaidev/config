@@ -1,9 +1,11 @@
 import type { FlatConfig } from '../types'
 
-import { reactHooksPlugin, reactPlugin } from '../plugins'
-import { mergeConfig } from '../utils'
+import { loadOptionalDependency, mergeConfig } from '../utils'
 
-export const react = (options: FlatConfig = {}): FlatConfig => {
+export const react = async (options: FlatConfig = {}): Promise<FlatConfig> => {
+  const reactPlugin = await loadOptionalDependency('@eslint-react/eslint-plugin')
+  const reactHooksPlugin = await loadOptionalDependency('eslint-plugin-react-hooks')
+
   const base: FlatConfig = {
     name: 'nelsonlaidev/react',
     plugins: {

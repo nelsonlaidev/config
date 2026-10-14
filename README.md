@@ -25,14 +25,14 @@ Personal configurations for Nelson Lai projects. This monorepo contains shared c
 Nelson Lai's ESLint config preset. A comprehensive, opinionated ESLint flat configuration with first-class TypeScript and framework support.
 
 ```bash
-npm i -D @nelsonlaidev/eslint-config
+npm i -D @nelsonlaidev/eslint-config @eslint-react/eslint-plugin eslint-plugin-react-hooks @next/eslint-plugin-next
 ```
 
 ```ts
 // eslint.config.ts
 import { defineConfig, nextjs, react } from '@nelsonlaidev/eslint-config'
 
-export default defineConfig(react(), nextjs())
+export default defineConfig(await react(), await nextjs())
 ```
 
 [Full Documentation →](packages/eslint-config)

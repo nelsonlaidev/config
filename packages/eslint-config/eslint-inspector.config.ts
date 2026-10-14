@@ -9,21 +9,21 @@
 import { defineConfig, GLOB_SRC_EXT, nextjs, playwright, prettier, react, stylex, tailwindcss, vitest } from './src'
 
 export default defineConfig(
-  vitest({
+  await vitest({
     files: [`**/*.test.${GLOB_SRC_EXT}`],
   }),
-  playwright({
+  await playwright({
     files: [`**/e2e/**/*.test.${GLOB_SRC_EXT}`],
   }),
-  react(),
-  nextjs(),
-  stylex(),
-  tailwindcss({
+  await react(),
+  await nextjs(),
+  await stylex(),
+  await tailwindcss({
     settings: {
       'better-tailwindcss': {
         entryPoint: './fake/globals.css',
       },
     },
   }),
-  prettier(),
+  await prettier(),
 )
