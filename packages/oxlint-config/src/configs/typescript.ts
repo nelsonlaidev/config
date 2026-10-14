@@ -150,7 +150,14 @@ export const typescript = (): OxlintOverride => ({
     'typescript/prefer-includes': 'error',
     'typescript/prefer-literal-enum-member': 'error',
     'typescript/prefer-namespace-keyword': 'error',
-    'typescript/prefer-nullish-coalescing': 'error',
+    'typescript/prefer-nullish-coalescing': [
+      'error',
+      {
+        ignorePrimitives: {
+          boolean: true,
+        },
+      },
+    ],
     'typescript/prefer-optional-chain': 'error',
     'typescript/prefer-promise-reject-errors': 'error',
     'typescript/prefer-reduce-type-parameter': 'error',

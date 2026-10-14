@@ -56,6 +56,7 @@ export const typescript = (): FlatConfig => ({
     '@typescript-eslint/consistent-type-exports': ['error', { fixMixedExportsWithInlineTypeSpecifier: false }],
     '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
     '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
+    '@typescript-eslint/prefer-nullish-coalescing': ['error', { ignorePrimitives: { boolean: true } }],
     '@typescript-eslint/only-throw-error': [
       'error',
       { allow: [{ from: 'package', package: '@tanstack/router-core', name: 'Redirect' }] },
