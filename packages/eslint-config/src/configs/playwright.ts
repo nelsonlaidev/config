@@ -2,10 +2,11 @@ import type { FlatConfig } from '../types'
 
 import globals from 'globals'
 
-import { playwrightPlugin } from '../plugins'
-import { mergeConfig } from '../utils'
+import { loadOptionalDependency, mergeConfig } from '../utils'
 
-export const playwright = (options: FlatConfig = {}): FlatConfig => {
+export const playwright = async (options: FlatConfig = {}): Promise<FlatConfig> => {
+  const playwrightPlugin = await loadOptionalDependency('eslint-plugin-playwright')
+
   const base: FlatConfig = {
     name: 'nelsonlaidev/playwright',
     plugins: {

@@ -1,9 +1,10 @@
 import type { FlatConfig } from '../types'
 
-import { tailwindcssPlugin } from '../plugins'
-import { mergeConfig } from '../utils'
+import { loadOptionalDependency, mergeConfig } from '../utils'
 
-export const tailwindcss = (options: FlatConfig = {}): FlatConfig => {
+export const tailwindcss = async (options: FlatConfig = {}): Promise<FlatConfig> => {
+  const tailwindcssPlugin = await loadOptionalDependency('eslint-plugin-better-tailwindcss')
+
   const base: FlatConfig = {
     name: 'nelsonlaidev/tailwindcss',
     plugins: {

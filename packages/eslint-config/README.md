@@ -37,7 +37,27 @@ export default defineConfig({
 
 ### Optional presets
 
-Framework and tool integrations are explicit. Import the presets you need and pass them in the order they should be applied:
+Framework and tool integrations are explicit. Their dependencies are optional peers and are not installed automatically. Install only the dependencies for the presets you enable:
+
+| Preset          | Dependencies                                               |
+| --------------- | ---------------------------------------------------------- |
+| `react()`       | `@eslint-react/eslint-plugin`, `eslint-plugin-react-hooks` |
+| `nextjs()`      | `@next/eslint-plugin-next`                                 |
+| `stylex()`      | `@stylexjs/eslint-plugin`                                  |
+| `tailwindcss()` | `eslint-plugin-better-tailwindcss`                         |
+| `vitest()`      | `@vitest/eslint-plugin`                                    |
+| `playwright()`  | `eslint-plugin-playwright`                                 |
+| `prettier()`    | `eslint-config-prettier`                                   |
+
+For example, to enable React and StyleX:
+
+```bash
+npm i -D @eslint-react/eslint-plugin eslint-plugin-react-hooks @stylexjs/eslint-plugin
+```
+
+Each optional preset returns a promise and loads its dependencies when called. Await each preset before passing it to `defineConfig()` or `defineConfig.withOptions()`. A missing dependency produces an error with its installation command.
+
+Import the presets you need and pass them in the order they should be applied. This example enables every optional preset and requires all dependencies listed above:
 
 ```ts
 import {
@@ -52,16 +72,16 @@ import {
 } from '@nelsonlaidev/eslint-config'
 
 export default defineConfig(
-  vitest({
+  await vitest({
     files: ['**/*.test.{js,jsx,ts,tsx}'],
   }),
-  playwright({
+  await playwright({
     files: ['**/e2e/**/*.test.{js,jsx,ts,tsx}'],
   }),
-  react(),
-  nextjs(),
-  stylex(),
-  tailwindcss({
+  await react(),
+  await nextjs(),
+  await stylex(),
+  await tailwindcss({
     settings: {
       'better-tailwindcss': {
         entryPoint: './src/globals.css',
@@ -69,7 +89,7 @@ export default defineConfig(
     },
   }),
   // Keep Prettier last so it can disable conflicting rules.
-  prettier(),
+  await prettier(),
 )
 ```
 
@@ -79,7 +99,7 @@ Each preset accepts an ESLint flat configuration override. Arrays are replaced, 
 
 ```ts
 export default defineConfig(
-  react({
+  await react({
     rules: {
       '@eslint-react/immutability': 'warn',
     },
@@ -105,7 +125,7 @@ export default defineConfig.withOptions(
       project: ['packages/foo/tsconfig.json'],
     },
   },
-  react(),
+  await react(),
 )
 ```
 

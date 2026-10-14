@@ -1,9 +1,10 @@
 import type { FlatConfig } from '../types'
 
-import { vitestPlugin } from '../plugins'
-import { mergeConfig } from '../utils'
+import { loadOptionalDependency, mergeConfig } from '../utils'
 
-export const vitest = (options: FlatConfig = {}): FlatConfig => {
+export const vitest = async (options: FlatConfig = {}): Promise<FlatConfig> => {
+  const vitestPlugin = await loadOptionalDependency('@vitest/eslint-plugin')
+
   const base: FlatConfig = {
     name: 'nelsonlaidev/vitest',
     plugins: {

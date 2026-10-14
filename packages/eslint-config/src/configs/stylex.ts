@@ -1,9 +1,10 @@
 import type { FlatConfig } from '../types'
 
-import { stylexPlugin } from '../plugins'
-import { mergeConfig } from '../utils'
+import { loadOptionalDependency, mergeConfig } from '../utils'
 
-export const stylex = (options: FlatConfig = {}): FlatConfig => {
+export const stylex = async (options: FlatConfig = {}): Promise<FlatConfig> => {
+  const stylexPlugin = await loadOptionalDependency('@stylexjs/eslint-plugin')
+
   const base: FlatConfig = {
     name: 'nelsonlaidev/stylex',
     plugins: {
