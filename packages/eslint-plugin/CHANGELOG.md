@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-plugin
 
+## 0.2.6
+
+### Patch Changes
+
+- 01a289b: Prefer `LoaderCircleIcon` over both `Loader2Icon` and `LoaderIcon` and `TrashIcon` over `Trash2Icon` in the default `lucide-restrict-import` restrictions.
+
 ## 0.2.5
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@nelsonlaidev/eslint-config",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "Nelson Lai's ESLint config preset",
   "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/eslint-config",
   "bugs": {

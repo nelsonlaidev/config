@@ -1,5 +1,12 @@
 # @nelsonlaidev/eslint-config
 
+## 6.0.2
+
+### Patch Changes
+
+- Updated dependencies [01a289b]
+  - @nelsonlaidev/eslint-plugin@0.2.6
+
 ## 6.0.1
 
 ### Patch Changes
