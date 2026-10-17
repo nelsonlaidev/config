@@ -4,6 +4,6 @@ export const lucideRestrictImportDefaults: LucideRestrictImportOptions = {
   restrictions: [
     { name: 'Loader2Icon', preferred: 'LoaderCircleIcon' },
     { name: 'LoaderIcon', preferred: 'LoaderCircleIcon' },
-    { name: 'TrashIcon', preferred: 'Trash2Icon' },
+    { name: 'Trash2Icon', preferred: 'TrashIcon' },
   ],
 }
