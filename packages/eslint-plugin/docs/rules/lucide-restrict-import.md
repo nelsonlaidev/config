@@ -4,7 +4,7 @@ Restrict specific imports from `lucide-react` and suggest preferred alternatives
 
 ## Rule Details
 
-This rule allows you to restrict certain `lucide-react` icon imports and auto-fix them to preferred alternatives. By default, it enforces using `LoaderIcon` over `Loader2Icon` and `Trash2Icon` over `TrashIcon`.
+This rule allows you to restrict certain `lucide-react` icon imports and auto-fix them to preferred alternatives. By default, it prefers `LoaderCircleIcon` over both `Loader2Icon` and `LoaderIcon`, and `Trash2Icon` over `TrashIcon`.
 
 ### Examples
 
@@ -12,13 +12,14 @@ Examples of **incorrect** code for this rule (with default options):
 
 ```js
 import { Loader2Icon } from 'lucide-react'
+import { LoaderIcon } from 'lucide-react'
 import { TrashIcon } from 'lucide-react'
 ```
 
 Examples of **correct** code for this rule (with default options):
 
 ```js
-import { LoaderIcon } from 'lucide-react'
+import { LoaderCircleIcon } from 'lucide-react'
 import { Trash2Icon } from 'lucide-react'
 ```
 
@@ -37,7 +38,8 @@ An array of restriction objects. Each object has:
 ```json
 {
   "restrictions": [
-    { "name": "Loader2Icon", "preferred": "LoaderIcon" },
+    { "name": "Loader2Icon", "preferred": "LoaderCircleIcon" },
+    { "name": "LoaderIcon", "preferred": "LoaderCircleIcon" },
     { "name": "TrashIcon", "preferred": "Trash2Icon" }
   ]
 }
