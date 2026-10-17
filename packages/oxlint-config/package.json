@@ -1,6 +1,6 @@
 {
   "name": "@nelsonlaidev/oxlint-config",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Nelson Lai's oxlint config preset",
   "homepage": "https://github.com/nelsonlaidev/config/tree/main/packages/oxlint-config",
   "bugs": {
@@ -70,7 +70,7 @@
   },
   "peerDependencies": {
     "@eslint-react/eslint-plugin": "^5.18.10",
-    "@nelsonlaidev/eslint-plugin": "^0.2.5",
+    "@nelsonlaidev/eslint-plugin": "^0.2.6",
     "@stylexjs/eslint-plugin": "^0.19.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "eslint-plugin-better-tailwindcss": "^4.7.0",
