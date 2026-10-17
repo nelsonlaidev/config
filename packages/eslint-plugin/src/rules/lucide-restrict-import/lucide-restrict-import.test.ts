@@ -6,12 +6,12 @@ const ruleTester = new RuleTester()
 
 ruleTester.run('lucide-restrict-import', lucideRestrictImport, {
   valid: [
-    // Default restrictions: LoaderIcon preferred over Loader2Icon, Trash2Icon preferred over TrashIcon
-    `import { LoaderIcon } from 'lucide-react'`,
-    `import { Trash2Icon } from 'lucide-react'`,
+    // Default restrictions: LoaderCircleIcon preferred over Loader2Icon and LoaderIcon, TrashIcon over Trash2Icon
+    `import { LoaderCircleIcon } from 'lucide-react'`,
+    `import { TrashIcon } from 'lucide-react'`,
     `import { HomeIcon } from 'lucide-react'`,
     `import { Loader2Icon } from 'other-package'`,
-    `import { TrashIcon } from 'other-package'`,
+    `import { Trash2Icon } from 'other-package'`,
 
     // Custom restrictions
     {
@@ -26,23 +26,29 @@ ruleTester.run('lucide-restrict-import', lucideRestrictImport, {
     },
   ],
   invalid: [
-    // Default: Loader2Icon -> LoaderIcon
+    // Default: Loader2Icon -> LoaderCircleIcon
     {
       code: `import { Loader2Icon } from 'lucide-react'`,
-      output: `import { LoaderIcon } from 'lucide-react'`,
-      errors: [{ messageId: 'preferIcon', data: { preferred: 'LoaderIcon', forbidden: 'Loader2Icon' } }],
+      output: `import { LoaderCircleIcon } from 'lucide-react'`,
+      errors: [{ messageId: 'preferIcon', data: { preferred: 'LoaderCircleIcon', forbidden: 'Loader2Icon' } }],
     },
-    // Default: TrashIcon -> Trash2Icon
+    // Default: LoaderIcon -> LoaderCircleIcon
     {
-      code: `import { TrashIcon } from 'lucide-react'`,
-      output: `import { Trash2Icon } from 'lucide-react'`,
-      errors: [{ messageId: 'preferIcon', data: { preferred: 'Trash2Icon', forbidden: 'TrashIcon' } }],
+      code: `import { LoaderIcon } from 'lucide-react'; const icon = LoaderIcon`,
+      output: `import { LoaderCircleIcon } from 'lucide-react'; const icon = LoaderCircleIcon`,
+      errors: [{ messageId: 'preferIcon', data: { preferred: 'LoaderCircleIcon', forbidden: 'LoaderIcon' } }],
+    },
+    // Default: Trash2Icon -> TrashIcon
+    {
+      code: `import { Trash2Icon } from 'lucide-react'`,
+      output: `import { TrashIcon } from 'lucide-react'`,
+      errors: [{ messageId: 'preferIcon', data: { preferred: 'TrashIcon', forbidden: 'Trash2Icon' } }],
     },
     // Renamed import
     {
       code: `import { Loader2Icon as SpinnerIcon } from 'lucide-react'`,
-      output: `import { LoaderIcon as SpinnerIcon } from 'lucide-react'`,
-      errors: [{ messageId: 'preferIcon', data: { preferred: 'LoaderIcon', forbidden: 'Loader2Icon' } }],
+      output: `import { LoaderCircleIcon as SpinnerIcon } from 'lucide-react'`,
+      errors: [{ messageId: 'preferIcon', data: { preferred: 'LoaderCircleIcon', forbidden: 'Loader2Icon' } }],
     },
     // Custom restrictions
     {
@@ -62,11 +68,11 @@ ruleTester.run('lucide-restrict-import', lucideRestrictImport, {
     },
     // Multiple restricted imports in one declaration
     {
-      code: `import { Loader2Icon, TrashIcon } from 'lucide-react'`,
-      output: `import { LoaderIcon, Trash2Icon } from 'lucide-react'`,
+      code: `import { Loader2Icon, Trash2Icon } from 'lucide-react'`,
+      output: `import { LoaderCircleIcon, TrashIcon } from 'lucide-react'`,
       errors: [
-        { messageId: 'preferIcon', data: { preferred: 'LoaderIcon', forbidden: 'Loader2Icon' } },
-        { messageId: 'preferIcon', data: { preferred: 'Trash2Icon', forbidden: 'TrashIcon' } },
+        { messageId: 'preferIcon', data: { preferred: 'LoaderCircleIcon', forbidden: 'Loader2Icon' } },
+        { messageId: 'preferIcon', data: { preferred: 'TrashIcon', forbidden: 'Trash2Icon' } },
       ],
     },
   ],
