@@ -32,3 +32,54 @@ You can also use predefined presets for your configuration.
 - `@nelsonlaidev/typescript-config/nextjs.json`
 - `@nelsonlaidev/typescript-config/react-library.json`
 - `@nelsonlaidev/typescript-config/tanstack-start.json`
+
+### Explicit types
+
+Presets do not set `compilerOptions.types`. Configure the types your project needs
+in your own `tsconfig.json`.
+
+For example, TanStack Start projects that need Vite client types should add them
+explicitly:
+
+```json
+{
+  "extends": "@nelsonlaidev/typescript-config/tanstack-start.json",
+  "compilerOptions": {
+    "types": ["vite/client"]
+  }
+}
+```
+
+### React CSS custom properties
+
+To allow CSS custom properties in React's `CSSProperties`, add the optional React
+type augmentation to `compilerOptions.types`:
+
+```json
+{
+  "extends": "@nelsonlaidev/typescript-config/react-library.json",
+  "compilerOptions": {
+    "types": ["@nelsonlaidev/typescript-config/react"]
+  }
+}
+```
+
+Your project must provide React and `@types/react`. Keep any other required entries
+such as `node` or `vite/client` in the same `types` array.
+
+```typescript
+import type { CSSProperties } from 'react'
+
+const style: CSSProperties = {
+  '--accent-color': 'rebeccapurple',
+  '--spacing': 8,
+  '--optional': undefined,
+}
+```
+
+### Migrating to v2
+
+The `tanstack-start.json` preset no longer includes `vite/client` in
+`compilerOptions.types`. Add it explicitly to your project's `types` array if you
+rely on Vite client types. The React CSS custom property augmentation is optional
+and must also be enabled explicitly as shown above.
