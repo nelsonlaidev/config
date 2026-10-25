@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 1.2.4
+
+### Patch Changes
+
+- ae0eaed: Allow throwing TanStack Router's `NotFoundError` in the `only-throw-error` rule so `throw notFound()` passes linting.
+
 ## 1.2.3
 
 ### Patch Changes
