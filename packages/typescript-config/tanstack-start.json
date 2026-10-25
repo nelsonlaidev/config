@@ -3,7 +3,6 @@
   "extends": "./base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "types": ["vite/client"],
     "incremental": true,
     "declaration": false,
     "declarationMap": false

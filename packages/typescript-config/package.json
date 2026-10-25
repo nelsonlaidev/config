@@ -18,6 +18,7 @@
     "./library.json",
     "./nextjs.json",
     "./react-library.json",
+    "./react.d.ts",
     "./tanstack-start.json"
   ],
   "publishConfig": {
