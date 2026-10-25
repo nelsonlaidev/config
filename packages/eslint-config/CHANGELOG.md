@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 6.0.3
+
+### Patch Changes
+
+- ae0eaed: Allow throwing TanStack Router's `NotFoundError` in the `only-throw-error` rule so `throw notFound()` passes linting.
+
 ## 6.0.2
 
 ### Patch Changes
