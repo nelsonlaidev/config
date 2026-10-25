@@ -137,7 +137,7 @@ export const typescript = (): OxlintOverride => ({
           {
             from: 'package',
             package: '@tanstack/router-core',
-            name: 'Redirect',
+            name: ['Redirect', 'NotFoundError'],
           },
         ],
       },
