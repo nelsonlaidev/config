@@ -59,7 +59,7 @@ export const typescript = (): FlatConfig => ({
     '@typescript-eslint/prefer-nullish-coalescing': ['error', { ignorePrimitives: { boolean: true } }],
     '@typescript-eslint/only-throw-error': [
       'error',
-      { allow: [{ from: 'package', package: '@tanstack/router-core', name: 'Redirect' }] },
+      { allow: [{ from: 'package', package: '@tanstack/router-core', name: ['Redirect', 'NotFoundError'] }] },
     ],
     '@typescript-eslint/no-empty-object-type': ['error', { allowInterfaces: 'with-single-extends' }],
   },
