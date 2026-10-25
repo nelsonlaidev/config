@@ -1,5 +1,15 @@
 # @nelsonlaidev/typescript-config
 
+## 2.0.0
+
+### Major Changes
+
+- c387c40: Remove implicit Vite client types from the TanStack Start preset. Consumers must
+  add `vite/client` to their own `compilerOptions.types` when needed.
+
+  Add an optional React CSS custom property augmentation, enabled through
+  `"types": ["@nelsonlaidev/typescript-config/react"]`.
+
 ## 1.2.3
 
 ### Patch Changes
