@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 6.0.4
+
+### Patch Changes
+
+- 2e00990: Disable `sonarjs/no-unused-vars` in both presets so unused variables are reported once by the existing unused-variable rule.
+
 ## 6.0.3
 
 ### Patch Changes
