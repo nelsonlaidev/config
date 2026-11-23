@@ -24,6 +24,9 @@ export const sonarjs = (): FlatConfig => ({
     'sonarjs/cognitive-complexity': 'off',
     'sonarjs/assertions-in-tests': 'off',
 
+    // Duplicate
+    'sonarjs/no-unused-vars': 'off',
+
     // Replaced by React rules
     'sonarjs/jsx-no-leaked-render': 'off',
   },

@@ -218,7 +218,7 @@ export const sonarjs = (): OxlintOverride => ({
     'sonarjs/no-unthrown-error': 'error',
     'sonarjs/no-unused-collection': 'error',
     'sonarjs/no-unused-function-argument': 'off',
-    'sonarjs/no-unused-vars': 'error',
+    'sonarjs/no-unused-vars': 'off',
     'sonarjs/no-use-of-empty-return-value': 'error',
     'sonarjs/no-useless-catch': 'error',
     'sonarjs/no-useless-increment': 'error',
