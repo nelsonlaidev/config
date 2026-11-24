@@ -8,8 +8,12 @@ export const paraglide = async (options: FlatConfig = {}): Promise<FlatConfig> =
   return mergeConfig(
     {
       name: 'nelsonlaidev/paraglide',
-      plugins: { paraglide: plugin },
-      rules: { 'paraglide/no-dynamic-message-access': 'error' },
+      plugins: {
+        paraglide: plugin,
+      },
+      rules: {
+        'paraglide/no-dynamic-message-access': 'error',
+      },
     },
     options,
   )
