@@ -8,6 +8,7 @@ const config: KnipConfig = {
     },
     'packages/oxlint-config': {
       entry: ['oxlint-inspector.config.ts', 'src/index.ts'],
+      ignoreDependencies: ['@inlang/paraglide-js'],
       ignoreFiles: ['tests/fixtures/**/*'],
     },
   },

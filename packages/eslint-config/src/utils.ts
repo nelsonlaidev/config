@@ -1,4 +1,5 @@
 import type ReactPlugin from '@eslint-react/eslint-plugin'
+import type ParaglidePlugin from '@inlang/paraglide-js/eslint'
 import type NextPlugin from '@next/eslint-plugin-next'
 import type * as StylexPlugin from '@stylexjs/eslint-plugin'
 import type VitestPlugin from '@vitest/eslint-plugin'
@@ -12,6 +13,7 @@ import { merge } from 'ts-deepmerge'
 
 type OptionalDependencies = {
   '@eslint-react/eslint-plugin': typeof ReactPlugin
+  '@inlang/paraglide-js/eslint': typeof ParaglidePlugin
   '@next/eslint-plugin-next': typeof NextPlugin
   '@stylexjs/eslint-plugin': typeof StylexPlugin
   '@vitest/eslint-plugin': typeof VitestPlugin
@@ -23,6 +25,7 @@ type OptionalDependencies = {
 
 export async function loadOptionalDependency<K extends keyof OptionalDependencies>(
   specifier: K,
+  packageName: string = specifier,
 ): Promise<OptionalDependencies[K]> {
   let resolved: string
 
@@ -30,7 +33,7 @@ export async function loadOptionalDependency<K extends keyof OptionalDependencie
     resolved = import.meta.resolve(specifier)
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === 'ERR_MODULE_NOT_FOUND') {
-      throw new Error(`Install "${specifier}" to use this preset: npm i -D ${specifier}`, { cause: error })
+      throw new Error(`Install "${packageName}" to use this preset: npm i -D ${packageName}`, { cause: error })
     }
     throw error
   }

@@ -6,7 +6,18 @@
 //
 // The glob patterns and options defined here are examples and should not be
 // considered as recommended patterns for production use.
-import { defineConfig, GLOB_SRC_EXT, nextjs, playwright, prettier, react, stylex, tailwindcss, vitest } from './src'
+import {
+  defineConfig,
+  GLOB_SRC_EXT,
+  nextjs,
+  paraglide,
+  playwright,
+  prettier,
+  react,
+  stylex,
+  tailwindcss,
+  vitest,
+} from './src'
 
 export default defineConfig(
   await vitest({
@@ -17,6 +28,7 @@ export default defineConfig(
   }),
   await react(),
   await nextjs(),
+  await paraglide(),
   await stylex(),
   await tailwindcss({
     settings: {

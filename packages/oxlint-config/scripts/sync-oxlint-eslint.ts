@@ -210,6 +210,12 @@ const PRESETS: PresetEntry[] = [
     groups: [{ group: 'nelsonlaidev/node/rules' }],
   },
   {
+    source: 'paraglide',
+    mergeOptions: true,
+    jsPlugins: [{ name: 'paraglide', specifier: '@inlang/paraglide-js/eslint' }],
+    groups: [{ group: 'nelsonlaidev/paraglide/rules' }],
+  },
+  {
     source: 'playwright',
     sourceArgs: [{}],
     mergeOptions: true,

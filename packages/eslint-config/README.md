@@ -43,6 +43,7 @@ Framework and tool integrations are explicit. Their dependencies are optional pe
 | --------------- | ---------------------------------------------------------- |
 | `react()`       | `@eslint-react/eslint-plugin`, `eslint-plugin-react-hooks` |
 | `nextjs()`      | `@next/eslint-plugin-next`                                 |
+| `paraglide()`   | `@inlang/paraglide-js`                                     |
 | `stylex()`      | `@stylexjs/eslint-plugin`                                  |
 | `tailwindcss()` | `eslint-plugin-better-tailwindcss`                         |
 | `vitest()`      | `@vitest/eslint-plugin`                                    |
@@ -63,6 +64,7 @@ Import the presets you need and pass them in the order they should be applied. T
 import {
   defineConfig,
   nextjs,
+  paraglide,
   playwright,
   prettier,
   react,
@@ -80,6 +82,7 @@ export default defineConfig(
   }),
   await react(),
   await nextjs(),
+  await paraglide(),
   await stylex(),
   await tailwindcss({
     settings: {
@@ -93,7 +96,7 @@ export default defineConfig(
 )
 ```
 
-Available optional presets are `react()`, `nextjs()`, `stylex()`, `tailwindcss()`, `vitest()`, `playwright()`, and `prettier()`.
+Available optional presets are `react()`, `nextjs()`, `paraglide()`, `stylex()`, `tailwindcss()`, `vitest()`, `playwright()`, and `prettier()`.
 
 Each preset accepts an ESLint flat configuration override. Arrays are replaced, nested objects are merged, and plugin maps are combined:
 

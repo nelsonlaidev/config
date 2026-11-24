@@ -84,16 +84,19 @@ describe('defineConfig', () => {
     it('should not include optional presets', () => {
       const plugins = getPlugins(defineConfig())
 
-      expect(plugins).not.toEqual(
-        expect.arrayContaining([
-          '@eslint-react/eslint-plugin',
-          '@stylexjs/eslint-plugin',
-          'nextjs',
-          'vitest',
-          'eslint-plugin-playwright',
-          'eslint-plugin-better-tailwindcss',
-        ]),
-      )
+      const optionalPlugins = [
+        '@eslint-react/eslint-plugin',
+        '@inlang/paraglide-js/eslint',
+        '@stylexjs/eslint-plugin',
+        'nextjs',
+        'vitest',
+        'eslint-plugin-playwright',
+        'eslint-plugin-better-tailwindcss',
+      ]
+
+      for (const plugin of optionalPlugins) {
+        expect(plugins).not.toContain(plugin)
+      }
     })
   })
 
