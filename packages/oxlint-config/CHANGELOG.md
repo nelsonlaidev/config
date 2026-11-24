@@ -1,5 +1,11 @@
 # @nelsonlaidev/oxlint-config
 
+## 1.3.0
+
+### Minor Changes
+
+- 82a21a1: Add an optional `paraglide()` preset that reports dynamic access to Paraglide messages.
+
 ## 1.2.5
 
 ### Patch Changes

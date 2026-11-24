@@ -1,5 +1,11 @@
 # @nelsonlaidev/eslint-config
 
+## 6.1.0
+
+### Minor Changes
+
+- 82a21a1: Add an optional `paraglide()` preset that reports dynamic access to Paraglide messages.
+
 ## 6.0.4
 
 ### Patch Changes
