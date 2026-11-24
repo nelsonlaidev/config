@@ -64,6 +64,7 @@
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^5.18.10",
     "@eslint/config-inspector": "^3.4.0",
+    "@inlang/paraglide-js": "^3.2.2",
     "@nelsonlaidev/typescript-config": "workspace:*",
     "@next/eslint-plugin-next": "^16.3.4",
     "@stylexjs/eslint-plugin": "^0.19.1",
@@ -80,6 +81,7 @@
   },
   "peerDependencies": {
     "@eslint-react/eslint-plugin": "^5.18.10",
+    "@inlang/paraglide-js": "^2.28.0 || ^3.0.0",
     "@next/eslint-plugin-next": "^16.3.4",
     "@stylexjs/eslint-plugin": "^0.19.1",
     "@vitest/eslint-plugin": "^1.6.27",
@@ -91,6 +93,9 @@
   },
   "peerDependenciesMeta": {
     "@eslint-react/eslint-plugin": {
+      "optional": true
+    },
+    "@inlang/paraglide-js": {
       "optional": true
     },
     "@next/eslint-plugin-next": {

@@ -26,6 +26,7 @@ const optionalPresets = [
     plugin: '@eslint-react',
   },
   { preset: 'nextjs', dependencies: ['@next/eslint-plugin-next'], plugin: '@next/next' },
+  { preset: 'paraglide', dependencies: ['@inlang/paraglide-js'], plugin: 'paraglide' },
   { preset: 'stylex', dependencies: ['@stylexjs/eslint-plugin'], plugin: '@stylexjs' },
   { preset: 'tailwindcss', dependencies: ['eslint-plugin-better-tailwindcss'], plugin: 'better-tailwindcss' },
   { preset: 'vitest', dependencies: ['@vitest/eslint-plugin'], plugin: 'vitest' },

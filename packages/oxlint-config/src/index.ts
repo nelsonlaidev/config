@@ -1,5 +1,6 @@
 export * from './base'
 export * from './configs/nextjs'
+export * from './configs/paraglide'
 export * from './configs/playwright'
 export * from './configs/react'
 export * from './configs/stylex'

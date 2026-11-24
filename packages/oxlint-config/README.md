@@ -33,7 +33,16 @@ export default defineConfig()
 Optional presets are explicit Oxlint overrides. Add only the presets your project uses:
 
 ```ts
-import { defineConfig, nextjs, playwright, react, stylex, tailwindcss, vitest } from '@nelsonlaidev/oxlint-config'
+import {
+  defineConfig,
+  nextjs,
+  paraglide,
+  playwright,
+  react,
+  stylex,
+  tailwindcss,
+  vitest,
+} from '@nelsonlaidev/oxlint-config'
 
 export default defineConfig({
   settings: {
@@ -44,6 +53,7 @@ export default defineConfig({
   overrides: [
     react(),
     nextjs(),
+    paraglide(),
     stylex(),
     tailwindcss(),
     vitest({
@@ -110,6 +120,7 @@ This config includes opinionated rules from the following plugins:
 
 - `react`
 - `nextjs`
+- `paraglide`
 - `stylex`
 - `vitest`
 - `playwright`
@@ -133,6 +144,7 @@ This config includes opinionated rules from the following plugins:
 | `nelsonlaidev/nelsonlaidev/nelsonlaidev/rules`    |      5 |       0 |          0 |            0 |   100.0% |
 | `nextjs/nelsonlaidev/nextjs/rules`                |     21 |       0 |          0 |            0 |   100.0% |
 | `node/nelsonlaidev/node/rules`                    |      2 |       4 |          4 |            0 |    50.0% |
+| `paraglide/nelsonlaidev/paraglide/rules`          |      1 |       0 |          0 |            0 |   100.0% |
 | `playwright/nelsonlaidev/playwright/rules`        |     36 |       0 |          0 |            0 |   100.0% |
 | `promise/nelsonlaidev/promise/rules`              |     16 |       1 |          1 |            0 |   100.0% |
 | `react/nelsonlaidev/react/rules`                  |     99 |       2 |          2 |            0 |   100.0% |
