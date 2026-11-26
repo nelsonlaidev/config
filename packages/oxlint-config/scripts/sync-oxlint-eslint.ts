@@ -247,7 +247,14 @@ const PRESETS: PresetEntry[] = [
   {
     source: 'sonarjs',
     jsPlugins: [{ name: 'sonarjs', specifier: 'eslint-plugin-sonarjs' }],
-    groups: [{ group: 'nelsonlaidev/sonarjs/rules' }],
+    groups: [
+      { group: 'nelsonlaidev/sonarjs/rules' },
+      {
+        group: 'nelsonlaidev/sonarjs/tests',
+        files: `['**/*.{spec,test,cy}.{js,jsx,ts,tsx,cjs,cts,mjs,mts}']`,
+        sourceExport: 'sonarjsTests',
+      },
+    ],
   },
   {
     source: 'stylistic',
