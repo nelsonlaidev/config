@@ -14,7 +14,7 @@ import { node } from './configs/node'
 import { oxc } from './configs/oxc'
 import { promise } from './configs/promise'
 import { regexp } from './configs/regexp'
-import { sonarjs } from './configs/sonarjs'
+import { sonarjs, sonarjsTests } from './configs/sonarjs'
 import { stylistic } from './configs/stylistic'
 import { typescript, typescriptDeclarations } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
@@ -39,6 +39,7 @@ export const defineConfig = (config: OxlintConfig = {}): OxlintConfig => {
     zod(),
     regexp(),
     sonarjs(),
+    sonarjsTests(),
     importSort(),
   ]
 

@@ -14,7 +14,7 @@ import { nelsonlaidev } from './configs/nelsonlaidev'
 import { node } from './configs/node'
 import { promise } from './configs/promise'
 import { regexp } from './configs/regexp'
-import { sonarjs } from './configs/sonarjs'
+import { sonarjs, sonarjsTests } from './configs/sonarjs'
 import { stylistic } from './configs/stylistic'
 import { typescript, typescriptDeclarations } from './configs/typescript'
 import { unicorn } from './configs/unicorn'
@@ -28,6 +28,7 @@ const createConfig = (options: ConfigOptions, userConfigs: FlatConfig[]): FlatCo
     javascript(),
     jsdoc(),
     sonarjs(),
+    sonarjsTests(),
     importSort(),
     deMorgan(),
     comments(),

@@ -136,7 +136,7 @@ export const sonarjs = (): OxlintOverride => ({
     'sonarjs/no-empty-character-class': 'error',
     'sonarjs/no-empty-collection': 'error',
     'sonarjs/no-empty-group': 'error',
-    'sonarjs/no-empty-test-file': 'error',
+    'sonarjs/no-empty-test-file': 'off',
     'sonarjs/no-empty-test-title': 'error',
     'sonarjs/no-equals-in-for-termination': 'error',
     'sonarjs/no-exclusive-tests': 'error',
@@ -288,5 +288,13 @@ export const sonarjs = (): OxlintOverride => ({
     'sonarjs/web-sql-database': 'off',
     'sonarjs/x-powered-by': 'error',
     'sonarjs/xml-parser-xxe': 'error',
+  },
+})
+
+export const sonarjsTests = (): OxlintOverride => ({
+  files: ['**/*.{spec,test,cy}.{js,jsx,ts,tsx,cjs,cts,mjs,mts}'],
+  jsPlugins: [{ name: 'sonarjs', specifier: 'eslint-plugin-sonarjs' }],
+  rules: {
+    'sonarjs/no-empty-test-file': 'error',
   },
 })

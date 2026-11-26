@@ -150,6 +150,7 @@ This config includes opinionated rules from the following plugins:
 | `react/nelsonlaidev/react/rules`                  |     99 |       2 |          2 |            0 |   100.0% |
 | `regexp/nelsonlaidev/regexp/rules`                |     67 |       0 |          0 |            0 |   100.0% |
 | `sonarjs/nelsonlaidev/sonarjs/rules`              |    279 |       0 |          0 |            0 |   100.0% |
+| `sonarjs/nelsonlaidev/sonarjs/tests`              |      1 |       0 |          0 |            0 |   100.0% |
 | `stylistic/nelsonlaidev/stylistic/rules`          |      1 |       0 |          0 |            0 |   100.0% |
 | `stylex/nelsonlaidev/stylex/rules`                |      9 |       0 |          0 |            0 |   100.0% |
 | `tailwindcss/nelsonlaidev/tailwindcss/rules`      |      9 |       0 |          0 |            0 |   100.0% |

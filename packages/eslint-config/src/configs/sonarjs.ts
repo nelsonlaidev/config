@@ -24,10 +24,21 @@ export const sonarjs = (): FlatConfig => ({
     'sonarjs/cognitive-complexity': 'off',
     'sonarjs/assertions-in-tests': 'off',
 
+    // Enable only for test files below.
+    'sonarjs/no-empty-test-file': 'off',
+
     // Duplicate
     'sonarjs/no-unused-vars': 'off',
 
     // Replaced by React rules
     'sonarjs/jsx-no-leaked-render': 'off',
+  },
+})
+
+export const sonarjsTests = (): FlatConfig => ({
+  name: 'nelsonlaidev/sonarjs/tests',
+  files: ['**/*.{spec,test,cy}.{js,jsx,ts,tsx,cjs,cts,mjs,mts}'],
+  rules: {
+    'sonarjs/no-empty-test-file': 'error',
   },
 })
